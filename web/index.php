@@ -34,7 +34,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//----------------------------------------------------
 	// if req.get("result").get("action") != "find.name":
 	if($req['result']['action'] != "find.name")
-		$res={};
+		$res=null;
 	 //        return {}
 	else{
 		$result=$req['result'];
