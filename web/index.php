@@ -33,13 +33,13 @@ $app->post('/webhook', function(Request $request) use($app) {
   //   res = makeWebhookResult(req)
 	//----------------------------------------------------
 	// if req.get("result").get("action") != "find.name":
-	if($req->result->action != "find.name")
+	if($req['result']['action'] != "find.name")
 		$res={};
 	 //        return {}
 	else{
-		$result=$req->result;
-		$parameters=$result->parameters;
-		$surname=$parameters->names;
+		$result=$req['result'];
+		$parameters=$result['parameters'];
+		$surname=$parameters['names'];
 
 		$users={'Florian':'Adonis', 'Emna':'Bouzouita', 'Alex':'Guilngar'};
 
@@ -83,7 +83,7 @@ $app->post('/webhook', function(Request $request) use($app) {
   //   r = make_response(res)
 	$r = new Response($res);
 	$r->headers->set('Content-Type', 'application/json');
-	
+
   //   r.headers['Content-Type'] = 'application/json'
   //   return r
 
