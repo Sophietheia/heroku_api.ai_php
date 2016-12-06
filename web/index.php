@@ -49,7 +49,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$res=array(
 			"speech"=> $speech, 
 			"displayText"=> $speech, 
-			"data"=> {}, 
+			"data"=> [], 
 			"contextOut"=> [],
 			"source"=> "apiai-test-php"
 	    );
