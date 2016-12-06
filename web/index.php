@@ -27,55 +27,35 @@ $app->post('/webhook', function(Request $request) use($app) {
 	$req=$request;
 
 	echo "Request: ".json_encode($request);
-  //   print("Request:")
-  //   print(json.dumps(req, indent=4))
 
-  //   res = makeWebhookResult(req)
-	//----------------------------------------------------
-	// if req.get("result").get("action") != "find.name":
 	if($req['result']['action'] != "find.name")
-		$res=null;
-	 //        return {}
+		$res=array();
 	else{
 		$result=$req['result'];
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 
-		$users={'Florian':'Adonis', 'Emna':'Bouzouita', 'Alex':'Guilngar'};
+		$users=array(
+			'Florian'=>'Adonis',
+			'Emna'=>'Bouzouita',
+			'Alex'=>'Guilngar'
+		);
+
+		$users=json_encode($users);
 
 		$speech="The name of ".$surname." is ".$users[$surname].".";
 
-		echo "Response:".$speech;
+		echo "Response: ".$speech;
 
-		$res={
-			"speech": $speech, 
-			"displayText": $speech, 
-			"data": {}, 
-			"contextOut": [],
-			"source": "apiai-test-php"
-	    };
+		$res=array(
+			"speech"=> $speech, 
+			"displayText"=> $speech, 
+			"data"=> {}, 
+			"contextOut"=> [],
+			"source"=> "apiai-test-php"
+	    );
 	}
 
- //    result = req.get("result")
- //    parameters = result.get("parameters")
- //    surname = parameters.get("names")
-
- //    users = {'Florian':'Adonis', 'Emna':'Bouzouita', 'Alex':'Guilngar'}
-
- //    speech = "The name of " + surname + " is " + str(users[surname]) + "."
- //    print("Response:")
- //    print(speech)
-
-// return {
-//         "speech": speech,
-//         "displayText": speech,
-//         #"data": {},
-//         # "contextOut": [],
-//         "source": "apiai-onlinestore-shipping"
-//     }
-
-//--------------------------------------------------------
-  //   res = json.dumps(res, indent=4)
 	$res=json_encode($res);
 
 	echo $res;
