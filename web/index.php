@@ -28,10 +28,10 @@ $app->get('/', function() use($app) {
 $app->post('/webhook', function(Request $request) use($app) {
 	$req=$request;
 
-	echo "Request: ".json_encode($request);
+	echo "Request : ".json_encode($request);
 
 	if($req['result']['action'] != "find.name")
-		$res=array();
+		$res="empty";
 	else{
 		$result=$req['result'];
 		$parameters=$result['parameters'];
