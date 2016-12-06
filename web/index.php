@@ -23,7 +23,6 @@ $app->get('/', function() use($app) {
 });
 
 $app->post('/webhook', function(Request $request) use($app) {
-  // req = request.get_json(silent=True, force=True)
 	$req=$request;
 
 	echo "Request: ".json_encode($request);
@@ -56,18 +55,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 	    );
 	}
 
-	$res=json_encode($res);
+	//$res=json_encode($res);
 
 	echo $res;
-  //   print(res)
-  //   r = make_response(res)
-	$r = new Response($res);
-	$r->headers->set('Content-Type', 'application/json');
+	//$r = new Response($res);
+	//$r->headers->set('Content-Type', 'application/json');
 
-  //   r.headers['Content-Type'] = 'application/json'
-  //   return r
-
-	return $r;
+	//return $r;
+	return $app->json($res);
 });
 
 $app->run();
