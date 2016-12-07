@@ -5,15 +5,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 require('../vendor/autoload.php');
 
+
+
+$app = new Silex\Application();
+$app['debug'] = true;
+
 $app->before(function (Request $request) {
     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
         $data = json_decode($request->getContent(), true);
         $request->request->replace(is_array($data) ? $data : array());
     }
 });
-
-$app = new Silex\Application();
-$app['debug'] = true;
 
 // Register the monolog logging service
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
