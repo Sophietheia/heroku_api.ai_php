@@ -54,7 +54,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 				'Alex'=>'Guilngar'
 			);
 
-			$users=json_encode($users);
+			// $users=json_encode($users);
 
 			$speech="The name of ".$surname." is ".$users[$surname].".";
 
