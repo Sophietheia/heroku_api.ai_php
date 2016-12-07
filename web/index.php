@@ -26,7 +26,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	$req = $request->request->get('result');
 
-	echo "Request : ".json_encode($req);
+	//echo "Request : ".json_encode($req);
 
 	//foreach($req as $key => $value){
 		// if($req['action'] != "find.name")
@@ -46,7 +46,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 			$speech="The name of ".$surname." is ".$users[$surname].".";
 
-			echo "Response: ".$speech;
+			//echo "Response: ".$speech;
 
 			$res=array(
 				"speech"=> $speech, 
