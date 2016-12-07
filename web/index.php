@@ -26,8 +26,8 @@ $app->get('/', function() use($app) {
 });
 
 $app->post('/webhook', function(Request $request) use($app) {
-	$req=json_encode($request);
-	$req=json_decode($req);
+	//$req=json_encode($request);
+	$req=json_decode($req, true);
 
 	echo "Request : ".json_encode($req);
 
