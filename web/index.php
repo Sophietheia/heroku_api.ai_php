@@ -31,11 +31,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	echo "Request : ".json_encode($req);
 
-	foreach($req as $r){
-		if($r['result']['action'] != "find.name")
+	foreach($req['result'] as $key => $value){
+		if($value['action'] != "find.name")
 			$res="empty";
 		else{
-			$result=$r['result'];
+			$result=$req['result'];
 			$parameters=$result['parameters'];
 			$surname=$parameters['names'];
 
