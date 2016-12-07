@@ -1,17 +1,18 @@
-# php-getting-started
+# heroku_api.ai_php.git
 
-A barebones PHP app that makes use of the [Silex](http://silex.sensiolabs.org/) web framework, which can easily be deployed to Heroku.
+Trying to make Heroku work with Api.ai. Basically translating a Python script I found, into PHP.
 
-This application supports the [Getting Started with PHP on Heroku](https://devcenter.heroku.com/articles/getting-started-with-php) article - check it out.
+An app developped with [Silex](http://silex.sensiolabs.org/) web framework, which can easily be deployed to Heroku.
+
 
 ## Deploying
 
 Install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
 ```sh
-$ git clone git@github.com:heroku/php-getting-started.git # or clone your own fork
-$ cd php-getting-started
-$ heroku create
+$ git clone https://github.com/tanohzana/heroku_api.ai_php.git # or clone your own fork
+$ cd heroku_api.ai_php.git
+$ heroku create (install heroku first, via gem in ruby)
 $ git push heroku master
 $ heroku open
 ```
