@@ -52,7 +52,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 			
 		}
-	}
+	// }
 
 	$res=array(
 		"speech"=> $speech, 
