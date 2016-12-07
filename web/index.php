@@ -69,7 +69,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//$r->headers->set('Content-Type', 'application/json');
 
 	//return $r;
-	return $app->json($res);
+	return $app->json($result);
 });
 
 $app->run();
