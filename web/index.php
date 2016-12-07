@@ -22,14 +22,14 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 $app->post('/webhook', function(Request $request) use($app) {
 	//$req=json_encode($request);
-	$req=json_decode($request, true);
+	//$req=json_decode($request, true);
+
+	$req = $request->request->get('result');
 
 	echo "Request : ".json_encode($req);
 
-	echo $req;
-
-	foreach($req as $key => $value){
-		if($value['action'] != "find.name")
+	//foreach($req as $key => $value){
+		if($req['action'] != "find.name")
 			$res="empty";
 		else{
 			$result=$req['result'];
@@ -56,7 +56,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 				"source"=> "apiai-test-php"
 		    );
 		}
-	}
+	//}
 
 	//$res=json_encode($res);
 
