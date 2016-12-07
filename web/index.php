@@ -26,9 +26,9 @@ $app->get('/', function() use($app) {
 });
 
 $app->post('/webhook', function(Request $request) use($app) {
-	$req=$request;
+	$req=json_encode($request);
 
-	echo "Request : ".json_encode($request);
+	echo "Request : ".json_encode($req);
 
 	if($req['result']['action'] != "find.name")
 		$res="empty";
