@@ -24,7 +24,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//$req=json_encode($request);
 	//$req=json_decode($request, true);
 
-	$result = $request->request->get('result');
+	$result = $request->request->get('result','result does not exist');
     // data is an array with "name", "email", and "message" keys
     // $data = $post->getData();
 
