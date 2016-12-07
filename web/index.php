@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Response;
 require('../vendor/autoload.php');
 
 
-
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -27,22 +26,13 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
-// Our web handlers
+// Web handlers
 
 $app->post('/webhook', function(Request $request) use($app) {
-	//$req=json_encode($request);
-	//$req=json_decode($request, true);
 
 	$result = $request->request->get('result');
 
-    // data is an array with "name", "email", and "message" keys
-    // $data = $post->getData();
-
-	// $req = $request->request->get('result');
-
-	//echo "Request : ".json_encode($req);
-
-		 if($result['action'] != "find.name")
+		if($result['action'] != "find.name")
 			$speech="Je ne sais pas. Action: ";
 		else{
 			$parameters=$result['parameters'];
@@ -54,31 +44,15 @@ $app->post('/webhook', function(Request $request) use($app) {
 				'Alex'=>'Guilngar'
 			);
 
-			// $users=json_encode($users);
-
-			$speech="The name of ".$surname." is ".$users[$surname].".";
-
-			// $speech="The name of Florian is Adonis.";
-
-			
+			$speech="The name of ".$surname." is ".$users[$surname].".";	
 		}
-	// }
 
 	$res=array(
 		"speech"=> $speech, 
-		"displayText"=> $speech, 
-		// "data"=> [], 
-		// "contextOut"=> [],
+		"displayText"=> $speech,
 		"source"=> "apiai-test-php"
     );
-
-	//$res=json_encode($res);
-
-	//echo $res;
-	//$r = new Response($res);
-	//$r->headers->set('Content-Type', 'application/json');
-
-	//return $r;
+    
 	return $app->json($res);
 });
 
