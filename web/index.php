@@ -29,9 +29,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 	echo "Request : ".json_encode($req);
 
 	//foreach($req as $key => $value){
-		if($req['action'] != "find.name")
-			$res="empty";
-		else{
+		// if($req['action'] != "find.name")
+		// 	$res="empty";
+		// else{
 			$result=$req['result'];
 			$parameters=$result['parameters'];
 			$surname=$parameters['names'];
@@ -55,12 +55,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 				"contextOut"=> [],
 				"source"=> "apiai-test-php"
 		    );
-		}
+		// }
 	//}
 
 	//$res=json_encode($res);
 
-	echo $res;
+	//echo $res;
 	//$r = new Response($res);
 	//$r->headers->set('Content-Type', 'application/json');
 
