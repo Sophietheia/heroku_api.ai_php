@@ -28,35 +28,37 @@ $app->get('/', function() use($app) {
 $app->post('/webhook', function(Request $request) use($app) {
 	$req=json_encode($request);
 	$req=json_decode($req);
-	
+
 	echo "Request : ".json_encode($req);
 
-	if($req['result']['action'] != "find.name")
-		$res="empty";
-	else{
-		$result=$req['result'];
-		$parameters=$result['parameters'];
-		$surname=$parameters['names'];
+	foreach($req as $r){
+		if($r['result']['action'] != "find.name")
+			$res="empty";
+		else{
+			$result=$r['result'];
+			$parameters=$result['parameters'];
+			$surname=$parameters['names'];
 
-		$users=array(
-			'Florian'=>'Adonis',
-			'Emna'=>'Bouzouita',
-			'Alex'=>'Guilngar'
-		);
+			$users=array(
+				'Florian'=>'Adonis',
+				'Emna'=>'Bouzouita',
+				'Alex'=>'Guilngar'
+			);
 
-		$users=json_encode($users);
+			$users=json_encode($users);
 
-		$speech="The name of ".$surname." is ".$users[$surname].".";
+			$speech="The name of ".$surname." is ".$users[$surname].".";
 
-		echo "Response: ".$speech;
+			echo "Response: ".$speech;
 
-		$res=array(
-			"speech"=> $speech, 
-			"displayText"=> $speech, 
-			"data"=> [], 
-			"contextOut"=> [],
-			"source"=> "apiai-test-php"
-	    );
+			$res=array(
+				"speech"=> $speech, 
+				"displayText"=> $speech, 
+				"data"=> [], 
+				"contextOut"=> [],
+				"source"=> "apiai-test-php"
+		    );
+		}
 	}
 
 	//$res=json_encode($res);
