@@ -24,7 +24,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//$req=json_encode($request);
 	//$req=json_decode($request, true);
 
-	$postData = $request->request->get('result');
+	$result = $request->request->get('result');
     // data is an array with "name", "email", and "message" keys
     // $data = $post->getData();
 
@@ -32,11 +32,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	//echo "Request : ".json_encode($req);
 
-	foreach($postData as $key => $value){
-		 if($value['action'] != "find.name")
+		 if($result['action'] != "find.name")
 			$speech="Je ne sais pas.";
 		else{
-			$result=$data['result'];
 			$parameters=$result['parameters'];
 			$surname=$parameters['names'];
 
