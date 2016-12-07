@@ -24,7 +24,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//$req=json_encode($request);
 	//$req=json_decode($request, true);
 
-	$result = $request->request->get('result','result does not exist');
+	$data = $request->request->all();//get('result','result does not exist');
+	$result=$data['result'];
     // data is an array with "name", "email", and "message" keys
     // $data = $post->getData();
 
@@ -69,7 +70,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//$r->headers->set('Content-Type', 'application/json');
 
 	//return $r;
-	return $app->json($result);
+	return $app->json($res);
 });
 
 $app->run();
