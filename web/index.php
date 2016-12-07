@@ -33,7 +33,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//echo "Request : ".json_encode($req);
 
 		 if($result['action'] != "find.name")
-			$speech="Je ne sais pas.";
+			$speech="Je ne sais pas. Action: ".$result['action'];
 		else{
 			$parameters=$result['parameters'];
 			$surname=$parameters['names'];
