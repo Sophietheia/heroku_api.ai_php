@@ -5,6 +5,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 require('../vendor/autoload.php');
 
+$app->before(function (Request $request) {
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace(is_array($data) ? $data : array());
+    }
+});
+
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -24,8 +31,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//$req=json_encode($request);
 	//$req=json_decode($request, true);
 
-	$data = $request->request->all();//get('result','result does not exist');
-	$result=$data['result'];
+	$result = $request->request->get('result');
+
     // data is an array with "name", "email", and "message" keys
     // $data = $post->getData();
 
@@ -34,7 +41,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//echo "Request : ".json_encode($req);
 
 		 if($result['action'] != "find.name")
-			$speech="Je ne sais pas. Action: ".$result['action'];
+			$speech="Je ne sais pas. Action: ";
 		else{
 			$parameters=$result['parameters'];
 			$surname=$parameters['names'];
