@@ -31,7 +31,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	echo "Request : ".json_encode($req);
 
-	foreach($req['result'] as $key => $value){
+	foreach($req as $key => $value){
 		if($value['action'] != "find.name")
 			$res="empty";
 		else{
