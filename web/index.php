@@ -27,9 +27,11 @@ $app->get('/', function() use($app) {
 
 $app->post('/webhook', function(Request $request) use($app) {
 	//$req=json_encode($request);
-	$req=json_decode($req, true);
+	$req=json_decode($request, true);
 
 	echo "Request : ".json_encode($req);
+
+	pr($req);
 
 	foreach($req['result'] as $key => $value){
 		if($value['action'] != "find.name")
