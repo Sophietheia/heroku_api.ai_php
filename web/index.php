@@ -65,7 +65,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		if($name)
 			$speech="The name of ".$surname." is ".$name.".";	
 		else
-			$speech="Vous ne connaissez pas cette personne.";
+			$speech="You don't know that person.";
 	}
 	else if($result['action'] == "add.name"){
 		$parameters=$result['parameters'];
@@ -76,8 +76,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$result = pg_query($db, $query);
 		//------------------------------------------------------
 
-		$speech="Personne ajoutee.";
+		$speech="Person added.";
 
+	}
+	else{
+		$speech="I do not understand...";
 	}
 
 	$res=array(
