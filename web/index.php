@@ -38,6 +38,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$parameters=$result['parameters'];
 			$surname=$parameters['names'];
 
+			//------------------------------------------------------
+			$premierelettre = strtoupper(substr($surname, 0)); 
+			$reste=($surname, 1);
+			$surname=$premierelettre.$reste;
+			//------------------------------------------------------
+
 			$users=array(
 				'Florian'=>'Adonis',
 				'Emna'=>'Bouzouita',
@@ -52,7 +58,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		"displayText"=> $speech,
 		"source"=> "apiai-test-php"
     );
-    
+
 	return $app->json($res);
 });
 
