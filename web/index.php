@@ -30,44 +30,55 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 $app->post('/webhook', function(Request $request) use($app) {
 
-	$result = $request->request->get('result');
-
-		if($result['action'] != "find.name")
-			$speech="Je ne sais pas. Action: ";
-		else{
-			$parameters=$result['parameters'];
-			$surname=$parameters['names'];
-
-			//---------------Erreur_1ere_lettre_MAJ-----------------
-			$premierelettre = strtoupper(substr($surname, 0, 1)); 
-			$reste=substr($surname, 1);
-			$surname=$premierelettre.$reste;
-			//------------------------------------------------------
-
-
-			//-----------------------DATABASE-----------------------
-			$conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com 
+	//-----------------------DATABASE---------------------------
+	$conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com 
 			port=5432 
 			dbname=d9dbi6cl08c0i 
 			user=ztlvocffwufbva 
 			password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
 
 			$db = pg_connect($conn_string);
+	//----------------------------------------------------------
 
-			$query = pg_prepare($db, "prenom_nom", 'SELECT nom FROM users WHERE prenom = $1');
+	$result = $request->request->get('result');
 
-			$result = pg_execute($db, "prenom_nom", array($surname));
+	if($result['action'] == "find.name"){
+		$parameters=$result['parameters'];
+		$surname=$parameters['names'];
 
-			$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
-			$name = $arr[0];
+		//---------------Erreur_1ere_lettre_MAJ-----------------
+		$premierelettre = strtoupper(substr($surname, 0, 1)); 
+		$reste=substr($surname, 1);
+		$surname=$premierelettre.$reste;
+		//------------------------------------------------------
 
-			//------------------------------------------------------
 
-			if($name)
-				$speech="The name of ".$surname." is ".$name.".";	
-			else
-				$speech="Vous ne connaissez pas cette personne.";
-		}
+		//-----------------------DATABASE-----------------------
+		$query = pg_prepare($db, "prenom_nom", 'SELECT nom FROM users WHERE prenom = $1');
+
+		$result = pg_execute($db, "prenom_nom", array($surname));
+
+		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
+		$name = $arr[0];
+		//------------------------------------------------------
+
+		if($name)
+			$speech="The name of ".$surname." is ".$name.".";	
+		else
+			$speech="Vous ne connaissez pas cette personne.";
+	}
+	else if($result['action'] == "add.name"){
+		$parameters=$result['parameters'];
+		$surname=$parameters['names'];
+		//-----------------------DATABASE-----------------------
+		$query = "INSERT INTO users(prenom) VALUES($surname))";
+
+		$result = pg_query($db, $query);
+		//------------------------------------------------------
+
+		$speech="Personne ajoutee.";
+
+	}
 
 	$res=array(
 		"speech"=> $speech, 
