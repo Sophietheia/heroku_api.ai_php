@@ -88,20 +88,20 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	}
 	else if($result['action'] == "hello"){
-		$check=True;
+		$check="oui";
 
 		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM users');
 
 		$result = pg_execute($db, "prenom_nom");
 
 		while($arr = pg_fetch_assoc($result)){
-			if(is_null($arr['nom'])){
+			if($arr['nom']==""){
 				$speech="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
-				$check=False;
+				$check="non";
 			}
 		}
 
-		if($check){
+		if($check=="oui"){
 			$speech="Hello !";
 		}
 	}
