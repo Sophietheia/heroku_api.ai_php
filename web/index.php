@@ -39,7 +39,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$surname=$parameters['names'];
 
 			//------------------------------------------------------
-			$premierelettre = strtoupper(substr($surname, 0)); 
+			$premierelettre = strtoupper(substr($surname, 0, 1)); 
 			$reste=substr($surname, 1);
 			$surname=$premierelettre.$reste;
 			//------------------------------------------------------
