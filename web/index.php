@@ -63,13 +63,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 			//------------------------------------------------------
 
-			// $users=array(
-			// 	'Florian'=>'Adonis',
-			// 	'Emna'=>'Bouzouita',
-			// 	'Alex'=>'Guilngar'
-			// );
-
-			$speech="The name of ".$surname." is ".$name.".";	
+			if($name)
+				$speech="The name of ".$surname." is ".$name.".";	
+			else
+				$speech="Vous ne connaissez pas cette personne.";
 		}
 
 	$res=array(
