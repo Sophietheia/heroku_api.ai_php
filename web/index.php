@@ -38,10 +38,29 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$parameters=$result['parameters'];
 			$surname=$parameters['names'];
 
-			//------------------------------------------------------
+			//---------------Erreur_1ere_lettre_MAJ-----------------
 			$premierelettre = strtoupper(substr($surname, 0, 1)); 
 			$reste=substr($surname, 1);
 			$surname=$premierelettre.$reste;
+			//------------------------------------------------------
+
+
+			//-----------------------DATABASE-----------------------
+			$conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com 
+			port=5432 
+			dbname=d9dbi6cl08c0i 
+			user=ztlvocffwufbva 
+			password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
+
+			$db = pg_connect($conn_string);
+
+			$query = pg_prepare($db, "prenom_nom", 'SELECT nom FROM users WHERE prenom = $1');
+
+			$result = pg_execute($db, "prenom_nom", array($surname));
+
+			$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
+			$name = $arr[0];
+
 			//------------------------------------------------------
 
 			$users=array(
@@ -50,7 +69,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 				'Alex'=>'Guilngar'
 			);
 
-			$speech="The name of ".$surname." is ".$users[$surname].".";	
+			$speech="The name of ".$surname." is ".$name.".";	
 		}
 
 	$res=array(
