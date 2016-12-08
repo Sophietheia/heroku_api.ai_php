@@ -80,7 +80,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$result = pg_execute($db, "prenom_nom");
 
-		while($arr = pg_fetch_assoc($result){
+		while($arr = pg_fetch_assoc($result)){
 			if($arr['nom']==""){
 				$speech="What's the name of ".$arr['prenom']." ?";
 			}
