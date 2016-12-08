@@ -67,7 +67,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		else
 			$speech="You don't know that person.";
 	}
-	else if($result['action'] == "add.name"){
+	else if($result['action'] == "add.person"){
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
@@ -76,8 +76,34 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$result = pg_query($db, $query);
 		//------------------------------------------------------
 
-		$speech="Person added.";
+		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM users');
 
+		$result = pg_execute($db, "prenom_nom");
+
+		while($arr = pg_fetch_assoc($result){
+			if($arr['nom']==""){
+				$speech="What's the name of ".$arr['prenom']." ?";
+			}
+		}
+
+	}
+	else if($result['action'] == "hello"){
+		$check=false;
+
+		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM users');
+
+		$result = pg_execute($db, "prenom_nom");
+
+		while($arr = pg_fetch_assoc($result){
+			if($arr['nom']==""){
+				$speech="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
+				$check=true;
+			}
+		}
+
+		if(!$check){
+			$speech="Hello !";
+		}
 	}
 	else{
 		$speech="I do not understand...";
