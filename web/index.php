@@ -94,7 +94,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$result = pg_execute($db, "prenom_nom");
 
-		while($arr = pg_fetch_assoc($result){
+		while($arr = pg_fetch_assoc($result)){
 			if($arr['nom']==""){
 				$speech="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
 				$check=true;
