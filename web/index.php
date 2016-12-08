@@ -88,7 +88,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	}
 	else if($result['action'] == "hello"){
-		$check=false;
+		$check=True;
 
 		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM users');
 
@@ -97,11 +97,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 		while($arr = pg_fetch_assoc($result)){
 			if($arr['nom']==""){
 				$speech="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
-				$check=true;
+				$check=False;
 			}
 		}
 
-		if(!$check){
+		if($check){
 			$speech="Hello !";
 		}
 	}
