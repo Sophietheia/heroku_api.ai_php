@@ -71,7 +71,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		$query = "INSERT INTO users(prenom) VALUES('$surname'))";
+		$query = "INSERT INTO users(prenom) VALUES('$surname');";
 
 		$result = pg_query($db, $query);
 		//------------------------------------------------------
