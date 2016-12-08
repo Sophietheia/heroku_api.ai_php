@@ -63,11 +63,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 			//------------------------------------------------------
 
-			$users=array(
-				'Florian'=>'Adonis',
-				'Emna'=>'Bouzouita',
-				'Alex'=>'Guilngar'
-			);
+			// $users=array(
+			// 	'Florian'=>'Adonis',
+			// 	'Emna'=>'Bouzouita',
+			// 	'Alex'=>'Guilngar'
+			// );
 
 			$speech="The name of ".$surname." is ".$name.".";	
 		}
