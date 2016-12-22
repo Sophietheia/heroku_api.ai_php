@@ -104,6 +104,17 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="Hello !";
 		}
 	}
+	else if($result['action'] == "register-rdv"){
+		$parameters=$result['parameters'];
+		$rdv=$parameters['rdv'];
+		$date_rdv=$parameters['date_rdv'];
+		$name=$parameters['names'];
+		$lieu=$parameters['lieux'];
+
+		$query = "INSERT INTO rdv(label, lieu, date_rdv, personne) VALUES('$rdv', '$lieu', '$date_rdv', '$name');";
+
+		$result = pg_query($db, $query);
+	}
 	else{
 		$speech="I do not understand...";
 	}
