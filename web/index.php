@@ -115,6 +115,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$query = "INSERT INTO rdv(label, lieu, date_rdv, personne) VALUES('$rdv', '$lieu', '$date_rdv', '$name');";
 
 		$result = pg_query($db, $query);
+
+		$speech="rdv added";
 	}
 	else{
 		$speech="I do not understand...";
