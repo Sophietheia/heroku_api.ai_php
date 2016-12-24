@@ -34,6 +34,7 @@ CREATE TABLE rdv(
 	label 			VARCHAR(40),
 	lieu 			VARCHAR(20),
 	date_rdv 		DATE,
+	time_rdv		TIME,
 	id_personne   	INT,
 	PRIMARY KEY(id),
 	FOREIGN KEY(id_personne) REFERENCES entourage(id)
