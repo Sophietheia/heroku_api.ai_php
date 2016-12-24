@@ -109,10 +109,19 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$label=$parameters['rdv'];
 		$date_rdv=$parameters['date'];
 		$time=$parameters['time'];
-		$name=$parameters['names'];
+		$surname; //to fill in
+		$surname=$parameters['names'];
 		$lieu=$parameters['lieux'];
 
-		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, ịd_personne) VALUES('$label', '$lieu', '$date_rdv', '$name');";
+		$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom='".$surname."';");
+
+		$res = pg_execute($db, "get_id");
+
+		while($arr = pg_fetch_assoc($res)){
+			$id_perso = $arr['id'];
+		}
+
+		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, ịd_personne) VALUES('$label', '$lieu', '$date_rdv', '$id_perso');";
 
 
 		$result = pg_query($db, $query);
