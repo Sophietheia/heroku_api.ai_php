@@ -107,7 +107,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "register-rdv"){
 		$parameters=$result['parameters'];
 		$rdv=$parameters['rdv'];
-		$date_rdv=$parameters['date_rdv'];
+		$date_rdv=$parameters['date'];
+		$time=$parameters['time'];
 		$name=$parameters['names'];
 		$lieu=$parameters['lieux'];
 
