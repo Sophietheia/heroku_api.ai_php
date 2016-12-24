@@ -1,5 +1,5 @@
 CREATE TABLE medecins(
-	id 		INT serial primary key,
+	id 		serial primary key,
 	nom VARCHAR(40),
 	prenom VARCHAR(30),
 	email  VARCHAR(30),
@@ -7,7 +7,7 @@ CREATE TABLE medecins(
 );
  
 CREATE TABLE utilisateurs(
-	id 		INT serial primary key,
+	id 		serial primary key,
 	nom   VARCHAR(30),
 	email  VARCHAR(30),
 	prenom  VARCHAR(30),
@@ -16,7 +16,7 @@ CREATE TABLE utilisateurs(
 );
 
 CREATE  TABLE entourage(
-	id 		INT serial primary key,
+	id 		serial primary key,
 	nom    VARCHAR(30),
 	prenom  VARCHAR(30),
 	lien_utilisateur  VARCHAR(30),
@@ -27,7 +27,7 @@ CREATE  TABLE entourage(
 );
 
 CREATE TABLE rdv(
-	id 				INT serial primary key,
+	id 				serial primary key,
 	label 			VARCHAR(40),
 	lieu 			VARCHAR(20),
 	date_rdv 		DATE,
@@ -37,7 +37,7 @@ CREATE TABLE rdv(
 );
  
 CREATE TABLE lieux(
-	id 		INT serial primary key,
+	id 		serial primary key,
 	nom  VARCHAR(30),
 	pays  VARCHAR(30),
 	id_utilisateur  INT,
@@ -46,7 +46,7 @@ CREATE TABLE lieux(
 );
  
 CREATE  TABLE taches(
-	id 		INT serial primary key,
+	id 		serial primary key,
 	nom    VARCHAR(30),
 	description  VARCHAR(30),
 	date_taches    DATE,
