@@ -93,15 +93,13 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$result = pg_execute($db, "prenom_nom");
 
-		while($arr = pg_fetch_assoc($result)){
-			if($arr['nom']==""){
+		$speech="Hello !";
+
+		while($check && $arr = pg_fetch_assoc($result)){
+			if(empty($arr['nom'])){
 				$speech="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
 				$check=FALSE;
 			}
-		}
-
-		if($check){
-			$speech="Hello !";
 		}
 	}
 	else if($result['action'] == "register.rdv"){
