@@ -1,5 +1,5 @@
 <?php
-
+ID=1;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -54,7 +54,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 
 		//-----------------------DATABASE-----------------------
-		$query = pg_prepare($db, "prenom_nom", 'SELECT nom FROM users WHERE prenom = $1');
+		$query = pg_prepare($db, "prenom_nom", 'SELECT nom FROM entourage WHERE prenom = $1 AND id_utilisateur='.ID);
 
 		$result = pg_execute($db, "prenom_nom", array($surname));
 
@@ -71,12 +71,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		$query = "INSERT INTO users(prenom) VALUES('$surname');";
+		$query = "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname','".ID."');";
 
 		$result = pg_query($db, $query);
 		//------------------------------------------------------
 
-		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM users');
+		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM entourage WHERE id_utilisateur='.ID);
 
 		$result = pg_execute($db, "prenom_nom");
 
@@ -89,7 +89,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "hello"){
 		$check=TRUE;
 
-		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM users');
+		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM entourage WHERE id_utilisateur='.ID);
 
 		$result = pg_execute($db, "prenom_nom");
 
