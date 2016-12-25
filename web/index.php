@@ -91,14 +91,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "hello"){
 		$check=TRUE;
 
-		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM entourage WHERE id_utilisateur='.ID);
+		$query = pg_prepare($db, "hello_find", 'SELECT nom, prenom FROM entourage WHERE id_utilisateur='.ID);
 
-		$result = pg_execute($db, "prenom_nom");
+		$result = pg_execute($db, "hello_find");
 
 		$speech="Hello !";
 
 		while($check && $arr = pg_fetch_assoc($result)){
-			if(empty($arr['nom'])){
+			if(is_null($arr['nom'])){
 				$speech="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
 				$check=FALSE;
 			}
@@ -136,6 +136,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 
 	$res=array(
+		"perso"=> $arr,
 		"speech"=> $speech, 
 		"displayText"=> $speech,
 		"source"=> "apiai-test-php"
