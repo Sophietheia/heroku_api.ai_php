@@ -1,5 +1,7 @@
 <?php
-ID=1;
+
+define("ID", 1);
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
