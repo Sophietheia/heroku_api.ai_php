@@ -74,14 +74,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		$query = "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname','".ID."');";
+		$query = "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname','".$1."');";
 
-		$result = pg_query($db, $query);
+		$result = pg_query($db, $query, array(ID));
 		//------------------------------------------------------
 
-		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM entourage WHERE id_utilisateur='.ID);
+		$query = pg_prepare($db, "prenom_nom", 'SELECT nom, prenom FROM entourage WHERE id_utilisateur='.$1);
 
-		$result = pg_execute($db, "prenom_nom");
+		$result = pg_execute($db, "prenom_nom", array(ID));
 
 		while($arr = pg_fetch_assoc($result)){
 			if($arr['nom']==""){
@@ -94,7 +94,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$query = pg_prepare($db, "hello_find", 'SELECT nom, prenom FROM entourage WHERE id_utilisateur='.ID);
 
-		$result = pg_execute($db, "hello_find");
+		$result = pg_execute($db, "hello_find", array(ID));
 
 		$speech="Hello !";
 
@@ -117,9 +117,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$lieu=$parameters['lieux'];
 
 		if($surname){
-			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom='".$surname."';");
+			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom='".$1."';");
 
-			$res = pg_execute($db, "get_id");
+			$res = pg_execute($db, "get_id", array($surname));
 
 			while($arr = pg_fetch_assoc($res)){
 				$id_perso = $arr['id'];
