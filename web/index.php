@@ -1,7 +1,7 @@
 <?php
 
 define("ID", 1);
-define("QUESTION", TRUE);
+define("QUESTION", FALSE); //to implement on the end device
 
 
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +46,30 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	$result = $request->request->get('result');
 
-	if($result['action'] == "find.name"){
+	if(QUESTION){ //to remove on the final version
+		$parameters=$result['parameters'];
+		$surname=$parameters['names'];
+
+		$check=TRUE;
+
+		$query = pg_prepare($db, "find", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
+
+		$result = pg_execute($db, "find", array(ID));
+
+		$speech = "Nothing to change !";
+
+		while($check && $arr = pg_fetch_assoc($result)){
+			$name=$arr['nom'];
+			if(!$name){
+				$check=FALSE;
+			}
+		}
+
+		$query = pg_prepare($db, "new_name", "INSERT INTO entourage(nom) VALUES($2) WHERE id_utilisateur=$1");
+		$result = pg_execute($db, "new_name", array(ID, $surname));
+
+	}
+	else if($result['action'] == "find.name"){
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 
