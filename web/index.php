@@ -1,6 +1,8 @@
 <?php
 
 define("ID", 1);
+define("QUESTION", TRUE);
+
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,10 +102,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['name'];
-			// if(!$name){
+			if(!$name){
 				$speech ="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
-				// $check=FALSE;
-			// }
+				$check=FALSE;
+			}
 		}
 	}
 	else if($result['action'] == "register.rdv"){
