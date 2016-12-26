@@ -65,7 +65,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 
-		if(){
+		if(!$check){
 			$query = pg_prepare($db, "new_name", "INSERT INTO entourage(nom) VALUES($3) WHERE prenom=$2 AND id_utilisateur=$1");
 			$result = pg_execute($db, "new_name", array(ID, $arr['prenom'], $nameToAdd));
 
