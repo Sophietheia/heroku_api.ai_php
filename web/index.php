@@ -66,12 +66,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 
 		if(!$check){
-			$query = pg_prepare($db, "new_name", "INSERT INTO entourage(nom) VALUES('$3') WHERE prenom='$2' AND id_utilisateur=$1");
+			$query = pg_prepare($db, "new_name", "INSERT INTO entourage(nom) VALUES($3) WHERE prenom=$2 AND id_utilisateur=$1");
 			if(pg_execute($db, "new_name", array(ID, $arr['prenom'], $nameToAdd))){
 				$speech = $arr['prenom']." changed !";
 			}
 			else{
-				$speech = "nothing changed...";
+				$speech = "nothing changed for ".$arr['prenom'];
 			}
 
 			
