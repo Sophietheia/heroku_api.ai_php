@@ -46,7 +46,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	$result = $request->request->get('result');
 
-	if(QUESTION){ //to remove on the final version
+	if($result['action'] == "send.answer"){ //to remove on the final version
 		$parameters=$result['parameters'];
 		$nameToAdd=$parameters['names'];
 
@@ -65,8 +65,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 
-		$query = pg_prepare($db, "new_name", "INSERT INTO entourage(nom) VALUES($3) WHERE prenom=$2 AND id_utilisateur=$1");
-		$result = pg_execute($db, "new_name", array(ID, $arr['prenom'], $nameToAdd));
+		if(){
+			$query = pg_prepare($db, "new_name", "INSERT INTO entourage(nom) VALUES($3) WHERE prenom=$2 AND id_utilisateur=$1");
+			$result = pg_execute($db, "new_name", array(ID, $arr['prenom'], $nameToAdd));
+
+			$speech = $arr['prenom']." changed !";
+		}
 	}
 	else if($result['action'] == "find.name"){
 		$parameters=$result['parameters'];
