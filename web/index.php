@@ -96,12 +96,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$result = pg_execute($db, "hello_find", array(ID));
 
-		$speech="Hello !";
+		$speech = "Hello !";
 
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['name'];
 			// if(!$name){
-				$speech.="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
+				$speech ="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
 				// $check=FALSE;
 			// }
 		}
