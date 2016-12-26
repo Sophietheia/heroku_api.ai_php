@@ -124,7 +124,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$speech = "Hello !";
 
 		while($check && $arr = pg_fetch_assoc($result)){
-			$name=$arr['name'];
+			$name=$arr['nom'];
 			if(!$name){
 				$speech ="Hello ! I have a question... What's the family name of ".$arr['prenom']." ?";
 				$check=FALSE;
@@ -163,7 +163,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 
 	$res=array(
-		"question"=> QUESTION,
 		"speech"=> $speech, 
 		"displayText"=> $speech,
 		"source"=> "apiai-test-php"
