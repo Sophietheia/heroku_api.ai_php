@@ -140,6 +140,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 
 	$res=array(
+		"question"=> QUESTION,
 		"speech"=> $speech, 
 		"displayText"=> $speech,
 		"source"=> "apiai-test-php"
