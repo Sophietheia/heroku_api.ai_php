@@ -1,8 +1,6 @@
 <?php
 
 define("ID", 1);
-define("QUESTION", TRUE); //to implement on the end device
-
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -129,7 +127,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$result = pg_execute($db, "hello_find", array(ID));
 
-		$speech = "Hello !";
+		$speech = "Hello ! How are you ?";
 
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['nom'];
