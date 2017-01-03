@@ -164,6 +164,27 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$speech="rdv added";
 	}
+
+	else if($result['action'] == "location.meeting"){
+		$check=TRUE;
+
+		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1");
+
+		$result = pg_execute($db, "location_meeting", array(ID));
+
+		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
+
+		$location = $arr[0];
+		//------------------------------------------------------
+
+		if($location)
+			$speech=" Your next meeting is at ".$location.".";
+		else
+			$speech="You don't have any meeting";
+	
+	
+	}
+	
 	else{
 		$speech="I do not understand...";
 	}
