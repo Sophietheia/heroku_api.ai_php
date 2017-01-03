@@ -164,9 +164,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$speech="rdv added";
 	}
+	
 
 	else if($result['action'] == "location.meeting"){
-		$check=TRUE;
+		
 
 		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1");
 
@@ -184,7 +185,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	
 	
 	}
-	
+
 	else{
 		$speech="I do not understand...";
 	}
