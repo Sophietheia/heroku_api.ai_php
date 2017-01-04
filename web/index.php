@@ -142,7 +142,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$label=$parameters['rdv'];
 		$date_rdv=$parameters['date'];
 		$time=$parameters['time'];
-		//$surname; //to fill in
 		$id_perso;
 		$surname=$parameters['names'];
 		$lieu=$parameters['lieux'];
@@ -157,7 +156,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 
-		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '$id_perso');";
+		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', 'ID', '$id_perso');";
 
 
 		$result = pg_query($db, $query);
@@ -166,7 +165,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 	else if($result['action'] == "location.meeting"){
 		
-		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_personne=$1");
+		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1");
 
 		$result = pg_execute($db, "location_meeting", array(ID));
 
