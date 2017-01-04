@@ -105,7 +105,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname', $1)";
+		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname', $1)");
 
 		$result = pg_execute($db, "add_person", array(ID));
 		//------------------------------------------------------
