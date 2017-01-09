@@ -60,12 +60,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$name=$arr['nom'];
 			$surname=$arr['prenom'];
 
-			$speech.=$surname;
-			
-			if($surname==$parameters['surname']){
+			if(strtolower($surname)==strtolower($parameters['surname'])){
 				$speech=$surname." has a name already !";
 			}
-			else if(!$name && $surname==$parameters['surname']){
+			else if(!$name && strtolower($surname)==strtolower($parameters['surname'])){
 				$check=FALSE;
 			}
 		}
