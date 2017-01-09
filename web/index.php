@@ -29,10 +29,10 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 //*******************************************a few functions*************************************************//
-function addPerson($db, $surname, $id){
-	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES($2, $1)");
+function addPerson($db, $surname, $id, $relation=NULL){
+	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur) VALUES($2, $1, $3)");
 
-	return pg_execute($db, "add_person", array($id, $surname));
+	return pg_execute($db, "add_person", array($id, $surname, $relation));
 }
 
 function findNameSurname($db, $id){
@@ -152,7 +152,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$peech="There are more than 1 person called ".$parameters['prenom'].". Which one are you talking about ?";
 		}
 		else if($nb==0){
-			addPerson($db, $parameters['prenom'], ID);
+			addPerson($db, $parameters['surname'], ID, $relation);
 		}
 
 	}
