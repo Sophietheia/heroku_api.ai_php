@@ -28,6 +28,16 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
+//a few functions
+public function test($speech){
+	$speech .= " test ok";
+
+	return $speech;
+}
+
+
+
+
 // Web handlers
 
 $app->post('/webhook', function(Request $request) use($app) {
@@ -123,6 +133,30 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 	}
+	else if($result['action'] == "add.link"){
+		$nb=0;
+		$parameters=$result['parameters'];
+		$surname=$parameters['surname'];
+		$relation=$parameters['relation'];
+
+		$query = pg_prepare($db, "prenom", "SELECT prenom FROM entourage WHERE id_utilisateur=$1");
+
+		$result = pg_execute($db, "prenom", array(ID));
+
+		while($arr = pg_fetch_assoc($result)){
+			if($arr['prenom']==$parameters['prenom']){
+				$nb++;
+			}
+		}
+
+		if($nb>1){
+			$peech="There are more than 1 person called "..". Which one are you talking about ?";
+		}
+		else if($nb==0){
+			//do something
+		}
+
+	}
 	else if($result['action'] == "hello"){
 		$check=TRUE;
 
@@ -131,6 +165,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$result = pg_execute($db, "hello_find", array(ID));
 
 		$speech = "Hello ! How are you ?";
+
+		$speech = test($speech);
 
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['nom'];
