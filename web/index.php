@@ -29,7 +29,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 //a few functions
-public function test($speech){
+function test($speech){
 	$speech .= " test ok";
 
 	return $speech;
