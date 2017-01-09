@@ -153,6 +153,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 		else if($nb==0){
 			addPerson($db, $parameters['surname'], ID, $relation);
+			$speech="Your ".$relation." was added !";
 		}
 
 	}
