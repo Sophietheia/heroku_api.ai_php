@@ -28,15 +28,20 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
-//a few functions
+//*******************************************a few functions*************************************************//
 function addPerson($db, $surname, $id){
 	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES($2, $1)");
 
-	$result = pg_execute($db, "add_person", array($id, $surname));
+	return pg_execute($db, "add_person", array($id, $surname));
 }
 
+function findNameSurname($db, $id){
+	$query = pg_prepare($db, "prenom_nom", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
 
+	return pg_execute($db, "prenom_nom", array($id));
+}
 
+//***********************************************************************************************************//
 
 // Web handlers
 
@@ -60,9 +65,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$check=TRUE;
 
-		$query = pg_prepare($db, "find", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
-
-		$result = pg_execute($db, "find", array(ID));
+		$result = findNameSurname($db, ID);
 
 		$speech = "Nothing to change !";
 
@@ -121,9 +124,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		addPerson($db, $surname, ID);
 		//------------------------------------------------------
 
-		$query = pg_prepare($db, "prenom_nom", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
-
-		$result = pg_execute($db, "prenom_nom", array(ID));
+		$result = findNameSurname($db, ID);
 
 		while($arr = pg_fetch_assoc($result)){
 			if($arr['nom']==""){
@@ -158,9 +159,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "hello"){
 		$check=TRUE;
 
-		$query = pg_prepare($db, "hello_find", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
-
-		$result = pg_execute($db, "hello_find", array(ID));
+		$result = findNameSurname($db, ID);
 
 		$speech = "Hello ! How are you ?";
 
