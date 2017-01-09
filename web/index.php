@@ -150,7 +150,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 
 		if($nb>1){
-			$peech="There are more than 1 person called "..". Which one are you talking about ?";
+			$peech="There are more than 1 person called ".$parameters['prenom'].". Which one are you talking about ?";
 		}
 		else if($nb==0){
 			//do something
