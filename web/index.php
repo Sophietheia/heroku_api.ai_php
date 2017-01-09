@@ -29,10 +29,10 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 //a few functions
-function test($speech){
-	$speech .= " test ok";
+function addPerson($db, $surname, $id){
+	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$2', $1)");
 
-	return $speech;
+	$result = pg_execute($db, "add_person", array($id, $surname));
 }
 
 
@@ -118,9 +118,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname', $1)");
-
-		$result = pg_execute($db, "add_person", array(ID));
+		addPerson($db, $surname, ID);
 		//------------------------------------------------------
 
 		$query = pg_prepare($db, "prenom_nom", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
@@ -153,7 +151,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$peech="There are more than 1 person called ".$parameters['prenom'].". Which one are you talking about ?";
 		}
 		else if($nb==0){
-			//do something
+			addPerson($db, $parameters['prenom'], ID);
 		}
 
 	}
@@ -165,8 +163,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$result = pg_execute($db, "hello_find", array(ID));
 
 		$speech = "Hello ! How are you ?";
-
-		$speech = test($speech);
 
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['nom'];
