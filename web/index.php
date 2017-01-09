@@ -46,7 +46,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	if($result['action'] == "send.answer"){ //to remove on the final version
 		$parameters=$result['parameters'];
-		$nameToAdd=$parameters['names'];
+		$nameToAdd=$parameters['last-name'];
 
 		$check=TRUE;
 
@@ -58,7 +58,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['nom'];
-			if(!$name){
+			$surname=$arr['prenom'];
+
+			if($name && $surname==$parameters['surname']){
+				$speech=$surname." has a name already !";
+			}
+			else if(!$name && $surname==$parameters['surname']){
 				$check=FALSE;
 			}
 		}
@@ -69,10 +74,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 				$speech = $arr['prenom']." changed !";
 			}
 			else{
-				$speech = "nothing changed for ".$arr['prenom'];
+				$speech = "couldn't change the name of ".$arr['prenom'];
 			}
-
-			
 		}
 	}
 	else if($result['action'] == "find.name"){
