@@ -138,18 +138,16 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$surname=$parameters['surname'];
 		$relation=$parameters['relation'];
 
-		$query = pg_prepare($db, "prenom", "SELECT prenom FROM entourage WHERE id_utilisateur=$1");
-
-		$result = pg_execute($db, "prenom", array(ID));
+		$result = findNameSurname($db, ID);
 
 		while($arr = pg_fetch_assoc($result)){
-			if($arr['prenom']==$parameters['prenom']){
+			if($arr['prenom']==$parameters['surname']){
 				$nb++;
 			}
 		}
 
 		if($nb>1){
-			$peech="There are more than 1 person called ".$parameters['prenom'].". Which one are you talking about ?";
+			$peech="There are more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
 		}
 		else if($nb==0){
 			addPerson($db, $parameters['surname'], ID, $relation);
