@@ -44,7 +44,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	$result = $request->request->get('result');
 
-	if($result['action'] == "send.answer"){ //to remove on the final version
+	if($result['action'] == "change.name"){ //to remove on the final version
 		$parameters=$result['parameters'];
 		$nameToAdd=$parameters['last-name'];
 
