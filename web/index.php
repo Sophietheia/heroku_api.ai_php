@@ -30,7 +30,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 //a few functions
 function addPerson($db, $surname, $id){
-	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$2', $1)");
+	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES($2, $1)");
 
 	$result = pg_execute($db, "add_person", array($id, $surname));
 }
