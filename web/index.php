@@ -264,10 +264,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="You have no next meeting";
 		}
 	}
-	else{
-		$speech="I do not understand...";
-	}
-
 	else if($result['action'] == "label.meeting"){
 		$today=date("Y-m-d");
 
@@ -290,6 +286,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else{
 		$speech="I do not understand...";
 	}
+
 	$res=array(
 		"speech"=> $speech, 
 		"displayText"=> $speech,
