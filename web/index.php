@@ -208,15 +208,21 @@ $app->post('/webhook', function(Request $request) use($app) {
 		
 
 		while($arr = pg_fetch_array($result)){
-			$location = $arr['date_rdv'];
+			$location = $arr['location'];
 			$label = $arr['label'];
 		}
 	
 
 		if($location)
+			{
 			$speech=$speech="Your next meeting is ".$label." on ".$location;
+			}
+
 		else
+			{
 			$speech="You don't have any meeting";
+			}
+
 	}
 	else if($result['action'] == "date.meeting"){
 		$today=date("Y-m-d");
