@@ -199,7 +199,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "location.meeting"){
 		
 		$today=date("Y-m-d");	
-		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
+		$query = pg_prepare($db, "location_meeting", "SELECT lieu, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
 		
 		$result = pg_execute($db, "location_meeting", array(ID));
 
@@ -208,7 +208,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		
 
 		while($arr = pg_fetch_array($result)){
-			$location = $arr['location'];
+			$location = $arr['lieu'];
 			$label = $arr['label'];
 		}
 	
@@ -227,8 +227,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "date.meeting"){
 		$today=date("Y-m-d");
 
-		$query = pg_prepare($db, "next_meeting", "SELECT date_rdv, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);
-");
+		$query = pg_prepare($db, "next_meeting", "SELECT date_rdv, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
 		
 		$result = pg_execute($db, "next_meeting", array(ID));
 
