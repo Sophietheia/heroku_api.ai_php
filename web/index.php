@@ -233,6 +233,27 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="You have no next meeting";
 		}
 	}
+	else if($result['action'] == "avec.qui.meeting"){
+		$today=date("Y-m-d");
+
+		$query = pg_prepare($db, "avec_meeting", "SELECT rdv.label AS label, entourage.nom AS nom, entourage.prenom AS prenom FROM rdv, entourage WHERE rdv.id_utilisateur=$1 AND rdv.date_rdv>='$today' AND rdv.id_personne=entourage.id GROUP BY label, id HAVING date_rdv=MIN(date_rdv);
+");
+		
+		$result = pg_execute($db, "avec_meeting", array(ID));
+
+		while($arr = pg_fetch_array($result)){
+			$nom = $arr['nom'];
+			$prenom = $arr['prenom'];
+			$label = $arr['label'];
+		}
+
+		if($date){
+			$speech="Your next meeting is ".$label." with ".$prenom." ".$nom;
+		}
+		else{
+			$speech="You have no next meeting";
+		}
+	}
 	else{
 		$speech="I do not understand...";
 	}
