@@ -223,12 +223,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
 
-		$date = $arr[0]['date_rdv'];
+		$date = $arr['date_rdv'];
 
-		$label = $arr[0]['label'];
+		$label = $arr['label'];
 
-		if($date){
-			$speech="Your next meeting is ".$label." on ".$date;
+		if($arr){
+			$speech=$arr;
 		}
 		else{
 			$speech="You have no next meeting";
