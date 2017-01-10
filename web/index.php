@@ -28,6 +28,21 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
+//*******************************************a few functions*************************************************//
+function addPerson($db, $surname, $id, $relation=NULL){
+	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur) VALUES($2, $1, $3)");
+
+	return pg_execute($db, "add_person", array($id, $surname, $relation));
+}
+
+function findNameSurname($db, $id){
+	$query = pg_prepare($db, "prenom_nom", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
+
+	return pg_execute($db, "prenom_nom", array($id));
+}
+
+//***********************************************************************************************************//
+
 // Web handlers
 
 $app->post('/webhook', function(Request $request) use($app) {
@@ -44,21 +59,24 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	$result = $request->request->get('result');
 
-	if($result['action'] == "send.answer"){ //to remove on the final version
+	if($result['action'] == "change.name"){ //to remove on the final version
 		$parameters=$result['parameters'];
-		$nameToAdd=$parameters['names'];
+		$nameToAdd=$parameters['last-name'];
 
 		$check=TRUE;
 
-		$query = pg_prepare($db, "find", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
-
-		$result = pg_execute($db, "find", array(ID));
+		$result = findNameSurname($db, ID);
 
 		$speech = "Nothing to change !";
 
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['nom'];
-			if(!$name){
+			$surname=$arr['prenom'];
+
+			if($name && strtolower($surname)==strtolower($parameters['surname'])){
+				$speech=$surname." has a name already !";
+			}
+			else if(!$name && strtolower($surname)==strtolower($parameters['surname'])){
 				$check=FALSE;
 			}
 		}
@@ -69,10 +87,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 				$speech = $arr['prenom']." changed !";
 			}
 			else{
-				$speech = "nothing changed for ".$arr['prenom'];
+				$speech = "couldn't change the name of ".$arr['prenom'];
 			}
-
-			
 		}
 	}
 	else if($result['action'] == "find.name"){
@@ -105,14 +121,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname', $1)");
-
-		$result = pg_execute($db, "add_person", array(ID));
+		addPerson($db, $surname, ID);
 		//------------------------------------------------------
 
-		$query = pg_prepare($db, "prenom_nom", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
-
-		$result = pg_execute($db, "prenom_nom", array(ID));
+		$result = findNameSurname($db, ID);
 
 		while($arr = pg_fetch_assoc($result)){
 			if($arr['nom']==""){
@@ -120,12 +132,33 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 	}
+	else if($result['action'] == "add.link"){
+		$nb=0;
+		$parameters=$result['parameters'];
+		$surname=$parameters['surname'];
+		$relation=$parameters['relation'];
+
+		$result = findNameSurname($db, ID);
+
+		while($arr = pg_fetch_assoc($result)){
+			if($arr['prenom']==$parameters['surname']){
+				$nb++;
+			}
+		}
+
+		if($nb>1){
+			$peech="There are more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
+		}
+		else if($nb==0){
+			addPerson($db, $parameters['surname'], ID, $relation);
+			$speech="Your ".$relation." was added !";
+		}
+
+	}
 	else if($result['action'] == "hello"){
 		$check=TRUE;
 
-		$query = pg_prepare($db, "hello_find", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
-
-		$result = pg_execute($db, "hello_find", array(ID));
+		$result = findNameSurname($db, ID);
 
 		$speech = "Hello ! How are you ?";
 
