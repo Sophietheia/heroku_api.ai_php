@@ -277,7 +277,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 
 		if($label){
-			$speech="Your next meeting is ".$label.;
+			$speech="Your next meeting is ".$label;
 		}
 		else{
 			$speech="You have no next meeting";
