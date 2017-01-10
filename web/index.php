@@ -199,7 +199,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "location.meeting"){
 		
 
-		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1 AND date_rdv=MIN(date_rdv)";
+		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1 AND date_rdv=MIN(date_rdv)");
 		
 		$result = pg_execute($db, "location_meeting", array(ID));
 
