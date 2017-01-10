@@ -199,25 +199,35 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "location.meeting"){
 		
 		$today=date("Y-m-d");	
-		$query = pg_prepare($db, "next_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
+		$query = pg_prepare($db, "location_meeting", "SELECT lieu, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
 		
 		$result = pg_execute($db, "location_meeting", array(ID));
 
 		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
 
-		$location = $arr[0];
+		
+
+		while($arr = pg_fetch_array($result)){
+			$location = $arr['lieu'];
+			$label = $arr['label'];
+		}
 	
 
 		if($location)
-			$speech=" Your next meeting is at ".$location.".";
+			{
+			$speech=$speech="Your next meeting is ".$label." at ".$location;
+			}
+
 		else
+			{
 			$speech="You don't have any meeting";
+			}
+
 	}
 	else if($result['action'] == "date.meeting"){
 		$today=date("Y-m-d");
 
-		$query = pg_prepare($db, "next_meeting", "SELECT date_rdv, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);
-");
+		$query = pg_prepare($db, "next_meeting", "SELECT date_rdv, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
 		
 		$result = pg_execute($db, "next_meeting", array(ID));
 
@@ -258,6 +268,28 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$speech="I do not understand...";
 	}
 
+	else if($result['action'] == "label.meeting"){
+		$today=date("Y-m-d");
+
+		$query = pg_prepare($db, "label_meeting", "SELECT label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
+		
+		$result = pg_execute($db, "label_meeting", array(ID));
+
+		while($arr = pg_fetch_array($result)){
+			
+			$label = $arr['label'];
+		}
+
+		if($label){
+			$speech="Your next meeting is ".$label.;
+		}
+		else{
+			$speech="You have no next meeting";
+		}
+	}
+	else{
+		$speech="I do not understand...";
+	}
 	$res=array(
 		"speech"=> $speech, 
 		"displayText"=> $speech,
