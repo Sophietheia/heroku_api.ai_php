@@ -266,6 +266,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="You have no next meeting";
 		}
 	}
+	
 	else{
 		$speech="I do not understand...";
 	}
