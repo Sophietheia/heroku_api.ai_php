@@ -216,7 +216,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "date.meeting"){
 		$today=date("Y-m-d");
 
-		$query = pg_prepare($db, "next_meeting", "SELECT date_rdv, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>=$today HAVING date_rdv=MIN(date_rdv)";
+		$query = pg_prepare($db, "next_meeting", "SELECT date_rdv, label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>=$today HAVING date_rdv=MIN(date_rdv)");
 		
 		$result = pg_execute($db, "next_meeting", array(ID));
 
