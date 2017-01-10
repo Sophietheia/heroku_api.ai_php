@@ -32,8 +32,10 @@ CREATE TABLE rdv(
 	lieu 			VARCHAR(20),
 	date_rdv 		DATE,
 	time_rdv		TIME,
+	id_utilisateur	INT,
 	id_personne   	INT,
-	FOREIGN KEY(id_personne) REFERENCES entourage(id)
+	FOREIGN KEY(id_personne) REFERENCES entourage(id),
+	FOREIGN KEY(id_utilisateur) REFERENCES utilisateurs(id)
 );
  
 CREATE TABLE lieux(
@@ -53,3 +55,7 @@ CREATE  TABLE taches(
 	id_utilisateur   INT,
 	FOREIGN KEY(id_utilisateur) REFERENCES utilisateurs(id)
 );
+
+
+
+INSERT INTO utilisateurs(nom, email, prenom, date_de_naissance, adresse) VALUES('Muller', 'franck@gmail.com', 'Franck', '1995-09-04', '3 avenue des Champs Elysees');

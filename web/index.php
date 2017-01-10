@@ -105,9 +105,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		$query = "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname',$1)";
+		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom,id_utilisateur) VALUES('$surname', $1)");
 
-		$result = pg_query($db, $query, array(ID));
+		$result = pg_execute($db, "add_person", array(ID));
 		//------------------------------------------------------
 
 		$query = pg_prepare($db, "prenom_nom", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
@@ -142,7 +142,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$label=$parameters['rdv'];
 		$date_rdv=$parameters['date'];
 		$time=$parameters['time'];
-		//$surname; //to fill in
 		$id_perso;
 		$surname=$parameters['names'];
 		$lieu=$parameters['lieux'];
@@ -157,20 +156,18 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 
-		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '$id_perso');";
+		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', 'ID', '$id_perso');";
 
 
 		$result = pg_query($db, $query);
 
 		$speech="rdv added";
 	}
-	
-
 	else if($result['action'] == "location.meeting"){
 		
 
-		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1" AND date_rdv=MIN(date_rdv));
-
+		$query = pg_prepare($db, "location_meeting", "SELECT lieu FROM rdv WHERE id_utilisateur=$1");
+		
 		$result = pg_execute($db, "location_meeting", array(ID));
 
 		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
@@ -182,10 +179,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech=" Your next meeting is at ".$location.".";
 		else
 			$speech="You don't have any meeting";
-	
-	
 	}
-
 	else{
 		$speech="I do not understand...";
 	}
