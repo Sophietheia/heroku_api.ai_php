@@ -227,8 +227,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$label = $arr['label'];
 
-		if($date){
-			$speech="Your next meeting is ".$label." on ".$date;
+		if($arr){
+			$speech=$arr;
 		}
 		else{
 			$speech="You have no next meeting";
