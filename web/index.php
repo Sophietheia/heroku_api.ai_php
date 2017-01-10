@@ -257,7 +257,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$label = $arr['label'];
 		}
 
-		if($date){
+		if($label){
 			$speech="Your next meeting is ".$label." with ".$prenom." ".$nom;
 		}
 		else{
