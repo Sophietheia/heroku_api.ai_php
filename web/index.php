@@ -215,7 +215,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		if($location)
 			{
-			$speech=$speech="Your next meeting is ".$label." on ".$location;
+			$speech=$speech="Your next meeting is ".$label." at ".$location;
 			}
 
 		else
@@ -247,6 +247,28 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$speech="I do not understand...";
 	}
 
+	else if($result['action'] == "label.meeting"){
+		$today=date("Y-m-d");
+
+		$query = pg_prepare($db, "label_meeting", "SELECT label FROM rdv WHERE id_utilisateur=$1 AND date_rdv>='$today' GROUP BY label, id HAVING date_rdv=MIN(date_rdv);");
+		
+		$result = pg_execute($db, "label_meeting", array(ID));
+
+		while($arr = pg_fetch_array($result)){
+			
+			$label = $arr['label'];
+		}
+
+		if($label){
+			$speech="Your next meeting is ".$label.;
+		}
+		else{
+			$speech="You have no next meeting";
+		}
+	}
+	else{
+		$speech="I do not understand...";
+	}
 	$res=array(
 		"speech"=> $speech, 
 		"displayText"=> $speech,
