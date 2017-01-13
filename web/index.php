@@ -189,10 +189,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1");
 
-			$res = pg_execute($db, "get_id", array($surname));
+			$res = pg_execute($db, "get_id", array($surname)); //if ... else create perso
 
 			while($arr = pg_fetch_assoc($res))
 				$id_perso = $arr['id'];
+
 		}
 
 		if(isset($parameters['lieux']))
