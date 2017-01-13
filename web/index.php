@@ -173,21 +173,29 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "register.rdv"){
 		$parameters=$result['parameters'];
 		$label=$parameters['rdv'];
-		$date_rdv=$parameters['date'];
-		$time=$parameters['time'];
-		$id_perso;
-		$surname=$parameters['names'];
-		$lieu=$parameters['lieux'];
 
-		if($surname){
+		if(isset($parameters['date']))
+			$date_rdv=$parameters['date'];
+
+		if(isset($parameters['time']))
+			$time=$parameters['time'];
+
+		$id_perso;
+
+		if(isset($parameters['names'])){
+			$surname=$parameters['names'];
+
 			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1");
 
 			$res = pg_execute($db, "get_id", array($surname));
 
-			while($arr = pg_fetch_assoc($res)){
+			while($arr = pg_fetch_assoc($res))
 				$id_perso = $arr['id'];
-			}
+
 		}
+
+		if(isset($parameters['lieux']))
+			$lieu=$parameters['lieux'];
 
 		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '".ID."', '$id_perso');";
 
@@ -205,7 +213,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
 
-		
 
 		while($arr = pg_fetch_array($result)){
 			$location = $arr['lieu'];
@@ -214,14 +221,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 	
 
 		if($location)
-			{
+		{
 			$speech=$speech="Your next meeting is ".$label." at ".$location;
-			}
+		}
 
 		else
-			{
+		{
 			$speech="You don't have any meeting";
-			}
+		}
 
 	}
 	else if($result['action'] == "date.meeting"){
