@@ -172,13 +172,15 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 	else if($result['action'] == "register.rdv"){
 		$parameters=$result['parameters'];
-		$label=$parameters['rdv'];
+		$label=$parameters['rdv'][0];
 
 		if(isset($parameters['date']))
 			$date_rdv=$parameters['date'];
 
 		if(isset($parameters['time']))
 			$time=$parameters['time'];
+		else
+			$time='00:00:00';
 
 		$id_perso;
 
@@ -191,7 +193,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 			while($arr = pg_fetch_assoc($res))
 				$id_perso = $arr['id'];
-
 		}
 
 		if(isset($parameters['lieux']))
