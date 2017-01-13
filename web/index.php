@@ -177,9 +177,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 		if(isset($parameters['date']))
 			$date_rdv=$parameters['date'];
 
-		if(isset($parameters['time']))
-			$time=$parameters['time'];
-		else
+		// if(isset($parameters['time']))
+		// 	$time=$parameters['time'];
+		// else
 			$time='00:00:00';
 
 		$id_perso;
