@@ -1,3 +1,10 @@
+DROP TABLE rdv;
+DROP TABLE taches;
+DROP TABLE lieux;
+DROP TABLE entourage;
+DROP TABLE medecins;
+DROP TABLE utilisateurs;
+
 CREATE TABLE medecins(
 	id 		serial primary key,
 	nom VARCHAR(40),
