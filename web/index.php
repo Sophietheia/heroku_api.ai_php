@@ -29,10 +29,20 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 //*******************************************a few functions*************************************************//
-function addPerson($db, $surname, $id, $relation=NULL){
-	$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur) VALUES($2, $1, $3)");
+function addPerson($db, $id, $surname, $name=false, $relation=NULL){
+	if($name){
+		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur, nom) VALUES($2, $1, $3, $4)");
 
-	return pg_execute($db, "add_person", array($id, $surname, $relation));
+		if(pg_execute($db, "add_person", array($id, $surname, $relation, $name)))
+			return getIdOfPerson($db, ID);
+	}
+	else{
+		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur) VALUES($2, $1, $3)");
+
+		if(pg_execute($db, "add_person", array($id, $surname, $relation)))
+			return getIdOfPerson($db, ID);
+	}
+		return NULL;
 }
 
 function findNameSurname($db, $id){
@@ -41,10 +51,16 @@ function findNameSurname($db, $id){
 	return pg_execute($db, "prenom_nom", array($id));
 }
 
-function getIdOfPerson($db, $id, $surname, $name){
-	$query = pg_prepare($db, "id", "SELECT id FROM entourage WHERE id_utilisateur=$1 AND $prenom=$2 AND $nom=$3");
+function getIdOfPerson($db, $id){
+	$query = pg_prepare($db, "id", "SELECT id FROM entourage WHERE id_utilisateur=$1 ORDER BY id DESC LIMIT 1;");
 
-	return pg_execute($db, "id", array($id, $surname, $name));
+	if($result = pg_execute($db, "id", array(ID))){
+		while($arr = pg_fetch_assoc($result)){
+			return $arr['id'];
+		}
+	}
+
+	return NULL;
 }
 
 //***********************************************************************************************************//
@@ -127,7 +143,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 		//-----------------------DATABASE-----------------------
-		addPerson($db, $surname, ID);
+		addPerson($db, ID, $surname);
 		//------------------------------------------------------
 
 		$result = findNameSurname($db, ID);
@@ -153,10 +169,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 
 		if($nb>1){
-			$peech="There are more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
+			$peech="There is more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
 		}
-		else if($nb==0){
-			addPerson($db, $parameters['surname'], ID, $relation);
+		else if($nb<=1){
+			addPerson($db, ID, $parameters['surname'], $arr['nom'], $relation);
 			$speech="Your ".$relation." was added !";
 		}
 
@@ -191,8 +207,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$id_perso;
 
 		if(isset($parameters['names'])){
-			$surname=$parameters['names'];
-			$name=$parameters['surname'];
+			$perso_added=false;
+			$name=$parameters['names'];
+			$surname=$parameters['surname'];
 
 			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1");
 
@@ -203,8 +220,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 				$id_perso = $arr['id'];
 			}
 			else{
-				addPerson($db, $surname, ID);
-				$id_perso = getIdOfPerson($db, ID, $surname, $name);
+				if($id_perso = addPerson($db, ID, $surname, $name))
+					$perso_added=true;
 			}
 		}
 
@@ -214,7 +231,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '".ID."', '$id_perso');";
 
 
-		if($result = pg_query($db, $query))
+		if($perso_added)
+			$speech="What's the name of ";
+		else if($result = pg_query($db, $query))
 			$speech="rdv added";
 		else
 			$speech="pb adding the rdv";
