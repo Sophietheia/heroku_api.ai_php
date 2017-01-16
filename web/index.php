@@ -78,7 +78,7 @@ function checkNbOfSurnames($db, $id, $surname){
 
 function getIdByName($db, $id, $surname, $name=false){
 	$nb=10;
-	$nb=checkNbOfSurnames($db, ID, $surname);
+	$nb=0;//checkNbOfSurnames($db, ID, $surname);
 	if($nb>1 && $name){
 		$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1 AND nom=$2");
 
