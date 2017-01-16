@@ -63,6 +63,49 @@ function getLastIdOfPerson($db, $id){
 	return NULL;
 }
 
+function checkNbOfSurnames($db, $id, $surname){
+	$nb=0;
+	$result = findNameSurname($db, ID);
+
+	while($arr = pg_fetch_assoc($result)){
+		if($arr['prenom']==$parameters['surname']){
+			$nb++;
+		}
+	}
+
+	return $nb;
+}
+
+function getIdByName($db, $id, $surname, $name=false){
+	$nb=10;
+	$nb=checkNbOfSurnames($db, ID, $surname);
+	if($nb>1 && $name){
+		$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1 AND nom=$2");
+
+		$res = pg_execute($db, "get_id", array($surname, $name));
+
+		while($arr = pg_fetch_assoc($res))
+			$id_perso = $arr['id'];
+
+		return $id_perso;
+	}
+	else if($nb<=1){
+		$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1;");
+
+		$res = pg_execute($db, "get_id", array($surname));
+
+		while($arr = pg_fetch_assoc($res))
+			$id_perso = $arr['id'];
+
+		return $id_perso;
+	}
+	// else{
+	// 	if($id_perso = addPerson($db, ID, $surname, $name))
+	// 		$perso_added=true;
+	// }
+	return false;
+}
+
 //***********************************************************************************************************//
 
 // Web handlers
@@ -158,15 +201,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$nb=0;
 		$parameters=$result['parameters'];
 		$surname=$parameters['surname'];
+		$name=$parameters['name'];
 		$relation=$parameters['relation'];
 
-		$result = findNameSurname($db, ID);
-
-		while($arr = pg_fetch_assoc($result)){
-			if($arr['prenom']==$parameters['surname']){
-				$nb++;
-			}
-		}
+		$nb=checkNbOfSurnames($db, ID, $surname);
 
 		if($nb>1){
 			$peech="There is more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
@@ -211,24 +249,13 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$name=$parameters['names'];
 			$surname=$parameters['surname'];
 
-			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1 AND nom=$2");
-
-			$res = pg_execute($db, "get_id", array($surname, $name));
-
-			if($res){
-				while($arr = pg_fetch_assoc($res))
-					$id_perso = $arr['id'];
-			}
-			else{
-				if($id_perso = addPerson($db, ID, $surname, $name))
-					$perso_added=true;
-			}
+			$id_perso=getIdByName($db, ID, $surname, $name);
 		}
 
 		if(isset($parameters['lieux']))
 			$lieu=$parameters['lieux'];
 
-		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '".ID."', 3);";//'$id_perso');";
+		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '".ID."', '$id_perso');";
 
 		if($perso_added)
 			$speech="What's the name of ";
