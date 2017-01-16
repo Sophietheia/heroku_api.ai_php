@@ -114,7 +114,7 @@ function getIdByName($db, $id, $surname, $name=false){
 			return $id_perso;
 	}
 	else{
-		return addPerson($db, ID, $surname, $name))
+		return addPerson($db, ID, $surname, $name);
 	}
 
 	return false;
