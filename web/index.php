@@ -41,6 +41,12 @@ function findNameSurname($db, $id){
 	return pg_execute($db, "prenom_nom", array($id));
 }
 
+function getIdOfPerson($db, $id, $surname, $name){
+	$query = pg_prepare($db, "id", "SELECT id FROM entourage WHERE id_utilisateur=$1 AND $prenom=$2 AND $nom=$3");
+
+	return pg_execute($db, "id", array($id, $surname, $name));
+}
+
 //***********************************************************************************************************//
 
 // Web handlers
@@ -186,14 +192,20 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		if(isset($parameters['names'])){
 			$surname=$parameters['names'];
+			$name=$parameters['surname'];
 
 			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1");
 
-			$res = pg_execute($db, "get_id", array($surname)); //if ... else create perso
+			$res = pg_execute($db, "get_id", array($surname));
 
-			while($arr = pg_fetch_assoc($res))
+			if($res){
+				while($arr = pg_fetch_assoc($res))
 				$id_perso = $arr['id'];
-
+			}
+			else{
+				addPerson($db, $surname, ID);
+				$id_perso = getIdOfPerson($db, ID, $surname, $name);
+			}
 		}
 
 		if(isset($parameters['lieux']))
