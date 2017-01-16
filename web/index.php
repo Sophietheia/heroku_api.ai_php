@@ -194,7 +194,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 	else if($result['action'] == "register.rdv"){
 		$parameters=$result['parameters'];
-		$label=$parameters['rdv'][0];
+		$label=$parameters['rdv'];
 
 		if(isset($parameters['date']))
 			$date_rdv=$parameters['date'];
