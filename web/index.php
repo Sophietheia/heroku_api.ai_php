@@ -34,13 +34,13 @@ function addPerson($db, $id, $surname, $name=false, $relation=NULL){
 		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur, nom) VALUES($2, $1, $3, $4)");
 
 		if(pg_execute($db, "add_person", array($id, $surname, $relation, $name)))
-			return getIdOfPerson($db, ID);
+			return getLastIdOfPerson($db, ID);
 	}
 	else{
 		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur) VALUES($2, $1, $3)");
 
 		if(pg_execute($db, "add_person", array($id, $surname, $relation)))
-			return getIdOfPerson($db, ID);
+			return getLastIdOfPerson($db, ID);
 	}
 		return NULL;
 }
@@ -51,7 +51,7 @@ function findNameSurname($db, $id){
 	return pg_execute($db, "prenom_nom", array($id));
 }
 
-function getIdOfPerson($db, $id){
+function getLastIdOfPerson($db, $id){
 	$query = pg_prepare($db, "id", "SELECT id FROM entourage WHERE id_utilisateur=$1 ORDER BY id DESC LIMIT 1;");
 
 	if($result = pg_execute($db, "id", array(ID))){
@@ -211,13 +211,13 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$name=$parameters['names'];
 			$surname=$parameters['surname'];
 
-			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1");
+			$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1 AND nom=$2");
 
-			$res = pg_execute($db, "get_id", array($surname));
+			$res = pg_execute($db, "get_id", array($surname, $name));
 
 			if($res){
 				while($arr = pg_fetch_assoc($res))
-				$id_perso = $arr['id'];
+					$id_perso = $arr['id'];
 			}
 			else{
 				if($id_perso = addPerson($db, ID, $surname, $name))
@@ -228,8 +228,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		if(isset($parameters['lieux']))
 			$lieu=$parameters['lieux'];
 
-		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '".ID."', '$id_perso');";
-
+		$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '".ID."', 3);";//'$id_perso');";
 
 		if($perso_added)
 			$speech="What's the name of ";
