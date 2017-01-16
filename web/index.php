@@ -29,20 +29,33 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 //*******************************************a few functions*************************************************//
-function addPerson($db, $id, $surname, $name=false, $relation=NULL){
-	if($name){
+function addPerson($db, $id, $surname, $name=false, $relation=false){
+	if($name && $relation){
 		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur, nom) VALUES($2, $1, $3, $4)");
 
 		if(pg_execute($db, "add_person", array($id, $surname, $relation, $name)))
 			return getLastIdOfPerson($db, ID);
 	}
-	else{
+	else if($relation){
 		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur) VALUES($2, $1, $3)");
 
 		if(pg_execute($db, "add_person", array($id, $surname, $relation)))
 			return getLastIdOfPerson($db, ID);
 	}
-		return NULL;
+	else if($name){
+		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, nom) VALUES($2, $1, $3)");
+
+		if(pg_execute($db, "add_person", array($id, $surname, $name)))
+			return getLastIdOfPerson($db, ID);
+	}
+	else{
+		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur) VALUES($2, $1)");
+
+		if(pg_execute($db, "add_person", array($id, $surname)))
+			return getLastIdOfPerson($db, ID);
+	}
+	
+	return NULL;
 }
 
 function findNameSurname($db, $id){
@@ -97,12 +110,13 @@ function getIdByName($db, $id, $surname, $name=false){
 		while($arr = pg_fetch_assoc($res))
 			$id_perso = $arr['id'];
 
-		return $id_perso;
+		if(!empty($id_perso))
+			return $id_perso;
 	}
-	// else{
-	// 	if($id_perso = addPerson($db, ID, $surname, $name))
-	// 		$perso_added=true;
-	// }
+	else{
+		return addPerson($db, ID, $surname, $name))
+	}
+
 	return false;
 }
 
