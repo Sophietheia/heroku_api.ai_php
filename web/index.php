@@ -269,8 +269,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		if(isset($parameters['names'])){
 			$perso_added=false;
-			$name=$parameters['names'];
-			$surname=$parameters['surname'];
+			$name=$parameters['last-name'];
+			$surname=$parameters['names'];
 
 			$id_perso=getIdByName($db, ID, $surname, $name);
 		
@@ -278,14 +278,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 			if(isset($parameters['lieux']))
 				$lieu=$parameters['lieux'];
 
-			if($id_perso)
+			if($id_perso){
 				$query = "INSERT INTO rdv(label, lieu, date_rdv, time_rdv, id_utilisateur, id_personne) VALUES('$label', '$lieu', '$date_rdv', '$time', '".ID."', '$id_perso');";
 
-			if($perso_added)
-				$speech="What's the name of ";
-			else if($result = pg_query($db, $query))
-				$speech="rdv added";
-			else if(!$id_perso)
+				$result = pg_query($db, $query)
+			}
+			else
 				$speech="pb id_perso";
 		}
 		else
