@@ -92,7 +92,8 @@ function checkNbOfSurnames($db, $id, $surname){
 function getIdByName($db, $id, $surname, $name=false){
 	$nb=10;
 	$nb=0;//checkNbOfSurnames($db, ID, $surname);
-	if($nb>1 && $name){
+
+	if($name){
 		$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1 AND nom=$2");
 
 		$res = pg_execute($db, "get_id", array($surname, $name));
@@ -199,17 +200,25 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "add.person"){
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
+		$name=$parameters['last-name'];
 		//-----------------------DATABASE-----------------------
-		addPerson($db, ID, $surname);
-		//------------------------------------------------------
+		if(!empty($name)){
+			addPerson($db, ID, $surname, $name);
 
-		$result = findNameSurname($db, ID);
+			$speech=$surname." ".$name." added !";
+		}
+		else{
+			addPerson($db, ID, $surname);
 
-		while($arr = pg_fetch_assoc($result)){
-			if($arr['nom']==""){
-				$speech="What's the name of ".$arr['prenom']." ?";
+			$result = findNameSurname($db, ID);
+
+			while($arr = pg_fetch_assoc($result)){
+				if($arr['nom']==""){
+					$speech="What's the name of ".$arr['prenom']." ?";
+				}
 			}
 		}
+		//------------------------------------------------------
 	}
 	else if($result['action'] == "add.link"){
 		$nb=0;
@@ -263,7 +272,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$name=$parameters['names'];
 			$surname=$parameters['surname'];
 
-			$id_perso=3;//getIdByName($db, ID, $surname, $name);
+			$id_perso=getIdByName($db, ID, $surname, $name);
 		
 
 			if(isset($parameters['lieux']))
