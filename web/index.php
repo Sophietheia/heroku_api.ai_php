@@ -92,7 +92,7 @@ function checkNbOfSurnames($db, $id, $surname){
 	$result = findNameSurname($db, ID);
 
 	while($arr = pg_fetch_assoc($result)){
-		if($arr['prenom']==$parameters['surname']){
+		if($arr['surname']==$surname){
 			$nb++;
 		}
 	}
