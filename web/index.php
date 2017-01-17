@@ -63,7 +63,14 @@ function addPerson($db, $id, $surname, $name=false, $relation=false){
 	return NULL;
 }
 
+function addLink($db, ID, $surname, $relation){
+	$query = pg_prepare($db, "add_link", "INSERT INTO relations(surname, id_user, link_user) VALUES($2, $1, $3)");
 
+		if(pg_execute($db, "add_link", array($id, $surname, $relation)))
+			return "Your ".$relation." was added !";
+		else
+			return "pb to add link";
+}
 
 
 
@@ -269,11 +276,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$nb=checkNbOfSurnames($db, ID, $surname);
 
-		if($nb>1){
+		if($nb>1 && !empty($name)){
+			$speech = addLink($db, ID, $surname, $name, $relation);
+		}
+		else if($nb>1)
 			$speech="There is more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
 		}
 		else if($nb<=1){
-			addPerson($db, ID, $parameters['surname'], $arr['name'], $relation);
+			addPerson($db, ID, $surname, $name, $relation);
 			$speech="Your ".$relation." was added !";
 		}
 
