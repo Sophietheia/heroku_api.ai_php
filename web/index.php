@@ -29,6 +29,11 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 //*******************************************a few functions*************************************************//
+
+
+
+
+//////function for adding a person in the database
 function addPerson($db, $id, $surname, $name=false, $relation=false){
 	if($name && $relation){
 		$query = pg_prepare($db, "add_person", "INSERT INTO entourage(prenom, id_utilisateur, lien_utilisateur, nom) VALUES($2, $1, $3, $4)");
@@ -58,6 +63,12 @@ function addPerson($db, $id, $surname, $name=false, $relation=false){
 	return NULL;
 }
 
+
+
+
+
+//////function for finding a name of a person in db 
+
 function findNameSurname($db, $id){
 	$query = pg_prepare($db, "prenom_nom", "SELECT nom, prenom FROM entourage WHERE id_utilisateur=$1");
 
@@ -75,7 +86,7 @@ function getLastIdOfPerson($db, $id){
 
 	return NULL;
 }
-
+//////function to check nb of surnames 
 function checkNbOfSurnames($db, $id, $surname){
 	$nb=0;
 	$result = findNameSurname($db, ID);
@@ -88,6 +99,9 @@ function checkNbOfSurnames($db, $id, $surname){
 
 	return $nb;
 }
+
+
+////function to get id thanks to surname
 
 function getIdByName($db, $id, $surname, $name=false){
 	$nb=10;
@@ -103,6 +117,7 @@ function getIdByName($db, $id, $surname, $name=false){
 
 		return $id_perso;
 	}
+	//if user has only one surname
 	else if($nb<=1){
 		$query = pg_prepare($db, "get_id", "SELECT id FROM entourage WHERE prenom=$1;");
 
@@ -125,6 +140,9 @@ function getIdByName($db, $id, $surname, $name=false){
 
 // Web handlers
 
+
+////// Connexion to the database 
+
 $app->post('/webhook', function(Request $request) use($app) {
 
 	//-----------------------DATABASE---------------------------
@@ -138,6 +156,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//----------------------------------------------------------
 
 	$result = $request->request->get('result');
+
+
+
+
+
+/////if user wants to change name
 
 	if($result['action'] == "change.name"){ //to remove on the final version
 		$parameters=$result['parameters'];
@@ -171,6 +195,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 	}
+
+
+
+
+
+	////if user wants to find name of a person in his relatives
 	else if($result['action'] == "find.name"){
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
@@ -197,6 +227,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 		else
 			$speech="You don't know that person.";
 	}
+
+
+
+
+
+	///if user wants to add a new person
 	else if($result['action'] == "add.person"){
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
@@ -220,6 +256,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 		//------------------------------------------------------
 	}
+
+
+
+	///if user wants to specify if person is "brother" "sister"...
 	else if($result['action'] == "add.link"){
 		$nb=0;
 		$parameters=$result['parameters'];
@@ -238,6 +278,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 
 	}
+
+
+
+	////if user says hello, response with name of user 
 	else if($result['action'] == "hello"){
 		$check=TRUE;
 
@@ -253,6 +297,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 			}
 		}
 	}
+
+
+
+	///if user wants to register a meeting
 	else if($result['action'] == "register.rdv"){
 		$parameters=$result['parameters'];
 		$label=$parameters['rdv'];
@@ -291,6 +339,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 		else
 			$speech="pb adding the rdv";
 	}
+
+
+
+
+
+	////if user wants to know location of meeting
 	else if($result['action'] == "location.meeting"){
 		
 		$today=date("Y-m-d");	
@@ -318,6 +372,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 
 	}
+
+
+
+
+	///if user wants to know the date of meeting 
 	else if($result['action'] == "date.meeting"){
 		$today=date("Y-m-d");
 
@@ -337,6 +396,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="You have no next meeting";
 		}
 	}
+
+
+
+
+	//// if user asks about the person he has a meeting with 
 	else if($result['action'] == "avec.qui.meeting"){
 		$today=date("Y-m-d");
 
@@ -358,6 +422,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="You have no next meeting";
 		}
 	}
+
+
+
+
+	//// if user wants to add a label to a meeting 
 	else if($result['action'] == "label.meeting"){
 		$today=date("Y-m-d");
 
