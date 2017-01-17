@@ -63,8 +63,8 @@ function addPerson($db, $id, $surname, $name=false, $relation=false){
 	return NULL;
 }
 
-function addLink($db, ID, $surname, $relation){
-	$query = pg_prepare($db, "add_link", "INSERT INTO relations(surname, id_user, link_user) VALUES($2, $1, $3)");
+function addLink($db, $id, $surname, $relation){
+	$query = pg_prepare($db, "add_link", "INSERT INTO relations(surname, id_user, link_user) VALUES($2, $1, $3);");
 
 		if(pg_execute($db, "add_link", array($id, $surname, $relation)))
 			return "Your ".$relation." was added !";
