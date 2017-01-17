@@ -270,14 +270,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$nb=checkNbOfSurnames($db, ID, $surname);
 
 		if($nb>1){
-			$peech="There is more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
+			$speech="There is more than 1 person called ".$parameters['surname'].". Which one are you talking about ?";
 		}
 		else if($nb<=1){
 			addPerson($db, ID, $parameters['surname'], $arr['name'], $relation);
 			$speech="Your ".$relation." was added !";
 		}
-
-		$speech=$nb;
 
 	}
 
