@@ -1,68 +1,66 @@
-DROP TABLE rdv;
-DROP TABLE taches;
-DROP TABLE lieux;
-DROP TABLE entourage;
-DROP TABLE medecins;
-DROP TABLE utilisateurs;
-
-CREATE TABLE medecins(
-	id 		serial primary key,
-	nom VARCHAR(40),
-	prenom VARCHAR(30),
-	email  VARCHAR(30),
-	telephone INT NOT NULL
-);
+DROP TABLE meetings;
+DROP TABLE tasks;
+DROP TABLE places;
+DROP TABLE relations;
+DROP TABLE doctors;
+DROP TABLE users;
  
-CREATE TABLE utilisateurs(
-	id 		serial primary key,
-	nom   VARCHAR(30),
-	email  VARCHAR(30),
-	prenom  VARCHAR(30),
-	date_de_naissance  DATE,
-	adresse   VARCHAR(40)
+CREATE TABLE doctors(
+	id 			serial primary key,
+	name   		VARCHAR(30),
+	surname  	VARCHAR(30),
+	email  		VARCHAR(30),
+	phone		INT
 );
 
-CREATE  TABLE entourage(
-	id 		serial primary key,
-	nom    VARCHAR(30),
-	prenom  VARCHAR(30),
-	lien_utilisateur  VARCHAR(30),
-	id_utilisateur   INT,
-	lien    VARCHAR(30),
-	lien_photo VARCHAR(30),
-	FOREIGN KEY(id_utilisateur) REFERENCES utilisateurs(id)
+CREATE TABLE users(
+	id 			serial primary key,
+	name   		VARCHAR(30),
+	email  		VARCHAR(30),
+	surname  	VARCHAR(30),
+	birthday  	DATE,
+	address   	VARCHAR(40)
 );
 
-CREATE TABLE rdv(
+CREATE  TABLE relations(
+	id 		serial primary key,
+	name    VARCHAR(30),
+	surname  VARCHAR(30),
+	link_user  VARCHAR(30),
+	id_user   INT,
+	link    VARCHAR(30),
+	link_photo VARCHAR(30)
+);
+
+CREATE TABLE meetings(
 	id 				serial primary key,
 	label 			VARCHAR(40),
-	lieu 			VARCHAR(20),
+	location 			VARCHAR(20),
 	date_rdv 		DATE,
 	time_rdv		TIME,
-	id_utilisateur	INT,
-	id_personne   	INT,
-	FOREIGN KEY(id_personne) REFERENCES entourage(id),
-	FOREIGN KEY(id_utilisateur) REFERENCES utilisateurs(id)
+	id_user	INT,
+	id_person   	INT,
+	FOREIGN KEY(id_person) REFERENCES relations(id),
+	FOREIGN KEY(id_user) REFERENCES users(id)
 );
  
-CREATE TABLE lieux(
+CREATE TABLE places(
 	id 		serial primary key,
-	nom  VARCHAR(30),
-	pays  VARCHAR(30),
-	id_utilisateur  INT,
-	lien_photo  VARCHAR(30),
-	FOREIGN KEY(id_utilisateur) REFERENCES utilisateurs(id)
+	name  VARCHAR(30),
+	country  VARCHAR(30),
+	id_user  INT,
+	link_photo  VARCHAR(30),
+	FOREIGN KEY(id_user) REFERENCES users(id)
 );
  
-CREATE  TABLE taches(
+CREATE  TABLE tasks(
 	id 		serial primary key,
-	nom    VARCHAR(30),
+	name    VARCHAR(30),
 	description  VARCHAR(30),
-	date_taches    DATE,
-	id_utilisateur   INT,
-	FOREIGN KEY(id_utilisateur) REFERENCES utilisateurs(id)
+	date_task    DATE,
+	id_user   INT,
+	FOREIGN KEY(id_user) REFERENCES users(id)
 );
 
 
-
-INSERT INTO utilisateurs(nom, email, prenom, date_de_naissance, adresse) VALUES('Muller', 'franck@gmail.com', 'Franck', '1995-09-04', '3 avenue des Champs Elysees');
+INSERT INTO users(name, email, surname, birthday, address) VALUES('Muller', 'franck@gmail.com', 'Franck', '1995-09-04', '3 avenue des Champs Elysees');
