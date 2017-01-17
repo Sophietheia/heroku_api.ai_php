@@ -277,6 +277,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="Your ".$relation." was added !";
 		}
 
+		$speech=$nb;
+
 	}
 
 
