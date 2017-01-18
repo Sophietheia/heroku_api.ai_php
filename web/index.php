@@ -150,8 +150,9 @@ function getIdByName($db, $id, $surname, $name=false){
 
 ////// Connexion to the database 
 
-$app->get('/privacy', function(Request $request) use($app) {
-	echo 'Page under construction';
+$app->get('/privacy', function() use($app) {
+	$app['monolog']->addDebug('logging output.');
+  	return $app['twig']->render('index.twig');
 }
 
 $app->post('/webhook', function(Request $request) use($app) {
