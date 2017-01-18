@@ -316,7 +316,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$label=$parameters['rdv'];
 
 		if(isset($parameters['date']))
-			$date_rdv=$parameters['date'];
+			$date_meeting=$parameters['date'];
 
 		// if(isset($parameters['time']))
 		// 	$time=$parameters['time'];
