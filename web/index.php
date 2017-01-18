@@ -150,6 +150,10 @@ function getIdByName($db, $id, $surname, $name=false){
 
 ////// Connexion to the database 
 
+$app->get('/privacy', function(Request $request) use($app) {
+	echo 'Page under construction';
+}
+
 $app->post('/webhook', function(Request $request) use($app) {
 
 	//-----------------------DATABASE---------------------------
