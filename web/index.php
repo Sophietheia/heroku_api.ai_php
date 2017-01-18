@@ -337,7 +337,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 				$location=$parameters['lieux'];
 
 			if($id_perso){
-				$query = "INSERT INTO rdv(label, location, date_meeting, time_meeting, id_user, id_person) VALUES('$label', '$location', '$date_meeting', '$time', '".ID."', '$id_perso');";
+				$query = "INSERT INTO meetings(label, location, date_meeting, time_meeting, id_user, id_person) VALUES('$label', '$location', '$date_meeting', '$time', '".ID."', '$id_perso');";
 
 				pg_query($db, $query);
 
