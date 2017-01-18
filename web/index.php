@@ -153,7 +153,7 @@ function getIdByName($db, $id, $surname, $name=false){
 $app->get('/privacy', function() use($app) {
 	$app['monolog']->addDebug('logging output.');
   	return $app['twig']->render('index.twig');
-}
+});
 
 $app->post('/webhook', function(Request $request) use($app) {
 
