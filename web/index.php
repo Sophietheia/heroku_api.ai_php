@@ -278,7 +278,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$nb = 0;
 		$parameters = $result['parameters'];
 		$surname = ucfirst($parameters['surname']);
-		$name = $parameters['name'];
+		$name = $parameters['last-name'];
 		$relation = $parameters['relation'];
 
 		$nb = checkNbOfSurnames($db, ID, $surname);
