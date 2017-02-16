@@ -95,16 +95,13 @@ function getLastIdOfPerson($db, $id){
 }
 //////function to check nb of surnames
 function checkNbOfSurnames($db, $id, $surname){
-	$nb=0;
-	$result = findNameSurname($db, ID);
+  $query = pg_prepare($db, "surname_name", "SELECT name, surname FROM relations WHERE surname=$2 AND id_user=$1");
 
-	while($arr = pg_fetch_assoc($result)){
-		if($arr['surname']==$surname){
-			$nb++;
-		}
-	}
+	$res = pg_execute($db, "surname_name", array($id,$surname));
 
-	return $nb;
+	$arr = pg_fetch_all($result);
+
+	return count($arr);
 }
 
 
