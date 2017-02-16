@@ -369,19 +369,22 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "location.meeting"){
 
 		$today=date("Y-m-d");
-		$query = pg_prepare($db, "location_meeting", "SELECT location, label FROM meetings WHERE id_user=$1 AND date_meeting>=$2 GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
+		$query = pg_prepare($db, "location_meeting", "SELECT label, location FROM meetings WHERE id_user=$1 AND date_meeting>=$2 GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
 		$result = pg_execute($db, "location_meeting", array(ID,$today));
 
 		$meeting = pg_fetch_row($result);
 
-		$location = $meeting[0];
-		$label = $meeting[1];
+    $label = $meeting[0];
+		$location = $meeting[1];
 
 		if($meeting){
-			$speech = $speech="Your next meeting is ".$label." at ".$location;
+      if(count($meeting)==2)
+			   $speech = $speech="Your next meeting is ".$label." at ".$location;
+      else
+        $speech = $speech="Your next meeting is ".$label;
 		}else{
-			$speech="You don't have any meeting + ".$location;
+			$speech="You don't have any meeting + ";
 		}
 
 	}
