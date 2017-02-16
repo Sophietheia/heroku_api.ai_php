@@ -1,6 +1,6 @@
 {
-  "name": "Start on Heroku: PHP",
-  "description": "A barebones PHP app that makes use of the Silex web framework",
-  "repository": "https://github.com/heroku/php-getting-started",
+  "name": "Sophie the AI",
+  "description": "More than a conversational bot, Sophie is really the artificial assistant you've been dreaming of.",
+  "repository": "https://github.com/Sophietheia/heroku_api.ai_php",
   "addons": []
 }

@@ -59,7 +59,7 @@ function addPerson($db, $id, $surname, $name=false, $relation=false){
 		if(pg_execute($db, "add_person", array($id, $surname)))
 			return getLastIdOfPerson($db, ID);
 	}
-	
+
 	return NULL;
 }
 
@@ -74,7 +74,7 @@ function addLink($db, $id, $surname, $relation){
 
 
 
-//////function for finding a name of a person in db 
+//////function for finding a name of a person in db
 
 function findNameSurname($db, $id){
 	$query = pg_prepare($db, "surname_name", "SELECT name, surname FROM relations WHERE id_user=$1");
@@ -93,7 +93,7 @@ function getLastIdOfPerson($db, $id){
 
 	return NULL;
 }
-//////function to check nb of surnames 
+//////function to check nb of surnames
 function checkNbOfSurnames($db, $id, $surname){
 	$nb=0;
 	$result = findNameSurname($db, ID);
@@ -148,7 +148,11 @@ function getIdByName($db, $id, $surname, $name=false){
 // Web handlers
 
 
-////// Connexion to the database 
+////// Connexion to the database
+
+$app->get('/talk', function() use($app){
+  return $app['twig']->render('talk.twig');
+});
 
 $app->get('/privacy', function() use($app) {
 	// $app['monolog']->addDebug('logging output.');
@@ -159,10 +163,10 @@ $app->get('/privacy', function() use($app) {
 $app->post('/webhook', function(Request $request) use($app) {
 
 	//-----------------------DATABASE---------------------------
-	$conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com 
-			port=5432 
-			dbname=d9dbi6cl08c0i 
-			user=ztlvocffwufbva 
+	$conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com
+			port=5432
+			dbname=d9dbi6cl08c0i
+			user=ztlvocffwufbva
 			password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
 
 			$db = pg_connect($conn_string);
@@ -219,7 +223,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$surname=$parameters['names'];
 
 		//---------------Erreur_1ere_lettre_MAJ-----------------
-		$firstletter = strtoupper(substr($surname, 0, 1)); 
+		$firstletter = strtoupper(substr($surname, 0, 1));
 		$reste=substr($surname, 1);
 		$surname=$firstletter.$reste;
 		//------------------------------------------------------
@@ -236,7 +240,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		//------------------------------------------------------
 
 		if($name)
-			$speech="The name of ".$surname." is ".$name.".";	
+			$speech="The name of ".$surname." is ".$name.".";
 		else
 			$speech="You don't know that person.";
 	}
@@ -297,7 +301,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 
 
-	////if user says hello, response with name of user 
+	////if user says hello, response with name of user
 	else if($result['action'] == "hello"){
 		$check=TRUE;
 
@@ -337,7 +341,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$surname=$parameters['names'];
 
 			$id_perso=getIdByName($db, ID, $surname, $name);
-		
+
 
 			if(isset($parameters['lieux']))
 				$location=$parameters['lieux'];
@@ -362,10 +366,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	////if user wants to know location of meeting
 	else if($result['action'] == "location.meeting"){
-		
-		$today=date("Y-m-d");	
+
+		$today=date("Y-m-d");
 		$query = pg_prepare($db, "location_meeting", "SELECT location, label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
-		
+
 		$result = pg_execute($db, "location_meeting", array(ID));
 
 		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
@@ -375,7 +379,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$location = $arr['location'];
 			$label = $arr['label'];
 		}
-	
+
 
 		if($location)
 		{
@@ -392,12 +396,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 
 
-	///if user wants to know the date of meeting 
+	///if user wants to know the date of meeting
 	else if($result['action'] == "date.meeting"){
 		$today=date("Y-m-d");
 
 		$query = pg_prepare($db, "next_meeting", "SELECT date_meeting, label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
-		
+
 		$result = pg_execute($db, "next_meeting", array(ID));
 
 		while($arr = pg_fetch_array($result)){
@@ -416,13 +420,13 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 
 
-	//// if user asks about the person he has a meeting with 
+	//// if user asks about the person he has a meeting with
 	else if($result['action'] == "avec.qui.meeting"){
 		$today=date("Y-m-d");
 
 		$query = pg_prepare($db, "with_meeting", "SELECT meetings.label AS label, relations.name AS name, relations.surname AS surname FROM meetings, relations WHERE meetings.id_user=$1 AND meetings.date_meeting>='$today' AND meetings.id_person=relations.id GROUP BY meetings.label, meetings.id, relations.id HAVING meetings.date_meeting=MIN(meetings.date_meeting);
 ");
-		
+
 		$result = pg_execute($db, "with_meeting", array(ID));
 
 		while($arr = pg_fetch_array($result)){
@@ -442,16 +446,16 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 
 
-	//// if user wants to add a label to a meeting 
+	//// if user wants to add a label to a meeting
 	else if($result['action'] == "label.meeting"){
 		$today=date("Y-m-d");
 
 		$query = pg_prepare($db, "label_meeting", "SELECT label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
-		
+
 		$result = pg_execute($db, "label_meeting", array(ID));
 
 		while($arr = pg_fetch_array($result)){
-			
+
 			$label = $arr['label'];
 		}
 
@@ -462,13 +466,13 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$speech="You have no next meeting";
 		}
 	}
-	
+
 	else{
 		$speech="I do not understand...";
 	}
 
 	$res=array(
-		"speech"=> $speech, 
+		"speech"=> $speech,
 		"displayText"=> $speech,
 		"source"=> "apiai-test-php"
     );
@@ -477,4 +481,3 @@ $app->post('/webhook', function(Request $request) use($app) {
 });
 
 $app->run();
-
