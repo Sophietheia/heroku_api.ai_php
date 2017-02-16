@@ -379,7 +379,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$location = $meeting[1];
 
 		if($location!="")
-			   $speech = $speech="Your next meeting is ".$label." at ".$location;
+			   $speech="Your next meeting is ".$label." at ".$location;
 		}else{
 			$speech="No location";
 		}
