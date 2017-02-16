@@ -275,13 +275,13 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	///if user wants to specify if person is "brother" "sister"...
 	else if($result['action'] == "add.link"){
-		$nb=0;
-		$parameters=$result['parameters'];
-		$surname=$parameters['surname'];
-		$name=$parameters['name'];
-		$relation=$parameters['relation'];
+		$nb = 0;
+		$parameters = $result['parameters'];
+		$surname = ucfirst($parameters['surname']);
+		$name = $parameters['name'];
+		$relation = $parameters['relation'];
 
-		$nb=checkNbOfSurnames($db, ID, $surname);
+		$nb = checkNbOfSurnames($db, ID, $surname);
 
 		if($nb>1 && !empty($name)){
 			$speech = addLink($db, ID, $surname, $name, $relation);
