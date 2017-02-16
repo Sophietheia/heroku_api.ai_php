@@ -151,6 +151,10 @@ $app->get('/talk', function() use($app){
   return $app['twig']->render('talk.twig');
 });
 
+$app->get('/register', function() use($app){
+  return 'register page';
+});
+
 $app->get('/privacy', function() use($app) {
 	// $app['monolog']->addDebug('logging output.');
  //  	return $app['twig']->render('index.twig');
