@@ -291,7 +291,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		}
 		else if($nb<=1){
 			addPerson($db, ID, $surname, $name, $relation);
-			$speech="Your ".$relation." was added !";
+			$speech="Your ".$relation." was added ! nb:".$nb;
 		}
 
 	}
