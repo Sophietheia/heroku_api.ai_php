@@ -99,7 +99,7 @@ function checkNbOfSurnames($db, $id, $surname){
 
 	$res = pg_execute($db, "surname_name", array($id,$surname));
 
-	$arr = pg_fetch_all($result);
+	$arr = pg_fetch_all($res);
 
 	return count($arr);
 }
