@@ -157,6 +157,15 @@ $app->get('/register', function() use($app){
 
 $app->get('/testdb', function() use($app){
     if (isset($_GET["info"])) {
+
+      $conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com
+    			port=5432
+    			dbname=d9dbi6cl08c0i
+    			user=ztlvocffwufbva
+    			password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
+
+    			$db = pg_connect($conn_string);
+
       // array for JSON response
       $response = array();
       $meetings = $_GET['info'];
@@ -165,9 +174,9 @@ $app->get('/testdb', function() use($app){
       $query = pg_prepare($db, "get_meetings", "SELECT * FROM meetings WHERE id_user=$1;");
       $result = pg_execute($db, "get_meetings", array(ID));
 
-      // if (!empty($result)) {
+      if (!empty($result)) {
           // check for empty result
-          //if (pg_num_rows($result) > 0) {
+          if (pg_num_rows($result) > 0) {
 
               // user node
               $response["meetings"] = array();
@@ -185,22 +194,22 @@ $app->get('/testdb', function() use($app){
 
               // echoing JSON response
               return json_encode($response);
-          // } else {
-          //     // no product found
-          //     $response["success"] = 2;
-          //     $response["message"] = "No meeting found";
-          //
-          //     // echo no users JSON
-          //     return json_encode($response);
-          // }
-      // } else {
-      //     // no product found
-      //     $response["success"] = 3;
-      //     $response["message"] = "No meeting found";
-      //
-      //     // echo no users JSON
-      //     return json_encode($response);
-      // }
+          } else {
+              // no product found
+              $response["success"] = 2;
+              $response["message"] = "No meeting found";
+
+              // echo no users JSON
+              return json_encode($response);
+          }
+      } else {
+          // no product found
+          $response["success"] = 3;
+          $response["message"] = "No meeting found";
+
+          // echo no users JSON
+          return json_encode($response);
+      }
   } else {
       // required field is missing
       $response["success"] = 4;
