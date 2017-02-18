@@ -165,7 +165,7 @@ $app->get('/testdb', function() use($app){
       $query = pg_prepare($db, "get_meetings", "SELECT * FROM meetings WHERE id_user=$1;");
       $result = pg_execute($db, "get_meetings", array(ID));
 
-      if (!empty($result)) {
+      // if (!empty($result)) {
           // check for empty result
           //if (pg_num_rows($result) > 0) {
 
@@ -193,14 +193,14 @@ $app->get('/testdb', function() use($app){
           //     // echo no users JSON
           //     return json_encode($response);
           // }
-      } else {
-          // no product found
-          $response["success"] = 3;
-          $response["message"] = "No meeting found";
-
-          // echo no users JSON
-          return json_encode($response);
-      }
+      // } else {
+      //     // no product found
+      //     $response["success"] = 3;
+      //     $response["message"] = "No meeting found";
+      //
+      //     // echo no users JSON
+      //     return json_encode($response);
+      // }
   } else {
       // required field is missing
       $response["success"] = 4;
