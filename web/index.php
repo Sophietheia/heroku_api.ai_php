@@ -162,7 +162,7 @@ $app->get('/testdb', function() use($app){
       $meetings = $_GET['info'];
 
       // get a product from products table
-      $query = pg_prepare($db, "get_meetings", "SELECT * FROM meetings WHERE id_user=$1;");
+      $query = pg_prepare($db, "get_meetings", "SELECT * FROM meetings WHERE 1;");
       $result = pg_execute($db, "get_meetings", array(ID));
 
       if (!empty($result)) {
