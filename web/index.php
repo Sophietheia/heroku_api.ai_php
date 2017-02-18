@@ -162,7 +162,7 @@ $app->get('/testdb', function() use($app){
       $meetings = $_GET['info'];
 
       // get a product from products table
-      $query = pg_prepare($db, "get_meetings", "SELECT * FROM meetings WHERE id_user=$1 LIMIT 1;");
+      $query = pg_prepare($db, "get_meetings", "SELECT * FROM meetings WHERE id_user=$1;");
       $result = pg_execute($db, "get_meetings", array(ID));
 
       if (!empty($result)) {
@@ -187,7 +187,7 @@ $app->get('/testdb', function() use($app){
               return json_encode($response);
           } else {
               // no product found
-              $response["success"] = 0;
+              $response["success"] = 2;
               $response["message"] = "No meeting found";
 
               // echo no users JSON
@@ -195,7 +195,7 @@ $app->get('/testdb', function() use($app){
           }
       } else {
           // no product found
-          $response["success"] = 0;
+          $response["success"] = 3;
           $response["message"] = "No meeting found";
 
           // echo no users JSON
@@ -203,7 +203,7 @@ $app->get('/testdb', function() use($app){
       }
   } else {
       // required field is missing
-      $response["success"] = 0;
+      $response["success"] = 4;
       $response["message"] = "Required field(s) is missing";
 
       // echoing JSON response
