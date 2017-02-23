@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <table>
+  <table style="100%">
     <tr>
       <th>Name</th>
       <th>Surname</th>
       <th>Email</th>
+      <th>Address</th>
     </tr>
     {% for user in app.users %}
     <tr>
