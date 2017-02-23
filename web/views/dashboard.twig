@@ -1,19 +1,25 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <table style="100%">
+  <table style="width:100%;>
     <tr>
       <th>Name</th>
       <th>Surname</th>
       <th>Email</th>
       <th>Address</th>
+      <th>Status</th>
     </tr>
     {% for user in app.users %}
-    <tr>
+    <tr style="border:1px solid black">
       <td>{{user['name']}}</td>
       <td>{{user['surname']}}</td>
       <td>{{user['email']}}</td>
       <td>{{user['address']}}</td>
+      {{ if user['status'] == true }}
+      <td style="color:green; font-weight:bold;">o</td>
+      {{ else }}
+      <td style="color:red; font-weight:bold;">o</td>
+      {{ end }}
     </tr>
     {% endfor %}
   </table>
