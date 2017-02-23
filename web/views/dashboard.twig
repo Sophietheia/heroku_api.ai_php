@@ -1,7 +1,19 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <p>
-    {{app.users}}
-  </p>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Email</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{user.name}}</td>
+      <td>{{user.surname}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.address}}</td>
+    </tr>
+    {% endfor %}
+  </table>
 {% endblock %}
