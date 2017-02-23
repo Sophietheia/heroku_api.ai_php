@@ -123,19 +123,10 @@ $app->get('/privacy', function() use($app) {
 $app->post('/webhook', function(Request $request) use($app) {
 
 	//-----------------------DATABASE---------------------------
-	$conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com
-			port=5432
-			dbname=d9dbi6cl08c0i
-			user=ztlvocffwufbva
-			password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
-
-			$db = pg_connect($conn_string);
+	$db = db_connect();
 	//----------------------------------------------------------
 
 	$result = $request->request->get('result');
-
-
-
 
 
 /////if user wants to change name
@@ -174,7 +165,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 
 
-
+  else if($result['action'] == "send.alert"){
+    alert_user(ID);
+    $speech = "alert sent !";
+  }
 
 
 	////if user wants to find name of a person in his relatives

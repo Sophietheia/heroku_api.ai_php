@@ -129,4 +129,8 @@
 
     return json_encode($arr);
   }
+
+  function alert_user($id){
+    $db = db_connect();
+  }
 ?>
