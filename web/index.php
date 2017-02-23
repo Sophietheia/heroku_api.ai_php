@@ -28,15 +28,10 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
-//*******************************************a few functions*************************************************//
-
 require 'functions.php';
 
 
 //////function for adding a person in the database
-
-
-//***********************************************************************************************************//
 
 // Web handlers
 
@@ -49,6 +44,10 @@ $app->get('/talk', function() use($app){
 
 $app->get('/register', function() use($app){
   return 'register page';
+});
+
+$app->get('/dashboardDoctor', function(){
+  return $app['twig']->render('dashboard.twig');
 });
 
 $app->get('/testdb', function() use($app){
