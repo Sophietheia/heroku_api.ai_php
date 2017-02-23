@@ -54,13 +54,7 @@ $app->get('/dashboardDoctor', function() use($app){
 $app->get('/testdb', function() use($app){
     if (isset($_GET["info"])) {
 
-      $conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com
-    			port=5432
-    			dbname=d9dbi6cl08c0i
-    			user=ztlvocffwufbva
-    			password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
-
-    			$db = pg_connect($conn_string);
+      $db = db_connect();
 
       // array for JSON response
       $response = array();

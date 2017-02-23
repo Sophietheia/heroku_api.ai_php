@@ -1,4 +1,17 @@
 <?php
+
+  function db_connect(){
+    $conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com
+        port=5432
+        dbname=d9dbi6cl08c0i
+        user=ztlvocffwufbva
+        password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
+
+        $db = pg_connect($conn_string);
+
+        return $db;
+  }
+
   function addPerson($db, $id, $surname, $name=false, $relation=false){
   	if($name && $relation){
   		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
@@ -106,6 +119,8 @@
   }
 
   function getUsersList(){
+    $db = db_connect();
+
     $query = pg_prepare($db, "get_users", "SELECT * FROM users;");
 
     $res = pg_execute($db, "get_users", array());
