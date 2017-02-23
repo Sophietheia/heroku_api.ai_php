@@ -47,7 +47,7 @@ $app->get('/register', function() use($app){
 });
 
 $app->get('/dashboardDoctor', function() use($app){
-  $app['user'] = "testTestUser";
+  $app['users'] = getUsersList();
   return $app['twig']->render('dashboard.twig');
 });
 

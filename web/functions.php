@@ -104,4 +104,14 @@
 
   	return false;
   }
+
+  function getUsersList(){
+    $query = pg_prepare($db, "get_users", "SELECT * FROM users;");
+
+    $res = pg_execute($db, "get_users", array());
+
+    $arr = pg_fetch_all($res);
+
+    return json_encode($arr);
+  }
 ?>
