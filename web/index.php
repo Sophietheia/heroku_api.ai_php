@@ -46,7 +46,7 @@ $app->get('/register', function() use($app){
   return 'register page';
 });
 
-$app->get('/dashboardDoctor', function(){
+$app->get('/dashboardDoctor', function() use($app){
   return $app['twig']->render('dashboard.twig');
 });
 
