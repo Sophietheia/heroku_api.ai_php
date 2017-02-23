@@ -9,10 +9,10 @@
     </tr>
     {% for user in app.users %}
     <tr>
-      <td>{{user.name}}</td>
-      <td>{{user.surname}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.address}}</td>
+      <td>{{user['name']}}</td>
+      <td>{{user['surname']}}</td>
+      <td>{{user['email']}}</td>
+      <td>{{user['address']}}</td>
     </tr>
     {% endfor %}
   </table>
