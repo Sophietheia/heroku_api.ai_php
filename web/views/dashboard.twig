@@ -15,11 +15,11 @@
       <td>{{user['surname']}}</td>
       <td>{{user['email']}}</td>
       <td>{{user['address']}}</td>
-      {{ if user['status'] == true }}
+      {% if user['status'] == true %}
       <td style="color:green; font-weight:bold;">o</td>
-      {{ else }}
+      {% else %}
       <td style="color:red; font-weight:bold;">o</td>
-      {{ end }}
+      {% end %}
     </tr>
     {% endfor %}
   </table>
