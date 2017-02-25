@@ -67,19 +67,23 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
 
-  $form = $app['form.factory']->createBuilder(FormType::class, $data)
-        ->add('idDoc')
-        ->add('idPatient')
-        ->add('label')
-        ->add('date')
-        ->add('time')
-        ->add('location')
-        ->getForm();
+  try{
+    $form = $app['form.factory']->createBuilder(FormType::class, $data)
+          ->add('idDoc')
+          ->add('idPatient')
+          ->add('label')
+          ->add('date')
+          ->add('time')
+          ->add('location')
+          ->getForm();
 
-  $form->handleRequest($request);
+    $form->handleRequest($request);
 
-  if ($form->isSubmitted() && $form->isValid()) {
-      $app['test2'] = $form->getData();
+    if ($form->isSubmitted() && $form->isValid()) {
+        $app['test2'] = $form->getData();
+    }
+  }catch(Exception $e){
+    console.log($e);
   }
 
   return $app['twig']->render('dashboard.twig');
