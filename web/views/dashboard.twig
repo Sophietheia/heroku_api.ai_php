@@ -26,17 +26,19 @@
     {% endfor %}
   </table>
 
-  <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div id="rdvModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
-        ...
+        <form method="POST">
+          <input type="text" name="label" id="labelForm">
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
       </div>
     </div>
   </div>
-  
+
   <script>
     $(".addRdv").click(function(){
-      alert(this.id);
       $('#rdvModal').modal('show')
     });
   </script>
