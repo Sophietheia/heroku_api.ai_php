@@ -6,8 +6,8 @@ define("IDDOC", 1234);
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Silex\Provider\FormServiceProvider;
-use Silex\Provider\CsrfServiceProvider;
+// use Silex\Provider\FormServiceProvider;
+// use Silex\Provider\CsrfServiceProvider;
 
 require('../vendor/autoload.php');
 
@@ -22,9 +22,9 @@ $app->before(function (Request $request) {
     }
 });
 
-$app->register(new CsrfServiceProvider());
-
-$app->register(new FormServiceProvider());
+// $app->register(new CsrfServiceProvider());
+//
+// $app->register(new FormServiceProvider());
 
 // Register the monolog logging service
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
@@ -71,20 +71,22 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
 
-  $form = $app['form.factory']->createBuilder(FormType::class, $data)
-        ->add('idDoc')
-        ->add('idPatient')
-        ->add('label')
-        ->add('date')
-        ->add('time')
-        ->add('location')
-        ->getForm();
+  // $form = $app['form.factory']->createBuilder(FormType::class, $data)
+  //       ->add('idDoc')
+  //       ->add('idPatient')
+  //       ->add('label')
+  //       ->add('date')
+  //       ->add('time')
+  //       ->add('location')
+  //       ->getForm();
+  //
+  // $form->handleRequest($request);
+  //
+  // if ($form->isSubmitted() && $form->isValid()) {
+  //     $app['test2'] = $form->getData();
+  // }
 
-  $form->handleRequest($request);
-
-  if ($form->isSubmitted() && $form->isValid()) {
-      $app['test2'] = $form->getData();
-  }
+  $app['test2'] = "okok";
 
   return $app['twig']->render('dashboard.twig');
 });
