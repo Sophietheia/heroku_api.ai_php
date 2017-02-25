@@ -35,8 +35,9 @@ require 'functions.php';
 
 // Web handlers
 
-
-////// Connexion to the database
+$app->get('/', function() use($app){
+  return $app['twig']->render('index.twig');
+});
 
 $app->get('/talk', function() use($app){
   return $app['twig']->render('talk.twig');
@@ -49,6 +50,19 @@ $app->get('/register', function() use($app){
 $app->get('/dashboardDoctor', function() use($app){
   $app['users'] = json_decode(getUsersList(), true);
   return $app['twig']->render('dashboard.twig');
+});
+
+$app->post('/login', function(Request $request) use($app){
+  //Database connection
+	$db = db_connect();
+
+	$result = $request->request->get('result');
+
+  //Test login to perform
+  //**************************
+  //**************************
+
+  return true;
 });
 
 $app->get('/testdb', function() use($app){
