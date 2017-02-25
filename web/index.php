@@ -56,7 +56,6 @@ $app->get('/register', function() use($app){
 $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
-  $app['test1'] = 'test 1 vide';
   $app['test2'] = 'test 2 vide';
   return $app['twig']->render('dashboard.twig');
 });
@@ -64,8 +63,13 @@ $app->get('/dashboardDoctor', function() use($app){
 $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
-  $app['test1'] = $request->request->get('result');
-  $app['test2'] = $request;
+
+  $form->handleRequest($request);
+
+  if ($form->isSubmitted() && $form->isValid()) {
+      $app['test2'] = $form->getData();
+  }
+
   return $app['twig']->render('dashboard.twig');
 });
 
