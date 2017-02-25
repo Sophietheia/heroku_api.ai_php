@@ -26,16 +26,34 @@
     {% endfor %}
   </table>
 
-  <div id="rdvModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <form method="POST">
-          <input type="text" name="label" id="labelForm">
-          <button class="btn btn-primary" type="submit">Send</button>
+  <div id="rdvModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nouveau rendez-vous</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="label" class="form-control-label">Label:</label>
+            <input type="text" class="form-control" id="label">
+          </div>
+          <div class="form-group">
+            <label for="date-rdv" class="form-control-label">Date:</label>
+            <textarea class="form-control" id="date-rdv"></textarea>
+          </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
+</div>
 
   <script>
     $(".addRdv").click(function(){

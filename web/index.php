@@ -62,7 +62,7 @@ $app->post('/login', function(Request $request) use($app){
   //**************************
   //**************************
 
-  return true;
+  return '<?xml version="1.0"?>'."\n"."<login>\n"."    <user id='1'/>\n"."</login>";
 });
 
 $app->get('/testdb', function() use($app){
