@@ -6,7 +6,8 @@ define("IDDOC", 1234);
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-// use Silex\Provider\FormServiceProvider;
+use Silex\Provider\FormServiceProvider;
+use Silex\Provider\CsrfServiceProvider;
 
 require('../vendor/autoload.php');
 
@@ -21,7 +22,9 @@ $app->before(function (Request $request) {
     }
 });
 
-$app->register(new Silex\Provider\FormServiceProvider());
+$app->register(new CsrfServiceProvider());
+
+$app->register(new FormServiceProvider());
 
 // Register the monolog logging service
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
