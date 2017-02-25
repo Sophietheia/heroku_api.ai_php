@@ -39,3 +39,7 @@
 table tr th td {
   border: 1px solid black;
 }
+
+#logo-index{
+  width:100%;
+}
