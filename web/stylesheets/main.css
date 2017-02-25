@@ -42,4 +42,9 @@ table tr th td {
 
 #logo-index{
   width:100%;
+
+  -moz-animation: blink normal 2s infinite ease-in-out;
+  -webkit-animation: blink normal 2s infinite ease-in-out;
+  -ms-animation: blink normal 2s infinite ease-in-out;
+  animation: blink normal 2s infinite ease-in-out;
 }
