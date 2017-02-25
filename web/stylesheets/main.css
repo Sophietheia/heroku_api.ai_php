@@ -40,11 +40,21 @@ table tr th td {
   border: 1px solid black;
 }
 
+@-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Firefox */
+@-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Webkit */
+@-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* IE */
+@keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Opera and prob css3 final iteration */
 #logo-index{
   width:100%;
 
-  -moz-animation: blink normal 2s infinite ease-in-out;
-  -webkit-animation: blink normal 2s infinite ease-in-out;
-  -ms-animation: blink normal 2s infinite ease-in-out;
-  animation: blink normal 2s infinite ease-in-out;
+  -moz-transition:all 1s ease-in-out;
+  -webkit-transition:all 1s ease-in-out;
+  -o-transition:all 1s ease-in-out;
+  -ms-transition:all 1s ease-in-out;
+  transition:all 1s ease-in-out;
+  /* order: name, direction, duration, iteration-count, timing-function */
+  -moz-animation:blink normal 2s infinite ease-in-out; /* Firefox */
+  -webkit-animation:blink normal 2s infinite ease-in-out; /* Webkit */
+  -ms-animation:blink normal 2s infinite ease-in-out; /* IE */
+  animation:blink normal 2s infinite ease-in-out; /* Opera and prob css3 final iteration */
 }
