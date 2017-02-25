@@ -73,7 +73,10 @@ $app->post('/login', function(Request $request) use($app){
   //Test login to perform
   //**************************
   //**************************
-  return {'connection': true};
+  $response = array();
+  $response['connection'] = true;
+
+  return json_encode($response);
 });
 
 $app->get('/testdb', function() use($app){
