@@ -66,8 +66,12 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['users'] = json_decode(getUsersList(), true);
 
   $form = $app['form.factory']->createBuilder(FormType::class, $data)
-        ->add('name')
-        ->add('email')
+        ->add('idDoc')
+        ->add('idPatient')
+        ->add('label')
+        ->add('date')
+        ->add('time')
+        ->add('location')
         ->getForm();
 
   $form->handleRequest($request);
