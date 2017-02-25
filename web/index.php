@@ -45,7 +45,8 @@ $app->get('/talk', function() use($app){
 });
 
 $app->get('/alert', function() use($app){
-  
+  //to something
+  return '';
 });
 
 $app->get('/register', function() use($app){
