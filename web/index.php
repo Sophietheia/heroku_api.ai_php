@@ -5,6 +5,7 @@ define("IDDOC", 1234);
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 require('../vendor/autoload.php');
 
@@ -63,6 +64,11 @@ $app->get('/dashboardDoctor', function() use($app){
 $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
+
+  $form = $app['form.factory']->createBuilder(FormType::class, $data)
+        ->add('name')
+        ->add('email')
+        ->getForm();
 
   $form->handleRequest($request);
 
