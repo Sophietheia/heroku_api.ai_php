@@ -1,6 +1,7 @@
 <?php
 
 define("ID", 1);
+define("IDDOC", 1234);
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,16 @@ $app->get('/register', function() use($app){
 });
 
 $app->get('/dashboardDoctor', function() use($app){
+  $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
+  return $app['twig']->render('dashboard.twig');
+});
+
+$app->post('/dashboardDoctor', function(Request $request) use($app){
+  $app['idDoc'] = IDDOC;
+  $app['users'] = json_decode(getUsersList(), true);
+  $app['test1'] = $request->request->get('result');
+  $app['test2'] = $request;
   return $app['twig']->render('dashboard.twig');
 });
 

@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
+{{test1}}
+{{test2}}
+
   <table style="width:100%;">
     <tr>
       <th>Name</th>
@@ -37,7 +40,8 @@
       </div>
       <div class="modal-body">
         <form>
-          <input type="text" id="idDoc" name="idDoc">
+          <input type="hidden" id="idDoc" name="idDoc" value="{{idDoc}}">
+          <input type="hidden" id="idPatient" name="idPatient">
           <div class="form-group">
             <label for="label" class="form-control-label">Label:</label>
             <input type="text" class="form-control" id="label" name="label">
@@ -51,7 +55,7 @@
             <input type="time" class="form-control" id="time-rdv" name="time-rdv">
           </div>
           <div class="form-group">
-            <label for="location-rdv" class="form-control-label">Time:</label>
+            <label for="location-rdv" class="form-control-label">Location:</label>
             <input type="text" class="form-control" id="location-rdv" name="location-rdv">
           </div>
         </form>
@@ -66,7 +70,7 @@
 
   <script>
     $(".addRdv").click(function(){
-      $('#idDoc').val(this.id);
+      $('#idPatient').val(this.id);
       $('#rdvModal').modal('show');
     });
   </script>
