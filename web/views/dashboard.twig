@@ -8,6 +8,7 @@
       <th>Email</th>
       <th>Address</th>
       <th>Status</th>
+      <th>Actions</th>
     </tr>
     {% for user in app.users %}
     <tr style="border:1px solid black">
@@ -20,7 +21,13 @@
       {% else %}
       <td style="color:red; font-weight:bold;">o</td>
       {% endif %}
+      <td><button class="addRdv" id="addRdv{{user['id']}}">Add rdv</button></td>
     </tr>
     {% endfor %}
   </table>
+  <script>
+    $(".addRdv").click(function(){
+      alert(this.attr('id'));
+    });
+  </script>
 {% endblock %}
