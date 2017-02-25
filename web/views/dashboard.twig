@@ -37,6 +37,7 @@
       </div>
       <div class="modal-body">
         <form>
+          <input type="text" id="idDoc" name="idDoc">
           <div class="form-group">
             <label for="label" class="form-control-label">Label:</label>
             <input type="text" class="form-control" id="label" name="label">
@@ -47,11 +48,11 @@
           </div>
           <div class="form-group">
             <label for="time-rdv" class="form-control-label">Time:</label>
-            <input type="time" class="form-control" name="time-rdv">
+            <input type="time" class="form-control" id="time-rdv" name="time-rdv">
           </div>
           <div class="form-group">
             <label for="location-rdv" class="form-control-label">Time:</label>
-            <input type="text" class="form-control" name="location-rdv">
+            <input type="text" class="form-control" id="location-rdv" name="location-rdv">
           </div>
         </form>
       </div>
@@ -65,7 +66,8 @@
 
   <script>
     $(".addRdv").click(function(){
-      $('#rdvModal').modal('show')
+      $('#idDoc').value(this.id);
+      $('#rdvModal').modal('show');
     });
   </script>
 {% endblock %}
