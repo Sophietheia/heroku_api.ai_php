@@ -44,6 +44,10 @@ $app->get('/talk', function() use($app){
   return $app['twig']->render('talk.twig');
 });
 
+$app->get('/alert', function() use($app){
+  
+});
+
 $app->get('/register', function() use($app){
   return 'register page';
 });
