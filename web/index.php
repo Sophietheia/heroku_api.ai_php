@@ -56,7 +56,7 @@ $app->post('/login', function(Request $request) use($app){
   //Database connection
 	$db = db_connect();
 
-	$result = $request->request->get('result');
+	//$result = $request->request->get('result');
 
   //Test login to perform
   //**************************

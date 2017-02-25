@@ -21,13 +21,23 @@
       {% else %}
       <td style="color:red; font-weight:bold;">o</td>
       {% endif %}
-      <td><button class="addRdv" id="addRdv{{user['id']}}">Add rdv</button></td>
+      <td><button class="addRdv" id="{{user['id']}}">Add rdv</button></td>
     </tr>
     {% endfor %}
   </table>
+
+  <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        ...
+      </div>
+    </div>
+  </div>
+  
   <script>
     $(".addRdv").click(function(){
       alert(this.id);
+      $('#rdvModal').modal('show')
     });
   </script>
 {% endblock %}
