@@ -61,7 +61,7 @@ $app->post('/login', function(Request $request) use($app){
   //Test login to perform
   //**************************
   //**************************
-  return false;
+  return true;
 });
 
 $app->get('/testdb', function() use($app){
