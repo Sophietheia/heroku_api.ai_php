@@ -73,7 +73,7 @@ $app->post('/login', function(Request $request) use($app){
   //Test login to perform
   //**************************
   //**************************
-  return true;
+  return {'connection': true};
 });
 
 $app->get('/testdb', function() use($app){
