@@ -36,7 +36,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
-require 'functions.php';
+require('functions.php');
 
 
 //////function for adding a person in the database
@@ -60,7 +60,7 @@ $app->get('/register', function() use($app){
   return 'register page';
 });
 
-require('/interfaceDoctor/dashboard.php');
+require('interfaceDoctor/dashboard.php');
 
 $app->post('/login', function(Request $request) use($app){
   //Database connection
