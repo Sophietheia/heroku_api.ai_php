@@ -130,10 +130,10 @@
     return json_encode($arr);
   }
 
-  function set_user($id){
+  function set_alert($id){
     $db = db_connect();
 
-    $query = pg_prepare($db, "update_status", "UPDATE users SET status=false WHERE id=$1;");
+    $query = pg_prepare($db, "update_status", "UPDATE users SET status=0 WHERE id=$1;");
   	pg_execute($db, "update_status", array($id));
   }
 ?>
