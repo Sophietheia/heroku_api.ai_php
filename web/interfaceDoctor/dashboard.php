@@ -26,9 +26,9 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   //     $app['test2'] = $form->getData();
   // }
 
-  $data = $request->request->all();//get('form');
+  $data = $request->request->get('form');
 
-  $app['test2'] = $data;
+  $app['test2'] = $data['label'];
 
   return $app['twig']->render('dashboard.twig');
 });
