@@ -7,12 +7,15 @@ require('dashboard.model.php');
 $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
+  $app['test2'] = 'test 2 vide';
   return $app['twig']->render('dashboard.twig');
 });
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
+
+  $app['test2'] = gettype($request->get('label'));
 
   $newRdv['idDoc'] = $request->get('idDoc');
   $newRdv['idPatient'] = $request->get('idPatient');
