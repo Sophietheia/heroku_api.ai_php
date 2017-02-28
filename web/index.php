@@ -86,7 +86,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   //     $app['test2'] = $form->getData();
   // }
 
-  $params = $request->request->get();
+  $params = $request->request->get('form');
 
   $app['test2'] = $params;
 
