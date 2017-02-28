@@ -15,13 +15,13 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
 
-  $app['test2'] = date('Y-m-d', strtotime($request->get('date')));
+  $app['test2'] = strval($request->get('label'));
 
   $newRdv['idDoc'] = $request->get('idDoc');
   $newRdv['idPatient'] = $request->get('idPatient');
-  $newRdv['label'] = $request->get('label');
-  $newRdv['date'] = $request->get('date');
-  $newRdv['time'] = $request->get('time');
+  $newRdv['label'] = strval($request->get('label'));
+  $newRdv['date'] = date('Y-m-d', strtotime($request->get('date')));
+  $newRdv['time'] = date('h:i:s', strtotime($request->get('time')));
   $newRdv['label'] = $request->get('location');
 
   newRdv($newRdv);
