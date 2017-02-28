@@ -7,7 +7,6 @@ require('dashboard.model.php');
 $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
-  $app['test2'] = 'test 2 vide';
   return $app['twig']->render('dashboard.twig');
 });
 
