@@ -15,7 +15,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
 
-  $app['test2'] = gettype($request->get('date'));
+  $app['test2'] = $request->get('date');
 
   $newRdv['idDoc'] = $request->get('idDoc');
   $newRdv['idPatient'] = $request->get('idPatient');
