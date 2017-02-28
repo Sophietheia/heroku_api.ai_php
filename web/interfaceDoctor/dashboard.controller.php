@@ -7,7 +7,7 @@ require('dashboard.model.php');
 $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
-  $app['test2'] = 'test 2 vide';
+  $app['notif'] = '';
   return $app['twig']->render('dashboard.twig');
 });
 
@@ -15,7 +15,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
 
-  $app['test2'] = $request->get('label');
+  $app['notif'] = "Votre rdv vient d'être ajouté.";
 
   $newRdv['idDoc'] = $request->get('idDoc');
   $newRdv['idPatient'] = $request->get('idPatient');
