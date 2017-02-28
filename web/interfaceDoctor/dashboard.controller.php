@@ -19,12 +19,12 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
 
   $newRdv['idDoc'] = $request->get('idDoc');
   $newRdv['idPatient'] = $request->get('idPatient');
-  $newRdv['label'] = strval($request->get('label'));
+  $newRdv['label'] = $request->get('label');
   $newRdv['date'] = date('Y-m-d', strtotime($request->get('date')));
   $newRdv['time'] = date('h:i:s', strtotime($request->get('time')));
   $newRdv['label'] = $request->get('location');
 
-  newRdv($newRdv);
+  addNewRdv($newRdv);
 
   return $app['twig']->render('dashboard.twig');
 });

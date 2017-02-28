@@ -1,6 +1,6 @@
 <?php
 
-function newRdv($rdv){
+function addNewRdv($rdv){
   $db = db_connect();
 
   echo '<h3>'.$rdv['label'].'</h3>';
