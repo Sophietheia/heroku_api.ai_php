@@ -60,7 +60,7 @@ $app->get('/register', function() use($app){
   return 'register page';
 });
 
-require('interfaceDoctor/dashboard.php');
+require('interfaceDoctor/dashboard.controller.php');
 
 $app->post('/login', function(Request $request) use($app){
   //Database connection
