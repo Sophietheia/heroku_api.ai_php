@@ -86,7 +86,9 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   //     $app['test2'] = $form->getData();
   // }
 
-  $app['test2'] = "okok";
+  $params = $request->request->get();
+
+  $app['test2'] = $params;
 
   return $app['twig']->render('dashboard.twig');
 });
