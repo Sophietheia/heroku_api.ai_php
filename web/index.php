@@ -92,6 +92,22 @@ $app->post('/memory', function(Request $request) use($app){
   return json_encode($response);
 });
 
+$app->get('/memory', function(Request $request) use($app){
+  //Database connection
+	$db = db_connect();
+  //**************************
+
+  $response = array();
+    //$response['stade'] = "1";
+  $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
+  $response['stade']  = pg_execute($db, "get_stade", array(ID));
+  
+
+
+  return json_encode($response);
+});
+
+
 $app->get('/testdb', function() use($app){
     if (isset($_GET["info"])) {
 
