@@ -87,9 +87,12 @@ $app->post('/memory', function(Request $request) use($app){
   $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
     $result= pg_execute($db, "get_stade", array(ID));
     $response=pg_fetch_row($result);
+    if($response[0]==1)
+    	$response['stade']=true;
+ 	if($response[0]==0)
+    	$response['stade']=false;
 
-
-  return json_encode($response[0]);
+  return json_encode($response);
 });
 
 $app->get('/memory', function(Request $request) use($app){
