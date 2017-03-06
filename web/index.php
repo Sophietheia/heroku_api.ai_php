@@ -77,6 +77,21 @@ $app->post('/login', function(Request $request) use($app){
   return json_encode($response);
 });
 
+$app->post('/memory', function(Request $request) use($app){
+  //Database connection
+	$db = db_connect();
+
+	//$result = $request->request->get('result');
+
+  //Test login to perform
+  //**************************
+  //**************************
+  $response = array();
+  $response['stade'] = true;
+
+  return json_encode($response);
+});
+
 $app->get('/testdb', function() use($app){
     if (isset($_GET["info"])) {
 
