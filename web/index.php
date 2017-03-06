@@ -101,7 +101,7 @@ $app->get('/memory', function(Request $request) use($app){
   $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
   $response['stade']  = pg_execute($db, "get_stade", array(ID));
 
-    echo "  $response['stade'] ";
+    echo "  value is ".$response['stade'];
 
   
 
