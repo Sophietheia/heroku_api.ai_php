@@ -81,11 +81,11 @@ $app->post('/memory', function(Request $request) use($app){
   //Database connection
 	$db = db_connect();
   //**************************
-  $response = array();
-  //$query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=1;");
-   //$response['stade']  = pg_execute($db, "get_stade", array(ID));
+  //$response = array();
+  $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=1;");
+  $response['stade']  = pg_execute($db, "get_stade", array(ID));
   
-  $response['stade'] = true;
+ // $response['stade'] = true;
 
   return json_encode($response);
 });
