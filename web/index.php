@@ -149,7 +149,7 @@ $app->get('/testdb', function() use($app){
   }
 });
 
-$app->get('/reminders', function(Request $request) use($app){
+$app->post('/reminders', function(Request $request) use($app){
   $db = dv_connect();
 
   $response = array();
