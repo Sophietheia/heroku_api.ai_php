@@ -103,7 +103,7 @@ $app->get('/memory', function(Request $request) use($app){
     $result= pg_execute($db, "get_stade", array(ID));
     $response=pg_fetch_assoc($result)
 
-    echo "  value is ".$response['stade'];
+    echo "  value is ".$response;
 
   return json_encode($response);
 });
