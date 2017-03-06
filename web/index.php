@@ -89,7 +89,7 @@ $app->post('/memory', function(Request $request) use($app){
     $response=pg_fetch_row($result);
 
 
-  return json_encode($response);
+  return json_encode($response[0]);
 });
 
 $app->get('/memory', function(Request $request) use($app){
@@ -105,7 +105,8 @@ $app->get('/memory', function(Request $request) use($app){
 
     echo "  value is ".$response[0];
 
-  //return json_encode($response);
+
+  //json_encode($response);
 });
 
 
