@@ -149,6 +149,16 @@ $app->get('/testdb', function() use($app){
   }
 });
 
+$app->get('/reminders', function(Request $request) use($app){
+  $db = dv_connect();
+
+  $response = array();
+
+  $response = get_reminders($db,ID);
+
+  return json_encode($response);
+});
+
 $app->post('/register', function() use($app){
   return 'register page';
 });

@@ -51,6 +51,15 @@
   }
 
 
+//////// function to get all the reminders of a person
+function get_reminders($db, $id){
+  $query = pg_prepare($db, "reminders", "SELECT * FROM rdv WHERE id_user=$1");
+
+  return pg_execute($db, "reminders", array($id));
+}
+
+
+
 
   //////function for finding a name of a person in db
 
@@ -59,6 +68,9 @@
 
   	return pg_execute($db, "surname_name", array($id));
   }
+
+
+  ////// function to get the last Id
 
   function getLastIdOfPerson($db, $id){
   	$query = pg_prepare($db, "id", "SELECT id FROM relations WHERE id_user=$1 ORDER BY id DESC LIMIT 1;");
@@ -71,6 +83,9 @@
 
   	return NULL;
   }
+
+
+
   //////function to check nb of surnames
   function checkNbOfSurnames($db, $id, $surname){
     $query = pg_prepare($db, "surname_name", "SELECT name, surname FROM relations WHERE surname=$2 AND id_user=$1");
