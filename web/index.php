@@ -95,24 +95,6 @@ $app->post('/memory', function(Request $request) use($app){
   return json_encode($response);
 });
 
-$app->get('/memory', function(Request $request) use($app){
-  //Database connection
-	$db = db_connect();
-  //**************************
-
-  $response = array();
-    //$response['stade'] = "1";
- 	$query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
-    $result= pg_execute($db, "get_stade", array(ID));
-    $response=pg_fetch_row($result);
-
-    echo "  value is ".$response[0];
-
-
-  //json_encode($response);
-});
-
-
 $app->get('/testdb', function() use($app){
     if (isset($_GET["info"])) {
 
@@ -173,7 +155,7 @@ $app->get('/testdb', function() use($app){
 });
 
 $app->post('/reminders', function(Request $request) use($app){
-  $db = dv_connect();
+  $db = db_connect();
 
   $response = array();
 
