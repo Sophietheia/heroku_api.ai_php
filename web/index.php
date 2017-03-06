@@ -86,7 +86,7 @@ $app->post('/memory', function(Request $request) use($app){
     //$response['stade'] = "1";
   $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
     $result= pg_execute($db, "get_stade", array(ID));
-    $response=pg_fetch_assoc($result)
+    $response=pg_fetch_row($result)
 
 
   return json_encode($response);
@@ -101,9 +101,9 @@ $app->get('/memory', function(Request $request) use($app){
     //$response['stade'] = "1";
   $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
     $result= pg_execute($db, "get_stade", array(ID));
-    $response=pg_fetch_assoc($result)
+    $response=pg_fetch_row($result)
 
-    echo "  value is ".$response;
+    echo "  value is ".$response[0];
 
   return json_encode($response);
 });
