@@ -80,13 +80,11 @@ $app->post('/login', function(Request $request) use($app){
 $app->post('/memory', function(Request $request) use($app){
   //Database connection
 	$db = db_connect();
-
-	//$result = $request->request->get('result');
-
-  //Test login to perform
-  //**************************
   //**************************
   $response = array();
+  //$query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=1;");
+   //$response['stade']  = pg_execute($db, "get_stade", array(ID));
+  
   $response['stade'] = true;
 
   return json_encode($response);
