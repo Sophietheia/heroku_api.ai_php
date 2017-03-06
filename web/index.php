@@ -105,7 +105,7 @@ $app->get('/memory', function(Request $request) use($app){
 
     echo "  value is ".$response[0];
 
-  return json_encode($response);
+  //return json_encode($response);
 });
 
 
