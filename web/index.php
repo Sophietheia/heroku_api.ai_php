@@ -159,7 +159,7 @@ $app->post('/reminders', function(Request $request) use($app){
 
   $result = get_reminders($db,ID);
 /////////////////////////
-  $response["json"] = array();
+  $response = array();
 
 while ($row = pg_fetch_array($result)) {
   $remind = array();
@@ -167,7 +167,7 @@ while ($row = pg_fetch_array($result)) {
   $remind["description"] = $row["description"];
   $remind["date_task"] = $row["date_task"];
 
-  array_push($response["json"], $remind);
+  array_push($response, $remind);
 }
 
 /////////////////////////////
