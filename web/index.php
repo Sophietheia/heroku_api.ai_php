@@ -66,13 +66,11 @@ $app->post('/login', function(Request $request) use($app){
   //Database connection
 	$db = db_connect();
 
-	//$result = $request->request->get('result');
+	$result = $request->request->get('result');
 
-  //Test login to perform
-  //**************************
-  //**************************
   $response = array();
-  $response['connection'] = true;
+
+  $response['connection'] = test_login($db,$result['username'],$result['password']);
 
   return json_encode($response);
 });
@@ -93,65 +91,6 @@ $app->post('/memory', function(Request $request) use($app){
     	$response['stade']=false;
 
   return json_encode($response);
-});
-
-$app->get('/testdb', function() use($app){
-    if (isset($_GET["info"])) {
-
-      $db = db_connect();
-
-      // array for JSON response
-      $response = array();
-      $meetings = $_GET['info'];
-
-      // get a product from products table
-      $query = pg_prepare($db, "get_meetings", "SELECT * FROM users WHERE id_user=$1;");
-      $result = pg_execute($db, "get_meetings", array(ID));
-
-      if (!empty($result)) {
-          // check for empty result
-          if (pg_num_rows($result) > 0) {
-
-              // user node
-              $response["meetings"] = array();
-
-              while ($row = pg_fetch_array($result)) {
-                $meeting = array();
-                $meeting["label"] = $row["label"];
-                $meeting["location"] = $row["location"];
-                $meeting["date_meeting"] = $row["date_meeting"];
-                // success
-                $response["success"] = 1;
-
-                array_push($response["meetings"], $meeting);
-              }
-
-              // echoing JSON response
-              return json_encode($response);
-          } else {
-              // no product found
-              $response["success"] = 2;
-              $response["message"] = "No meeting found";
-
-              // echo no users JSON
-              return json_encode($response);
-          }
-      } else {
-          // no product found
-          $response["success"] = 3;
-          $response["message"] = "No meeting found";
-
-          // echo no users JSON
-          return json_encode($response);
-      }
-  } else {
-      // required field is missing
-      $response["success"] = 4;
-      $response["message"] = "Required field(s) is missing";
-
-      // echoing JSON response
-      return json_encode($response);
-  }
 });
 
 $app->post('/reminders', function(Request $request) use($app){

@@ -59,7 +59,22 @@ function get_reminders($db, $id){
 }
 
 
+////// function to test the logging
+function test_login($db, $uname, $pass){
+  $query = pg_prepare($db, "loging", "SELECT password FROM users WHERE username=$1");
+  $result = pg_execute($db, "logging", array($uname));
 
+  $arr = pg_fetch_assoc($result);
+
+  if(sha1($pass) == $arr['password']){
+    $login = true;
+  }
+  else {
+    $login = false;
+  }
+
+  return $login;
+}
 
   //////function for finding a name of a person in db
 
