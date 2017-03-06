@@ -53,7 +53,7 @@
 
 //////// function to get all the reminders of a person
 function get_reminders($db, $id){
-  $query = pg_prepare($db, "reminders", "SELECT * FROM rdv WHERE id_user=$1");
+  $query = pg_prepare($db, "reminders", "SELECT * FROM tasks WHERE id_user=$1");
 
   return pg_execute($db, "reminders", array($id));
 }
