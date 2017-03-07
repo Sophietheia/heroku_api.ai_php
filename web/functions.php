@@ -160,10 +160,17 @@ function test_login($db, $uname, $pass){
     return json_encode($arr);
   }
 
-  function set_alert($id){
+  function set_alert($username){
     $db = db_connect();
 
-    $query = pg_prepare($db, "update_status", "UPDATE users SET status=false WHERE id=$1;");
-  	pg_execute($db, "update_status", array($id));
+    $query = pg_prepare($db, "update_status", "UPDATE users SET status=false WHERE username=$1;");
+  	pg_execute($db, "update_status", array($username));
+  }
+
+  function remove_alert($idDoc,$idPatient){
+    $db = db_connect();
+
+    $query = pg_prepare($db, "update_status", "UPDATE users SET status=true WHERE idDoctor=$1 AND id=$2;");
+  	pg_execute($db, "update_status", array($idDoc,$idPatient));
   }
 ?>

@@ -51,9 +51,19 @@ $app->get('/talk', function() use($app){
   return $app['twig']->render('talk.twig');
 });
 
-$app->get('/alert', function() use($app){
-  set_alert(ID);
-  return '';
+$app->post('/alert', function(Request $request) use($app){
+  $username = $request->request->get('username');
+  $idDoc = $request->request->get('idDoc');
+  $idPatient = $request->request->get('idPatient');
+
+  if(!empty($username)){
+    set_alert($db,$username);
+    return '';
+  }else if(!empty($idDoc) && !empty($idPatient)){
+    remove_alert($db,$idDoc,$idPatient);
+    return $app['twig']->render('dashboard.twig');
+  }
+
 });
 
 $app->get('/register', function() use($app){
