@@ -52,6 +52,7 @@ $app->get('/talk', function() use($app){
 });
 
 $app->post('/alert', function(Request $request) use($app){
+
   $username = $request->request->get('username');
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
@@ -59,10 +60,10 @@ $app->post('/alert', function(Request $request) use($app){
   file_put_contents("php://stderr", "username: ".$username." idDoc: ".$idDoc." idPatient: ".$idPatient."\n");
 
   if(!empty($username)){
-    set_alert($db,$username);
+    set_alert($username);
     return '';
   }else if(!empty($idDoc) && !empty($idPatient)){
-    remove_alert($db,$idDoc,$idPatient);
+    remove_alert($idDoc,$idPatient);
     return $app['twig']->render('dashboard.twig');
   }
 
