@@ -56,6 +56,8 @@ $app->post('/alert', function(Request $request) use($app){
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
 
+  file_put_contents("php://stderr", "username: ".$username." idDoc: ".$idDoc." idPatient: ".$idPatient."\n");
+
   if(!empty($username)){
     set_alert($db,$username);
     return '';
