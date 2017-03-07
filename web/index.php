@@ -66,11 +66,14 @@ $app->post('/login', function(Request $request) use($app){
   //Database connection
 	$db = db_connect();
 
-	$result = $request->request->get('result');
+	$username = $request->request->get('username');
+  $password = $request->request->get('password');
+
+  file_put_contents("php://stderr", "username: ".$username." password: ".$password."\n");
 
   $response = array();
 
-  $response['connection'] = test_login($db,$result['username'],$result['password']);
+  $response['connection'] = test_login($db,$username,$password);
 
   return json_encode($response);
 });
