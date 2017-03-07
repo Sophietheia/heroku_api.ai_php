@@ -111,7 +111,7 @@ $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
   $result = get_reminders($db,ID);
-  
+
   $response["json"] = array();
 
 while ($row = pg_fetch_array($result)) {
@@ -193,11 +193,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$surname=$parameters['names'];
 
 		//---------------Erreur_1ere_lettre_MAJ-----------------
-		$firstletter = strtoupper(substr($surname, 0, 1));
-		$reste=substr($surname, 1);
-		$surname=$firstletter.$reste;
+		$surname=ucfirst($surname);
 		//------------------------------------------------------
-
 
 		//-----------------------DATABASE-----------------------
 		$query = pg_prepare($db, "surname_name", "SELECT name FROM relations WHERE surname = $1 AND id_user=$2");
