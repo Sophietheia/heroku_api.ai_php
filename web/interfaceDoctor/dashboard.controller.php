@@ -33,7 +33,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   }
   else if($type == "rappel"){
     $newRappel['idPatient'] = $request->get('idPatientRappel');
-    $newRappel['label'] = $request->get('label');
+    $newRappel['label'] = $request->get('label2');
     $newRappel['date'] = $request->get('date-rappel2');
     $newRappel['time'] = $request->get('time-rappel2');
 

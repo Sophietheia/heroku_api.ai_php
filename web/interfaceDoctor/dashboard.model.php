@@ -11,7 +11,7 @@ function addNewRappel($rappel){
   $db = db_connect();
 
   $query = pg_prepare($db, "add_rappel", "INSERT INTO meetings(label, date_meeting, time_meeting, id_user) VALUES($1, $2, $3, $4);");
-  pg_execute($db, "add_rappel", array($rappel['label'], $rappel['date'], $rappel['time'], $rappel['idPatientRappel']));
+  pg_execute($db, "add_rappel", array($rappel['label'], $rappel['date'], $rappel['time'], $rappel['idPatient']));
 }
 
 function getUsersListByDoctor($iddoc){
