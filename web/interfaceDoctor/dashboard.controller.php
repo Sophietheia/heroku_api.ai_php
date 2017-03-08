@@ -50,18 +50,18 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newUser['phonenumber'] = $request->get('phonenumber');
     $newUser['address'] = $request->get('address');
 
-    $error = checkUserExist($newUser['login']);
-
-    if($error == "username"){
-
-    }
-    else if($error == "email"){
-
-    }
-    else{
+    // $error = checkUserExist($newUser['login']);
+    //
+    // if($error == "username"){
+    //
+    // }
+    // else if($error == "email"){
+    //
+    // }
+    // else{
       addUser($newUser);
       $app['notif'] = "Patient ajouté.";
-    }
+    // }
   }
   else if($type == "changeStatus"){
     $idUser=$request->get('idPatientChangeStatus');
