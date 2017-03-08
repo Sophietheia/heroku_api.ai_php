@@ -42,7 +42,20 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $app['notif'] = "Votre rappel vient d'être ajouté.";
   }
   else if($type == "add"){
+    $newUser['iddoctor'] = $request->get('iddoc');
+    $newUser['login'] = $request->get('login');
+    $newUser['password'] = $request->get('password');
+    $newUser['name'] = $request->get('name');
+    $newUser['surname'] = $request->get('surname');
+    $newUser['phonenumber'] = $request->get('phonenumber');
+    $newUser['address'] = $request->get('address');
+
+    addUser($newUser);
+
     $app['notif'] = "Patient ajouté.";
+  }
+  else if($type == "changeStatus"){
+    $app['notif'] = "Status changed.";
   }
 
   return $app['twig']->render('dash.twig');
