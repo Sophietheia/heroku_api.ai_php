@@ -52,10 +52,12 @@
 
 
 //////// function to get all the reminders of a person
-function get_reminders($db, $id){
+function get_reminders($db, $id){ //function get_reminders($db, $username){
   $query = pg_prepare($db, "reminders", "SELECT * FROM meetings WHERE id_user=$1");
+  // $query = pg_prepare($db, "reminders", "SELECT * FROM meetings WHERE username=$1");
 
   return pg_execute($db, "reminders", array($id));
+  // return pg_execute($db, "reminders", array($username));
 }
 
 

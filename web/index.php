@@ -58,9 +58,12 @@ $app->get('/exitZone', function() use($app){
 
 $app->post('/alert', function(Request $request) use($app){
 
-  $username = $request->request->get('username');
+  $username = $request->get('username');
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
+
+  file_put_contents("php://stderr", "username: ".$request->get('username')."\n");
+
 
   if(!empty($username)){
     set_alert($username);
@@ -70,6 +73,7 @@ $app->post('/alert', function(Request $request) use($app){
     return $app['twig']->render('dashboard.twig');
   }
 
+  return '';
 });
 
 $app->get('/register', function() use($app){
@@ -115,7 +119,9 @@ $app->post('/memory', function(Request $request) use($app){
 $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
-  $result = get_reminders($db,3);
+  //$username = request->get('username');
+
+  $result = get_reminders($db,3);//$username);
 
   $response["json"] = array();
 
@@ -127,8 +133,6 @@ while ($row = pg_fetch_array($result)) {
 
   array_push($response["json"], $remind);
 }
-
-file_put_contents("php://stderr", $remind['name']);
 
   return json_encode($response);
 });

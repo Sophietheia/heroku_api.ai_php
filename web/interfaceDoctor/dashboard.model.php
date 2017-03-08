@@ -15,6 +15,7 @@ function addNewRappel($rappel){
   pg_execute($db, "add_rappel", array($rappel['label'], $rappel['date'], $rappel['time'], $rappel['idPatient']));
 }
 
+<<<<<<< HEAD
 function changeStatus($idUser){
 
    $db = db_connect();
@@ -23,6 +24,13 @@ function changeStatus($idUser){
 
    pg_execute($db, "change_status", $idUser);
 
+=======
+function checkUserExist($username,$email){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR email=$2");
+  pg_execute($db, "check_user", array($username,$email));
+>>>>>>> 9540e285a65c93146cd7992107dbd3db092c3614
 }
 
 
