@@ -47,7 +47,7 @@
         <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
-          <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus">
+          <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
           <button class="changeStatus" id="status{{user['id']}}">Change status</button>
         </form>
       </td>
