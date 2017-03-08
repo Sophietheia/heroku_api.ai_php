@@ -7,6 +7,13 @@ function addNewRdv($rdv){
   pg_execute($db, "add_rdv", array($rdv['label'], $rdv['location'], $rdv['date'], $rdv['time'], $rdv['idPatient'], $rdv['idDoc']));
 }
 
+function addNewRappel($rappel){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "add_rappel", "INSERT INTO meetings(label, date_meeting, time_meeting, id_user) VALUES($1, $2, $3, $4);");
+  pg_execute($db, "add_rappel", array($rappel['label'], $rappel['date'], $rappel['time'], $rappel['idPatientRappel']));
+}
+
 function getUsersListByDoctor($iddoc){
   $db = db_connect();
 

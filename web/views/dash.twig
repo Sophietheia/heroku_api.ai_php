@@ -45,7 +45,11 @@
       <td>
         <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
         <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
-        <button class="changestatus" id="status{{user['id']}}">Change status </button>
+        <form style="display:inline-block;">
+          <input type="hidden" name="type" value="changeStatus">
+          <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus">
+          <button class="changeStatus" id="status{{user['id']}}">Change status</button>
+        </form>
       </td>
 
     </tr>
@@ -195,14 +199,11 @@
       $('#rdvModal').modal('show');
     });
 
-  </script>
-  <script>
    $(".addRappel").click(function(){
       $('#idPatientRappel').val(this.id);
       $('#rappelModal').modal('show');
     });
-   </script>
-    <script>
+
     $(".addPatient").click(function(){
       $('#idPatientAdd').val(this.id);
       $('#addpatientModal').modal('show');
