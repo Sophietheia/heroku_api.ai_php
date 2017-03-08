@@ -195,17 +195,20 @@
 
   <script>
     $(".addRdv").click(function(){
-      $('#idPatientRdv').val(this.id);
+      var res = (this.id).slice(3);
+      $('#idPatientRdv').val(res);
       $('#rdvModal').modal('show');
     });
 
    $(".addRappel").click(function(){
-      $('#idPatientRappel').val(this.id);
+     var res = (this.id).slice(6);
+      $('#idPatientRappel').val(res);
       $('#rappelModal').modal('show');
     });
 
     $(".addPatient").click(function(){
-      $('#idPatientAdd').val(this.id);
+      var res = (this.id).slice(3);
+      $('#idPatientAdd').val(res);
       $('#addpatientModal').modal('show');
     });
 

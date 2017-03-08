@@ -19,7 +19,6 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $type = $request->get('type');
 
   if($type == "rdv"){
-    $app['notif'] = "Votre rdv vient d'être ajouté.";
 
     $newRdv['idDoc'] = $request->get('idDocRdv');
     $newRdv['idPatient'] = $request->get('idPatientRdv');
@@ -29,6 +28,8 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newRdv['location'] = $request->get('location-rdv');
 
     addNewRdv($newRdv);
+
+    $app['notif'] = "Votre rdv vient d'être ajouté.";
   }
   else if($type == "rappel"){
     $newRappel['idPatient'] = $request->get('idPatientRappel');
@@ -37,9 +38,11 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newRappel['time'] = $request->get('time-rappel2');
 
     addNewRappel($newRappel);
+
+    $app['notif'] = "Votre rappel vient d'être ajouté.";
   }
   else if($type == "add"){
-
+    $app['notif'] = "Patient ajouté.";
   }
 
   return $app['twig']->render('dash.twig');
