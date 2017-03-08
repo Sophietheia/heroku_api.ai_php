@@ -19,9 +19,9 @@ function changeStatus($idUser){
 
    $db = db_connect();
 
-   $query = pg_prepare($db, "change_status", "UPDATE users SET status=true WHERE id=$idUser");
+   $query = pg_prepare($db, "change_status", "UPDATE users SET status=true WHERE id=$1");
 
-   pg_execute($db, "change_status", $idUser);
+   pg_execute($db, "change_status", array($idUser));
  }
 
 
