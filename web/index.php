@@ -121,16 +121,7 @@ $app->post('/reminders', function(Request $request) use($app){
   //$username = request->get('username');
 
   $result = get_reminders($db,3);//$username);
-///////////
-div{
-  background-color:black;
-}
 
-div:hover{
-  color:white;
-}
-
-/////////
   $response["json"] = array();
 
 while ($row = pg_fetch_array($result)) {
