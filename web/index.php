@@ -62,7 +62,7 @@ $app->post('/alert', function(Request $request) use($app){
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
 
-  file_put_contents("php://stderr", $request->request->get('username'));
+  file_put_contents("php://stderr", $request->request->get('username')."\n");
 
 
   if(!empty($username)){
@@ -73,6 +73,7 @@ $app->post('/alert', function(Request $request) use($app){
     return $app['twig']->render('dashboard.twig');
   }
 
+  return '';
 });
 
 $app->get('/register', function() use($app){
