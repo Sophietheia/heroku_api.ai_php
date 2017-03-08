@@ -6,7 +6,7 @@ require('dashboard.model.php');
 
 $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
-  $app['users'] = json_decode(getUsersList(), true);
+  $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
   $app['notif'] = '';
   return $app['twig']->render('dash.twig');
 });

@@ -17,7 +17,7 @@ function addNewRappel($rappel){
 function getUsersListByDoctor($iddoc){
   $db = db_connect();
 
-  $query = pg_prepare($db, "get_users", "SELECT * FROM users WHERE iddoc=$1;");
+  $query = pg_prepare($db, "get_users", "SELECT * FROM users WHERE iddoctor=$1;");
 
   $res = pg_execute($db, "get_users", array($iddoc));
 
