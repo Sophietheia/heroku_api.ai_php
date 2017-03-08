@@ -8,7 +8,7 @@ $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = IDDOC;
   $app['users'] = json_decode(getUsersList(), true);
   $app['notif'] = '';
-  return $app['twig']->render('dashboard.twig');
+  return $app['twig']->render('dash.twig');
 });
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
@@ -26,5 +26,5 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
 
   addNewRdv($newRdv);
 
-  return $app['twig']->render('dashboard.twig');
+  return $app['twig']->render('dash.twig');
 });

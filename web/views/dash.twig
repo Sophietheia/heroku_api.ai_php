@@ -1,0 +1,214 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+   <div style="width:100%; display: inline ;margin-top:20%; solid black; background-color:#DCDCDC" >
+<button style="background:   #01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: "lucida grande";">Home</button>
+   <button style="background:   #01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: "lucida grande";  ">Help</button>
+   <button style="background:   #01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: "lucida grande", ;">About us</button>
+   </div>
+   <div>
+
+       <h2 style="margin-left: 35%; color: #01796F
+         font-size: 30px; color:#01796F">Doctor interface</h2>
+      </div>
+
+  <table class="table" style="width:95%; background-color: #73BBA2; margin-top: 6%; margin-left: 2%; box-shadow: 2px border:1px solid     #01796F; border-radius:10px;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Phone number</th>
+
+      <th>Address</th>
+      <th>Status</th>
+       <th>Actions</th>
+
+
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for user in app.users %}
+    <tr style="border:1px ">
+      <td>{{user['name']}}</td>
+      <td>{{user['surname']}}</td>
+      <td>{{user['email']}}</td>
+      <td>{{user['address']}}</td>
+      {% if user['status'] == 't' %}
+      <td style="color:green; font-weight:bold;">o</td>
+      {% else %}
+      <td style="color:red; font-weight:bold;">o</td>
+      {% endif %}
+
+      <td>
+        <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
+        <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
+        <button class="changestatus" id="status{{user['id']}}">Change status </button>
+      </td>
+
+    </tr>
+    {% endfor %}
+   </tbody>
+
+  </table>
+  <button id="send" class="addPatient" type="submit" style="width:40px;
+  height:40px;
+  background:#fafafa;
+  box-shadow:2px 2px 8px #aaa;
+  font:bold 13px Arial;
+  border-radius:50%;margin-left: 95%;
+  color:#555;
+" >+</button>
+
+
+
+
+  <div id="rdvModal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New rendez-vous</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <input type="hidden" id="idDoc" name="idDoc" value="{{app.idDoc}}">
+          <input type="hidden" id="idPatient" name="idPatient">
+          <div class="form-group">
+            <label for="label" class="form-control-label">Label:</label>
+            <input type="text" class="form-control" id="label" name="label">
+          </div>
+          <div class="form-group">
+            <label for="date-rdv" class="form-control-label">Date:</label>
+            <input type="date" class="form-control" id="date-rdv" name="date-rdv">
+          </div>
+          <div class="form-group">
+            <label for="time-rdv" class="form-control-label">Time:</label>
+            <input type="time" class="form-control" id="time-rdv" name="time-rdv">
+          </div>
+          <div class="form-group">
+            <label for="location-rdv" class="form-control-label">Location:</label>
+            <input type="text" class="form-control" id="location-rdv" name="location-rdv">
+          </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button style="background: #01796F" type="submit" class="btn btn-primary">Add meeting</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="rappelModal" class="modal fade" id="eModal" tabindex="-1" role="dialog" aria-labelledby="eModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New rendez-vous</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <input type="hidden" id="idDoc" name="idDoc" value="{{app.idDoc}}">
+          <input type="hidden" id="idPatient" name="idPatient">
+          <div class="form-group">
+            <label for="label2" class="form-control-label">Label:</label>
+            <input type="text" class="form-control" id="label2" name="label2">
+          </div>
+          <div class="form-group">
+            <label for="date-rappel2" class="form-control-label">Date:</label>
+            <input type="date" class="form-control" id="date-rappel2" name="date-rappel2">
+          </div>
+          <div class="form-group">
+            <label for="time-rappel2" class="form-control-label">Time:</label>
+            <input type="time" class="form-control" id="time-rappel2" name="time-rappel2">
+          </div>
+          <div class="form-group">
+            <label for="location-rappel2" class="form-control-label">Location:</label>
+            <input type="text" class="form-control" id="location-rappel2" name="location-rappel2">
+          </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button style="background:   #01796F" type="submit" class="btn btn-primary">Add meeting</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="addpatientModal" class="modal fade" id="ajoutModal" tabindex="-1" role="dialog" aria-labelledby="ajoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add patient</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+          <input type="hidden" id="idDoc" name="idDoc" value="{{app.idDoc}}">
+          <input type="hidden" id="idPatient" name="idPatient">
+          <div class="form-group">
+            <label for="login" class="form-control-label">Login:</label>
+            <input type="text" class="form-control" id="login" name="login">
+          </div>
+          <div class="form-group">
+            <label for="addpatient" class="form-control-label">Password:</label>
+            <input type="text" class="form-control" id="addpatient" name="password">
+          </div>
+          <div class="form-group">
+            <label for="name" class="form-control-label">Name:</label>
+            <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="surname" class="form-control-label">Surname:</label>
+            <input type="text" class="form-control" id="surname" name="surname">
+          </div>
+          <div class="form-group">
+            <label for="phonenumber" class="form-control-label">Phone number:</label>
+            <input type="text" class="form-control" id="phonenumber" name="phonenumber">
+          </div>
+          <div class="form-group">
+            <label for="address" class="form-control-label">Address:</label>
+            <input type="text" class="form-control" id="address" name="address">
+          </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button style="background:   #01796F" type="submit" class="btn btn-primary">Add patient</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+    $(".addRdv").click(function(){
+      $('#idPatient').val(this.id);
+      $('#rdvModal').modal('show');
+    });
+
+  </script>
+  <script>
+   $(".addRappel").click(function(){
+      $('#idPatient').val(this.id);
+      $('#rappelModal').modal('show');
+    });
+   </script>
+    <script>
+    $(".addPatient").click(function(){
+      $('#idPatient').val(this.id);
+      $('#addpatientModal').modal('show');
+    });
+
+  </script>
+{% endblock %}
