@@ -7,12 +7,24 @@ function addNewRdv($rdv){
   pg_execute($db, "add_rdv", array($rdv['label'], $rdv['location'], $rdv['date'], $rdv['time'], $rdv['idPatient'], $rdv['idDoc']));
 }
 
+
 function addNewRappel($rappel){
   $db = db_connect();
 
   $query = pg_prepare($db, "add_rappel", "INSERT INTO meetings(label, date_meeting, time_meeting, id_user) VALUES($1, $2, $3, $4);");
   pg_execute($db, "add_rappel", array($rappel['label'], $rappel['date'], $rappel['time'], $rappel['idPatient']));
 }
+
+function changeStatus($idUser){
+
+   $db = db_connect();
+
+   $query = pg_prepare($db, "change_status", "UPDATE status FROM users WHERE id=$idUser");
+
+   pg_execute($db, "change_status", $idUser);
+
+}
+
 
 function getUsersListByDoctor($iddoc){
   $db = db_connect();
@@ -25,6 +37,7 @@ function getUsersListByDoctor($iddoc){
 
   return json_encode($arr);
 }
+
 
 function addUser($newUser){
   $db = db_connect();
