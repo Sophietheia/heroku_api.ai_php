@@ -7,6 +7,7 @@ function addNewRdv($rdv){
   pg_execute($db, "add_rdv", array($rdv['label'], $rdv['location'], $rdv['date'], $rdv['time'], $rdv['idPatient'], $rdv['idDoc']));
 }
 
+
 function addNewRappel($rappel){
   $db = db_connect();
 
@@ -14,11 +15,22 @@ function addNewRappel($rappel){
   pg_execute($db, "add_rappel", array($rappel['label'], $rappel['date'], $rappel['time'], $rappel['idPatient']));
 }
 
+function changeStatus($idUser){
+
+   $db = db_connect();
+
+   $query = pg_prepare($db, "change_status", "UPDATE users SET status=true WHERE id=$idUser");
+
+   pg_execute($db, "change_status", $idUser);
+ }
+
+
 function checkUserExist($username,$email){
   $db = db_connect();
 
   $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR email=$2");
   pg_execute($db, "check_user", array($username,$email));
+
 }
 
 
@@ -33,6 +45,7 @@ function getUsersListByDoctor($iddoc){
 
   return json_encode($arr);
 }
+
 
 function addUser($newUser){
   $db = db_connect();
