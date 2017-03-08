@@ -116,12 +116,14 @@ $app->post('/reminders', function(Request $request) use($app){
 
 while ($row = pg_fetch_array($result)) {
   $remind = array();
-  $remind["name"] = $row["name"];
-  $remind["description"] = $row["description"];
-  $remind["date_task"] = $row["date_task"];
+  $remind["name"] = $row["label"];
+  $remind["description"] = $row["label"];
+  $remind["date_task"] = $row["date_meeting"];
 
   array_push($response["json"], $remind);
 }
+
+file_put_contents("php://stderr", $remind['name']);
 
   return json_encode($response);
 });
