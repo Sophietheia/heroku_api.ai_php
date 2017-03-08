@@ -21,8 +21,8 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   if($type == "rdv"){
     $app['notif'] = "Votre rdv vient d'être ajouté.";
 
-    $newRdv['idDoc'] = $request->get('idDoc');
-    $newRdv['idPatient'] = $request->get('idPatient');
+    $newRdv['idDoc'] = $request->get('idDocRdv');
+    $newRdv['idPatient'] = $request->get('idPatientRdv');
     $newRdv['label'] = $request->get('label');
     $newRdv['date'] = $request->get('date-rdv');
     $newRdv['time'] = $request->get('time-rdv');
