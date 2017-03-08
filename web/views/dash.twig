@@ -45,7 +45,7 @@
       <td>
         <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
         <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
-        <form style="display:inline-block;">
+        <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus">
           <button class="changeStatus" id="status{{user['id']}}">Change status</button>
@@ -57,7 +57,7 @@
    </tbody>
 
   </table>
-  
+
   <button id="send" class="addPatient" type="submit" style="width:40px;
   height:40px;
   background:#fafafa;
