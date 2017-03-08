@@ -26,5 +26,5 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
 
   addNewRdv($newRdv);
 
-  return $app['twig']->render('dashb.twig');
+  return $app['twig']->render('dash.twig');
 });
