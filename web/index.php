@@ -58,11 +58,11 @@ $app->get('/exitZone', function() use($app){
 
 $app->post('/alert', function(Request $request) use($app){
 
-  $username = $request->request->get('username');
+  $username = $request->get('username');
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
 
-  file_put_contents("php://stderr", $request->request->get('username')."\n");
+  file_put_contents("php://stderr", "username: ".$request->get('username')."\n");
 
 
   if(!empty($username)){
