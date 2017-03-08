@@ -110,7 +110,7 @@ $app->post('/memory', function(Request $request) use($app){
 $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
-  $result = get_reminders($db,ID);
+  $result = get_reminders($db,3);
 
   $response["json"] = array();
 
