@@ -51,6 +51,11 @@ $app->get('/talk', function() use($app){
   return $app['twig']->render('talk.twig');
 });
 
+$app->get('/exitZone', function() use($app){
+  //Do Something
+  return '';
+});
+
 $app->post('/alert', function(Request $request) use($app){
 
   $username = $request->request->get('username');

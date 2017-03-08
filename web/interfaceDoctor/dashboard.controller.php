@@ -5,15 +5,18 @@ use Symfony\Component\HttpFoundation\Response;
 require('dashboard.model.php');
 
 $app->get('/dashboardDoctor', function() use($app){
-  $app['idDoc'] = IDDOC;
+  $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
   $app['users'] = json_decode(getUsersList(), true);
   $app['notif'] = '';
   return $app['twig']->render('dash.twig');
 });
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
-  $app['idDoc'] = IDDOC;
-  $app['users'] = json_decode(getUsersList(), true);
+
+  $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
+  $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
+
+
 
   $app['notif'] = "Votre rdv vient d'être ajouté.";
 

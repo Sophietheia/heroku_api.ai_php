@@ -43,7 +43,7 @@
       {% endif %}
 
       <td>
-        <button class="addRdv" id="{{user['id']}}">Add rdv</button>
+        <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
         <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
         <button class="changestatus" id="status{{user['id']}}">Change status </button>
       </td>
@@ -76,8 +76,9 @@
       </div>
       <div class="modal-body">
         <form method="POST">
-          <input type="hidden" id="idDoc" name="idDoc" value="{{app.idDoc}}">
-          <input type="hidden" id="idPatient" name="idPatient">
+          <input type="hidden" name="type" value="rdv">
+          <input type="hidden" id="idDocRdv" name="idDocRdv" value="{{app.idDoc}}">
+          <input type="hidden" id="idPatientRdv" name="idPatientRdv">
           <div class="form-group">
             <label for="label" class="form-control-label">Label:</label>
             <input type="text" class="form-control" id="label" name="label">
@@ -115,8 +116,8 @@
       </div>
       <div class="modal-body">
         <form method="POST">
-          <input type="hidden" id="idDoc" name="idDoc" value="{{app.idDoc}}">
-          <input type="hidden" id="idPatient" name="idPatient">
+          <input type="hidden" name="type" value="rappel">
+          <input type="hidden" id="idPatientRappel" name="idPatientRappel">
           <div class="form-group">
             <label for="label2" class="form-control-label">Label:</label>
             <input type="text" class="form-control" id="label2" name="label2">
@@ -128,10 +129,6 @@
           <div class="form-group">
             <label for="time-rappel2" class="form-control-label">Time:</label>
             <input type="time" class="form-control" id="time-rappel2" name="time-rappel2">
-          </div>
-          <div class="form-group">
-            <label for="location-rappel2" class="form-control-label">Location:</label>
-            <input type="text" class="form-control" id="location-rappel2" name="location-rappel2">
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button style="background:   #01796F" type="submit" class="btn btn-primary">Add meeting</button>
@@ -154,8 +151,9 @@
       </div>
       <div class="modal-body">
         <form method="POST">
-          <input type="hidden" id="idDoc" name="idDoc" value="{{app.idDoc}}">
-          <input type="hidden" id="idPatient" name="idPatient">
+          <input type="hidden" name="type" value="add">
+          <input type="hidden" id="idDocAdd" name="idDocAdd" value="{{app.idDoc}}">
+          <input type="hidden" id="idPatientAdd" name="idPatientAdd">
           <div class="form-group">
             <label for="login" class="form-control-label">Login:</label>
             <input type="text" class="form-control" id="login" name="login">
@@ -193,20 +191,20 @@
 
   <script>
     $(".addRdv").click(function(){
-      $('#idPatient').val(this.id);
+      $('#idPatientRdv').val(this.id);
       $('#rdvModal').modal('show');
     });
 
   </script>
   <script>
    $(".addRappel").click(function(){
-      $('#idPatient').val(this.id);
+      $('#idPatientRappel').val(this.id);
       $('#rappelModal').modal('show');
     });
    </script>
     <script>
     $(".addPatient").click(function(){
-      $('#idPatient').val(this.id);
+      $('#idPatientAdd').val(this.id);
       $('#addpatientModal').modal('show');
     });
 
