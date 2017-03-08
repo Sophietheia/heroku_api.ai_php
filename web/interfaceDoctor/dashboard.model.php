@@ -14,6 +14,14 @@ function addNewRappel($rappel){
   pg_execute($db, "add_rappel", array($rappel['label'], $rappel['date'], $rappel['time'], $rappel['idPatient']));
 }
 
+function checkUserExist($username,$email){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR email=$2");
+  pg_execute($db, "check_user", array($username,$email));
+}
+
+
 function getUsersListByDoctor($iddoc){
   $db = db_connect();
 

@@ -62,6 +62,9 @@ $app->post('/alert', function(Request $request) use($app){
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
 
+  file_put_contents("php://stderr", $request->request->get('username'););
+
+
   if(!empty($username)){
     set_alert($username);
     return '';
@@ -115,8 +118,19 @@ $app->post('/memory', function(Request $request) use($app){
 $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
-  $result = get_reminders($db,3);
+  //$username = request->get('username');
 
+  $result = get_reminders($db,3);//$username);
+///////////
+div{
+  background-color:black;
+}
+
+div:hover{
+  color:white;
+}
+
+/////////
   $response["json"] = array();
 
 while ($row = pg_fetch_array($result)) {
@@ -127,8 +141,6 @@ while ($row = pg_fetch_array($result)) {
 
   array_push($response["json"], $remind);
 }
-
-file_put_contents("php://stderr", $remind['name']);
 
   return json_encode($response);
 });
