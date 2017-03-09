@@ -117,6 +117,8 @@ $app->post('/reminders', function(Request $request) use($app){
 
   //$username = request->get('username');
 
+  file_put_contents("php://stderr", "username: ".$request->get('username')."\n");
+  
   $result = get_reminders($db,3);//$username);
 
   $response["json"] = array();
