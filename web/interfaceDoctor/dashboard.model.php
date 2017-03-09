@@ -21,7 +21,7 @@ function changeStatus($idUser){
 
    $query = pg_prepare($db, "change_status", "UPDATE users SET status='true' WHERE id=$1");
 
-   pg_execute($db, "change_status", array($idUser, $newStade));
+   pg_execute($db, "change_status", array($idUser));
  }
 
 
@@ -29,9 +29,9 @@ function changeStade($idUser,$newStade){
 
    $db = db_connect();
 
-   $query = pg_prepare($db, "change_stade", "UPDATE users SET stade=1 WHERE id=$1");
+   $query = pg_prepare($db, "change_stade", "UPDATE users SET stade=$1 WHERE id=$2");
 
-   pg_execute($db, "change_stade", array($idUser));
+   pg_execute($db, "change_stade", array($newStade, $idUser));
  }
 
 function checkUserExist($username,$phone){
