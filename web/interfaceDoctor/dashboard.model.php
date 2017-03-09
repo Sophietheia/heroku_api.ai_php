@@ -33,6 +33,8 @@ function checkUserExist($username,$phone){
 
   $arr = pg_fetch_row($res);
 
+  file_put_contents("php://stderr", "array: ".$arr."\n");
+
   if(!empty($arr['username'])){
     return true;
   }
