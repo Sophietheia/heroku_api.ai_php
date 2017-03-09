@@ -244,6 +244,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 	}
 
 
+
+
 	//// if user asks about the person he has a meeting with
 	else if($result['action'] == "avec.qui.meeting"){
 		$today=date("Y-m-d");
@@ -274,10 +276,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "label.meeting"){
 		$today=date("Y-m-d");
 
-		$query = pg_prepare($db, "label_meeting", "SELECT label FROM meetings WHERE username=$1 AND date_meeting>=$2 GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
+		$query = pg_prepare($db, "label_meeting", "SELECT label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
-		$result = pg_execute($db, "label_meeting", array($_SESSION["username"], $today));
-
+		$result = pg_execute($db, "label_meeting", array(ID));
 
 		while($arr = pg_fetch_array($result)){
 
