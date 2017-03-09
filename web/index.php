@@ -115,7 +115,7 @@ $app->post('/memory', function(Request $request) use($app){
 $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
-  $username = request->get('username');
+  $username = $request->get('username');
 
   $result = get_reminders($db,$username);
 
