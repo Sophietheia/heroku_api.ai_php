@@ -62,6 +62,12 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     changeStatus($idUser);
     $app['notif'] = "Status changed.";
   }
+/*
+   else if($type == "changeStade"){
+    $idUser=$request->get('idPatientStatus');
+    changeStade($idUser);
+    $app['notif'] = "State of disease changed.";
+  }*/
 
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
 

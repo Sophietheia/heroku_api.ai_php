@@ -50,7 +50,7 @@
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
           <button class="changeStatus" id="status{{user['id']}}">Change emergency status</button>
-          <button class="changeStade" id="">Change stage of disease </button>
+          <button class="changeStade" id="stade{{user['id']}}">Change stage of disease </button>
         </form>
       </td>
 
@@ -195,6 +195,34 @@
   </div>
 </div>
 
+<div id="stageModal" class="modal fade" id="eModal" tabindex="-1" role="dialog" aria-labelledby="eModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+        <h5 class="modal-title">Change disease stade</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <form method="POST">
+            <input type="hidden" name="type" value="add">
+            <input type="hidden" id="idDocStade" name="iddoc" value="{{app.idDoc}}">
+            <input type="hidden" id="idPatientStade" name="idPatientStade">
+            <div class="form-group">
+              <label for="stage" class="form-control-label">Stage of Disease:</label>
+              <input type="text" class="form-control" id="stage" name="stage">
+              </div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button style="background:   #01796F" type="submit" class="btn btn-primary">Change disease stage</button>
+         </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+     </div>   
+  </div>
+</div>
+
 
   <script>
     $(".addRdv").click(function(){
@@ -214,6 +242,15 @@
       $('#idPatientAdd').val(res);
       $('#addpatientModal').modal('show');
     });
+
+     $(".changeStade").click(function(){
+      var res = (this.id).slice(5);
+      $('#idPatientStade').val(res);
+      $('#stageModal').modal('show');
+    });
+   
+
+
 
   </script>
 {% endblock %}
