@@ -25,12 +25,20 @@ function changeStatus($idUser){
  }
 
 
-function checkUserExist($username,$email){
+function checkUserExist($username,$phone){
   $db = db_connect();
 
-  $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR email=$2");
-  pg_execute($db, "check_user", array($username,$email));
+  $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR phonenumber=$2 LIMIT 1;");
+  $res = pg_execute($db, "check_user", array($username,$phone));
 
+  $arr = pg_fetch_row($res);
+
+  if(!empty($arr['username'])){
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 
