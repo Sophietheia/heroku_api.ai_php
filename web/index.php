@@ -115,11 +115,9 @@ $app->post('/memory', function(Request $request) use($app){
 $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
-  //$username = request->get('username');
+  $username = request->get('username');
 
-  file_put_contents("php://stderr", "username: ".$request->get('username')."\n");
-  
-  $result = get_reminders($db,3);//$username);
+  $result = get_reminders($db,$username);
 
   $response["json"] = array();
 
