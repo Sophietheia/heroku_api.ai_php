@@ -94,6 +94,15 @@ $app->post('/login', function(Request $request) use($app){
   return json_encode($response);
 });
 
+$app->post('/webhook', function(Request $request) use($app){
+  //Database connection
+  $db = db_connect();
+
+  $username = $request->request->get('username');
+
+  echo $username;
+});
+
 $app->post('/memory', function(Request $request) use($app){
   //Database connection
 	$db = db_connect();
