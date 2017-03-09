@@ -35,6 +35,7 @@
       <td>{{user['name']}}</td>
       <td>{{user['surname']}}</td>
       <td>{{user['email']}}</td>
+      <td>{{user['stade']}}</td>
       <td>{{user['address']}}</td>
       {% if user['status'] == 't' %}
       <td style="color:green; font-weight:bold;">o</td>
@@ -48,7 +49,8 @@
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
-          <button class="changeStatus" id="status{{user['id']}}">Change status</button>
+          <button class="changeStatus" id="status{{user['id']}}">Change emergency status</button>
+          <button class="changeStade" id="">Change stage of disease </button>
         </form>
       </td>
 
