@@ -108,9 +108,9 @@ $app->post('/memory', function(Request $request) use($app){
     $result= pg_execute($db, "get_stade", $username);
     $response=pg_fetch_row($result);
     if($response[0]==1)
-    	$response['stade']='true';
+    	$response['stade']=true;
  	if($response[0]==2)
-    	$response['stade']='false';
+    	$response['stade']=false;
 
   return json_encode($response);
 });
