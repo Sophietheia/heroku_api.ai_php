@@ -46,11 +46,11 @@
       <td>
         <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
         <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
+        <button class="changeStade" id="stade{{user['id']}}">Change stage of disease </button>
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
           <button class="changeStatus" id="status{{user['id']}}">Change emergency status</button>
-          <button class="changeStade" id="stade{{user['id']}}">Change stage of disease </button>
         </form>
       </td>
 
