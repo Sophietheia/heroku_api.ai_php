@@ -274,9 +274,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "label.meeting"){
 		$today=date("Y-m-d");
 
-		$query = pg_prepare($db, "label_meeting", "SELECT label FROM meetings WHERE username=$username AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
+		$query = pg_prepare($db, "label_meeting", "SELECT label FROM meetings WHERE username=$1 AND date_meeting>=$2 GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
-		$result = pg_execute($db, "label_meeting", array(ID));
+		$result = pg_execute($db, "label_meeting", array($_SESSION["username"], $today));
+
 
 		while($arr = pg_fetch_array($result)){
 

@@ -98,9 +98,11 @@ $app->post('/webhook', function(Request $request) use($app){
   //Database connection
   $db = db_connect();
 
-  $username = $request->request->get('username');
+  $_SESSION["username"] = $request->request->get('username');
 
-  echo $username;
+  return "";
+
+ 
 });
 
 $app->post('/memory', function(Request $request) use($app){
