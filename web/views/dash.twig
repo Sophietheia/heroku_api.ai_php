@@ -196,7 +196,7 @@
 </div>
 
 <div id="stageModal" class="modal fade" id="eModal" tabindex="-1" role="dialog" aria-labelledby="eModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-sm" role="document">
      <div class="modal-content">
        <div class="modal-header">
         <h5 class="modal-title">Change disease stade</h5>
@@ -211,7 +211,12 @@
             <input type="hidden" id="idPatientStade" name="idPatientStade">
             <div class="form-group">
               <label for="stage" class="form-control-label">Stage of Disease:</label>
-              <input type="text" class="form-control" id="stage" name="stage">
+               <select class="form-control" id="stage" name="stage">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
               </div>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button style="background:   #01796F" type="submit" class="btn btn-primary">Change disease stage</button>
