@@ -63,7 +63,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $app['notif'] = "Status changed.";
   }
 
-   else if($type == "changeStade"){
+   else if($type == "stade"){
     $idUser=$request->get('idPatientStatus');
     $newStade=$request->get('stage')
     changeStade($idUser, $newStade);
