@@ -101,7 +101,7 @@ $app->post('/memory', function(Request $request) use($app){
   //**************************
 
   $response = array();
-    $response['stade'] = "1";
+    $response['stade'] = 1;
   /*$query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
     $result= pg_execute($db, "get_stade", array(ID));
     $response=pg_fetch_row($result);*/
