@@ -25,12 +25,20 @@ function changeStatus($idUser){
  }
 
 
-function checkUserExist($username,$email){
+function checkUserExist($username,$phone){
   $db = db_connect();
 
-  $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR email=$2");
-  pg_execute($db, "check_user", array($username,$email));
+  $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR phonenumber=$2 LIMIT 1;");
+  $res = pg_execute($db, "check_user", array($username,$phone));
 
+  $arr = pg_fetch_array($res);
+
+  if(!empty($arr['username'])){
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 
@@ -50,7 +58,7 @@ function getUsersListByDoctor($iddoc){
 function addUser($newUser){
   $db = db_connect();
 
-  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address) VALUES($1,$2,$3,$4,$5,$6,$7);");
+  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status) VALUES($1,$2,$3,$4,$5,$6,$7,$8);");
 
-  pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address']));
+  pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true));
 }

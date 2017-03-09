@@ -14,7 +14,6 @@ $app->get('/dashboardDoctor', function() use($app){
 $app->post('/dashboardDoctor', function(Request $request) use($app){
 
   $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
-  $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
 
   $type = $request->get('type');
 
@@ -39,7 +38,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
 
     addNewRappel($newRappel);
 
-    $app['notif'] = "Votre rappel vient d'être ajouté.";
+    $app['notif'] = "Your reminder was just added.";
   }
   else if($type == "add"){
     $newUser['iddoctor'] = $request->get('iddoc');
@@ -50,24 +49,21 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newUser['phonenumber'] = $request->get('phonenumber');
     $newUser['address'] = $request->get('address');
 
-    // $error = checkUserExist($newUser['login']);
-    //
-    // if($error == "username"){
-    //
-    // }
-    // else if($error == "email"){
-    //
-    // }
-    // else{
+    if(checkUserExist($newUser['login'],$newUser['phonenumber'])){
+      $app['notif'] = "Patient already exists.";
+    }
+    else{
       addUser($newUser);
-      $app['notif'] = "Patient ajouté.";
-    // }
+      $app['notif'] = "Patient added.";
+    }
   }
   else if($type == "changeStatus"){
     $idUser=$request->get('idPatientStatus');
     changeStatus($idUser);
     $app['notif'] = "Status changed.";
   }
+
+  $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
 
   return $app['twig']->render('dash.twig');
 });
