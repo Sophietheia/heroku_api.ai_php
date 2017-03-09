@@ -31,7 +31,7 @@ function checkUserExist($username,$phone){
   $query = pg_prepare($db, "check_user", "SELECT * FROM users WHERE username=$1 OR phonenumber=$2 LIMIT 1;");
   $res = pg_execute($db, "check_user", array($username,$phone));
 
-  $arr = pg_fetch_row($res);
+  $arr = pg_fetch_array($res);
 
   file_put_contents("php://stderr", "array: ".$arr['username']."\n");
 
