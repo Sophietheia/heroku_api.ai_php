@@ -9,15 +9,20 @@ $app->get('/dashboardDoctor', function() use($app){
   if(!$_SESSION['connected'])
     return $app->redirect($app['url_generator']->generate('home'));
 
-  $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
+  $app['connected'] = true;
+  $app['idDoc'] = $_SESSION['idDoc'];
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
   $app['notif'] = '';
   return $app['twig']->render('dash.twig');
 })->bind("dashboardDoctor");
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
+  session_start();
+  if(!$_SESSION['connected'])
+    return $app->redirect($app['url_generator']->generate('home'));
 
-  $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
+  $app['connected'] = true;
+  $app['idDoc'] = $_SESSION['idDoc'];
 
   $type = $request->get('type');
 
@@ -66,8 +71,12 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     changeStatus($idUser);
     $app['notif'] = "Status changed.";
   }
-
-   else if($type == "stade"){
+  else if($type == "changeZoneStatus"){
+    $idUser=$request->get('idPatientZoneStatus');
+    changeZoneStatus($idUser);
+    $app['notif'] = "Zone status changed.";
+  }
+  else if($type == "stade"){
     $idUser=$request->get('idPatientStade');
     $newStade=$request->get('stage');
     changeStade($idUser, $newStade);
@@ -78,3 +87,9 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
 
   return $app['twig']->render('dash.twig');
 });
+
+$app->get('/logout', function() use($app){
+  session_start();
+  session_unset();
+  return $app->redirect($app['url_generator']->generate('home'));
+})->bind("logout");

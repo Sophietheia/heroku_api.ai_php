@@ -29,16 +29,18 @@
 
 			          <h1 style="margin:auto; color:white; text-align:center;">Sign Up </h1>
 
-			            <input  type="text" name="pseudo" id="pseudo" placeholder="First Name*" size="30" maxlength="10" style="width:60%; border-style: solid 1px;  border-radius: 3px;" />
+                <form action="/register" method="POST">
 
-				      	<input  type="text" name="pseudo" id="pseudo" placeholder="Last Name*" size="30" maxlength="10" style="width:60%; border-style: solid 1px;  border-radius: 3px;"/>
+			            <input  type="text" name="surname" id="surname" placeholder="First Name" size="30" maxlength="10" style="width:60%; border-style: solid 1px;  border-radius: 3px;" />
 
-			            <input style="width:60%;border-style: solid 1px; border-radius: 3px;" type="text" name="pseudo" id="pseudo" placeholder="Email Address*" size="30" maxlength="10" />
+				      	  <input  type="text" name="name" id="name" placeholder="Last Name" size="30" maxlength="10" style="width:60%; border-style: solid 1px;  border-radius: 3px;"/>
 
-			            <input style="width:60%; border-style: solid 1px  ; border-radius: 3px;"  type="text"  name="pseudo" id="pseudo" placeholder="Set A Password*" size="30"/>
+			            <input style="width:60%;border-style: solid 1px; border-radius: 3px;" type="email" name="email" id="email" placeholder="Email Address" size="30" maxlength="10" />
 
-			           <button   type="submit" style="width:60%; background-color:#73BBA2; border-radius: 3px; color:white;">Send</button>
+			            <input style="width:60%; border-style: solid 1px  ; border-radius: 3px;"  type="password"  name="password" id="password" placeholder="Set A Password*" size="30"/>
 
+			            <button type="submit" style="width:60%; background-color:#73BBA2; border-radius: 3px; color:white;">Send</button>
+               </form>
 			   	</div>
 
 			    <div  style="display:block" id="login">

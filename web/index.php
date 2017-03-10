@@ -1,7 +1,6 @@
 <?php
 
 define("ID", 1);
-define("IDDOC", 20);
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,11 +53,12 @@ $app->post('/', function(request $request) use($app){
   $username = $request->get('username');
   $password = sha1($request->get('password'));
 
-  $login = checkLogin($username,$password);
+  $login = checkLoginDoctor($username,$password);
 
   if($login){
     session_start();
     $_SESSION['connected'] = true;
+    $_SESSION['idDoc'] = getIdDoc($username);
 
     return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
@@ -66,6 +66,44 @@ $app->post('/', function(request $request) use($app){
     $app['warning'] = "username or password does not exist";
 
     return $app['twig']->render('index3.twig');
+  }
+});
+
+$app->post('/zone', function(request $request) use($app){
+
+  $username = $request->get('username');
+
+  $address = get_user_address($username);
+
+  $prepAddr = str_replace(' ','+',$address);
+  $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+  $output= json_decode($geocode);
+
+  $tab['latitude'] = $output->results[0]->geometry->location->lat;
+  $tab['longitude'] = $output->results[0]->geometry->location->lng;
+
+  $tab['radius'] = get_user_radius($username);
+
+  file_put_contents("php://stderr", "lat: ".$tab['latitude']."long: ".$tab['longitude']."radius: ".$tab['radius']);
+
+  return json_encode($tab);
+});
+
+$app->post('/register', function(request $request) use($app){
+  $username = $request->get('username');
+  $surname = $request->get('surname');
+  $name = $request->get('name');
+  $email = $request->get('email');
+
+  if(check_doctor_exist($username,$email)){
+    return $app->redirect($app['url_generator']->generate('home'));
+  }
+  else{
+    $id = add_doctor($username,$surname,$name,$email);
+    session_start();
+    $_SESSION['connected'] = true;
+    $_SESSION['idDoc'] = $id;
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
 });
 
@@ -161,10 +199,6 @@ while ($row = pg_fetch_array($result)) {
 }
 
   return json_encode($response);
-});
-
-$app->post('/register', function() use($app){
-  return 'register page';
 });
 
 $app->get('/privacy', function() use($app) {

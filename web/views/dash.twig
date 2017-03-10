@@ -4,10 +4,10 @@
 <p style="color:green; font-weight:bold;">{{app.notif}}</p>
 
    <div style="width:100%; display: inline ;margin-top:20%; solid black; background-color:#DCDCDC" >
-<button style="background:   #01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: "lucida grande";">Home</button>
-   <button style="background:   #01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: "lucida grande";  ">Help</button>
-   <button style="background:   #01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: "lucida grande", ;">About us</button>
-   </div>
+  <button style="background:#01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: 'lucida grande';">Home</button>
+   <button style="background:#01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: 'lucida grande';  ">Help</button>
+   <button style="background:#01796F;border: 1px solid #becfe3;border-radius: 16px;-moz-border-radius: 16px;-webkit-border-radius: 16px;-moz-box-shadow: inset 0 1px 0 0 #fff;-webkit-box-shadow: inset 0 1px 0 0 #fff;color: #FFE4E1;font-size: 20px;font-family: 'lucida grande', ;">About us</button>
+  </div>
    <div>
 
        <h2 style="margin-left: 35%; color: #01796F
@@ -23,6 +23,7 @@
       <th>Stage of Disease</th>
       <th>Address</th>
       <th>Emergency status</th>
+      <th>Alert zone</th>
       <th>Actions</th>
 
 
@@ -37,20 +38,32 @@
       <td>{{user['phonenumber']}}</td>
       <td>{{user['stade']}}</td>
       <td>{{user['address']}}</td>
+
       {% if user['status'] == 't' %}
       <td style="color:green; font-weight:bold;">o</td>
       {% else %}
       <td style="color:red; font-weight:bold;">o</td>
       {% endif %}
 
+      {% if user['alertzone'] == 't' %}
+      <td style="color:green; font-weight:bold;">o</td>
+      {% else %}
+      <td style="color:red; font-weight:bold;">o</td>
+      {% endif %}
+
       <td>
-        <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
-        <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
-        <button class="changeStade" id="stade{{user['id']}}">Change stage of disease </button>
+        <button title="add meeting" class="addRdv" id="rdv{{user['id']}}"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button title="add reminder" class="addRappel" id="rappel{{user['id']}}"><span class="glyphicon glyphicon-list-alt"></span></button>
+        <button title="change desease stage" class="changeStade" id="stade{{user['id']}}"><span class="glyphicon glyphicon-stats"></span></button>
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
-          <button class="changeStatus" id="status{{user['id']}}">Change emergency status</button>
+          <button title="change emergency status" class="changeStatus" id="status{{user['id']}}"><span class="glyphicon glyphicon-alert"></sapn></button>
+        </form>
+        <form method="POST" style="display:inline-block;">
+          <input type="hidden" name="type" value="changeZoneStatus">
+          <input type="hidden" id="idPatientChangeZoneStatus" name="idPatientZoneStatus" value="{{user['id']}}">
+          <button title="change zone alert" class="changeZoneStatus" id="zonestatus{{user['id']}}"><span class="glyphicon glyphicon-map-marker"></span></button>
         </form>
       </td>
 
@@ -222,7 +235,7 @@
       </div>
       <div class="modal-footer">
       </div>
-     </div>   
+     </div>
   </div>
 </div>
 
@@ -246,13 +259,15 @@
       $('#addpatientModal').modal('show');
     });
 
-     $(".changeStade").click(function(){
+    $(".changeStade").click(function(){
       var res = (this.id).slice(5);
       $('#idPatientStade').val(res);
       $('#stageModal').modal('show');
     });
-   
 
+    $("#logoutBtn").click(function(){
+      $('#logoutForm').submit();
+    });
 
 
   </script>
