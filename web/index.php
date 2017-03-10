@@ -80,7 +80,10 @@ $app->post('/register', function(request $request) use($app){
     return $app->redirect($app['url_generator']->generate('home'));
   }
   else{
-    add_doctor($username,$surname,$name,$email);
+    $id = add_doctor($username,$surname,$name,$email);
+    session_start();
+    $_SESSION['connected'] = true;
+    $_SESSION['idDoc'] = $id;
     return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
 });
@@ -177,10 +180,6 @@ while ($row = pg_fetch_array($result)) {
 }
 
   return json_encode($response);
-});
-
-$app->post('/register', function() use($app){
-  return 'register page';
 });
 
 $app->get('/privacy', function() use($app) {
