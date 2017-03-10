@@ -23,6 +23,7 @@
       <th>Stage of Disease</th>
       <th>Address</th>
       <th>Emergency status</th>
+      <th>Alert zone</th>
       <th>Actions</th>
 
 
@@ -37,7 +38,14 @@
       <td>{{user['phonenumber']}}</td>
       <td>{{user['stade']}}</td>
       <td>{{user['address']}}</td>
+      
       {% if user['status'] == 't' %}
+      <td style="color:green; font-weight:bold;">o</td>
+      {% else %}
+      <td style="color:red; font-weight:bold;">o</td>
+      {% endif %}
+
+      {% if user['alertzone'] == 't' %}
       <td style="color:green; font-weight:bold;">o</td>
       {% else %}
       <td style="color:red; font-weight:bold;">o</td>
