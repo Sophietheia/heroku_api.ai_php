@@ -94,12 +94,13 @@ $app->post('/register', function(request $request) use($app){
   $surname = $request->get('surname');
   $name = $request->get('name');
   $email = $request->get('email');
+  $password = $request->get('password');
 
   if(check_doctor_exist($username,$email)){
     return $app->redirect($app['url_generator']->generate('home'));
   }
   else{
-    $id = add_doctor($username,$surname,$name,$email);
+    $id = add_doctor($username,$surname,$name,$email,sha1($password));
     session_start();
     $_SESSION['connected'] = true;
     $_SESSION['idDoc'] = $id;
