@@ -25,6 +25,15 @@ function changeStatus($idUser){
  }
 
 
+function changeStade($idUser,$newStade){
+
+   $db = db_connect();
+
+   $query = pg_prepare($db, "change_stade", "UPDATE users SET stade=$1 WHERE id=$2");
+
+   pg_execute($db, "change_stade", array($newStade, $idUser));
+ }
+
 function checkUserExist($username,$phone){
   $db = db_connect();
 

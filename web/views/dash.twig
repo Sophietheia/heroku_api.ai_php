@@ -20,10 +20,10 @@
       <th>Name</th>
       <th>Surname</th>
       <th>Phone number</th>
-
+      <th>Stage of Disease</th>
       <th>Address</th>
-      <th>Status</th>
-       <th>Actions</th>
+      <th>Emergency status</th>
+      <th>Actions</th>
 
 
     </tr>
@@ -34,7 +34,8 @@
     <tr style="border:1px ">
       <td>{{user['name']}}</td>
       <td>{{user['surname']}}</td>
-      <td>{{user['email']}}</td>
+      <td>{{user['phonenumber']}}</td>
+      <td>{{user['stade']}}</td>
       <td>{{user['address']}}</td>
       {% if user['status'] == 't' %}
       <td style="color:green; font-weight:bold;">o</td>
@@ -45,10 +46,11 @@
       <td>
         <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
         <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
+        <button class="changeStade" id="stade{{user['id']}}">Change stage of disease </button>
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
-          <button class="changeStatus" id="status{{user['id']}}">Change status</button>
+          <button class="changeStatus" id="status{{user['id']}}">Change emergency status</button>
         </form>
       </td>
 
@@ -193,6 +195,37 @@
   </div>
 </div>
 
+<div id="stageModal" class="modal fade" id="eModal" tabindex="-1" role="dialog" aria-labelledby="eModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+        <h5 class="modal-title">Change disease stade</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <form method="POST">
+            <input type="hidden" name="type" value="stade">
+            <input type="hidden" id="idDocStade" name="iddoc" value="{{app.idDoc}}">
+            <input type="hidden" id="idPatientStade" name="idPatientStade">
+            <div class="form-group">
+              <label for="stage" class="form-control-label">Stage of Disease:</label>
+               <select class="form-control" id="stage" name="stage">
+                <option>1</option>
+                <option>2</option>
+              </select>
+              </div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button style="background:   #01796F" type="submit" class="btn btn-primary">Change disease stage</button>
+         </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+     </div>   
+  </div>
+</div>
+
 
   <script>
     $(".addRdv").click(function(){
@@ -212,6 +245,15 @@
       $('#idPatientAdd').val(res);
       $('#addpatientModal').modal('show');
     });
+
+     $(".changeStade").click(function(){
+      var res = (this.id).slice(5);
+      $('#idPatientStade').val(res);
+      $('#stageModal').modal('show');
+    });
+   
+
+
 
   </script>
 {% endblock %}

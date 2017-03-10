@@ -63,6 +63,13 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $app['notif'] = "Status changed.";
   }
 
+   else if($type == "stade"){
+    $idUser=$request->get('idPatientStade');
+    $newStade=$request->get('stage');
+    changeStade($idUser, $newStade);
+    $app['notif'] = "State of disease changed.";
+  }
+
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
 
   return $app['twig']->render('dash.twig');

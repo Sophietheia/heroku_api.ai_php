@@ -94,20 +94,23 @@ $app->post('/login', function(Request $request) use($app){
   return json_encode($response);
 });
 
+
 $app->post('/memory', function(Request $request) use($app){
+
+  $username = $request->get('username');
   //Database connection
 	$db = db_connect();
   //**************************
 
   $response = array();
-    //$response['stade'] = "1";
+    //$response['stade'] = 1;
   $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
-    $result= pg_execute($db, "get_stade", array(ID));
+    $result= pg_execute($db, "get_stade", $username);
     $response=pg_fetch_row($result);
-    if($response[0]==1)
+   /* if($response[0]==1)
     	$response['stade']=true;
- 	if($response[0]==0)
-    	$response['stade']=false;
+ 	  if($response[0]==2)
+    	$response['stade']=false;*/
 
   return json_encode($response);
 });
