@@ -177,7 +177,7 @@ function test_login($db, $uname, $pass){
   function check_doctor_exist($username,$email){
     $db = db_connect();
 
-    $query = pg_prepare($db, "check_doctor", "SELECT * FROM doctor WHERE username=$1 OR email=$2 LIMIT 1;");
+    $query = pg_prepare($db, "check_doctor", "SELECT * FROM doctors WHERE username=$1 OR email=$2 LIMIT 1;");
     $res = pg_execute($db, "check_doctor", array($username,$email));
 
     $arr = pg_fetch_array($res);
