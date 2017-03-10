@@ -72,10 +72,10 @@ function addUser($newUser){
   pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true));
 }
 
-function checkLogin($username, $password){
+function checkLoginDoctor($username, $password){
   $db = db_connect();
 
-  $query = pg_prepare($db, "check_login", "SELECT * FROM users WHERE username=$1;");
+  $query = pg_prepare($db, "check_login", "SELECT * FROM doctors WHERE username=$1;");
 
   $res = pg_execute($db, "check_login", array($username));
 
@@ -87,4 +87,16 @@ function checkLogin($username, $password){
   else {
     return false;
   }
+}
+
+function getIdDoc($username){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "get_id", "SELECT id FROM doctors WHERE username=$1;");
+
+  $res = pg_execute($db, "get_id", array($username));
+
+  $arr = pg_fetch_array($res);
+
+  return $arr['id'];
 }

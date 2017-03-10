@@ -54,11 +54,12 @@ $app->post('/', function(request $request) use($app){
   $username = $request->get('username');
   $password = sha1($request->get('password'));
 
-  $login = checkLogin($username,$password);
+  $login = checkLoginDoctor($username,$password);
 
   if($login){
     session_start();
     $_SESSION['connected'] = true;
+    $_SESSION['idDoc'] = getIdDoc($username);
 
     return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }

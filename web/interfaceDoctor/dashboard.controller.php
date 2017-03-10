@@ -9,15 +9,15 @@ $app->get('/dashboardDoctor', function() use($app){
   if(!$_SESSION['connected'])
     return $app->redirect($app['url_generator']->generate('home'));
 
-  $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
+  $app['idDoc'] = $_SESSION['idDoc'];
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
   $app['notif'] = '';
   return $app['twig']->render('dash.twig');
 })->bind("dashboardDoctor");
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
-
-  $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
+  session_start();
+  $app['idDoc'] = $_SESSION['idDoc'];
 
   $type = $request->get('type');
 
@@ -66,12 +66,14 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     changeStatus($idUser);
     $app['notif'] = "Status changed.";
   }
-
-   else if($type == "stade"){
+  else if($type == "stade"){
     $idUser=$request->get('idPatientStade');
     $newStade=$request->get('stage');
     changeStade($idUser, $newStade);
     $app['notif'] = "State of disease changed.";
+  }
+  else if($type == "logout"){
+    session_unset();
   }
 
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
