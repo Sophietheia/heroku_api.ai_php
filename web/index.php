@@ -1,7 +1,6 @@
 <?php
 
 define("ID", 1);
-define("IDDOC", 20);
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,7 +69,7 @@ $app->post('/', function(request $request) use($app){
   }
 });
 
-$app->get('/zone', function() use($app){
+$app->post('/zone', function(request $request) use($app){
   //do something
   return '';
 });
