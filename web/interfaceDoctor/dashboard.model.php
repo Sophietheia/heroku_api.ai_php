@@ -100,3 +100,23 @@ function getIdDoc($username){
 
   return $arr['id'];
 }
+
+function get_user_address($username){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "get_address", "SELECT address FROM users WHERE username=$1;");
+  $res = pg_execute($db, "get_address", array($username));
+  $arr = pg_fetch_array($res);
+
+  return $arr['address'];
+}
+
+function get_user_radius($username){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "get_radius", "SELECT radius FROM users WHERE username=$1;");
+  $res = pg_execute($db, "get_radius", array($username));
+  $arr = pg_fetch_array($res);
+
+  return $arr['radius'];
+}

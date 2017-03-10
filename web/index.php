@@ -70,8 +70,21 @@ $app->post('/', function(request $request) use($app){
 });
 
 $app->post('/zone', function(request $request) use($app){
-  //do something
-  return '';
+
+  $username = $request->get('username');
+
+  $address = get_user_address($username);
+
+  $prepAddr = str_replace(' ','+',$address);
+  $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+  $output= json_decode($geocode);
+  
+  $tab['latitude'] = $output->results[0]->geometry->location->lat;
+  $tab['longitude'] = $output->results[0]->geometry->location->lng;
+
+  $tab['radius'] = get_user_radius($username);
+
+  return json_encode($tab);
 });
 
 $app->post('/register', function(request $request) use($app){

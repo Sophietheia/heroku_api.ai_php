@@ -5,17 +5,6 @@ use Symfony\Component\HttpFoundation\Response;
 require('dashboard.model.php');
 
 $app->get('/dashboardDoctor', function() use($app){
-
-  ///////////////////////////////////////////////
-  $address = "36, rue du theatre, 75015";
-  $prepAddr = str_replace(' ','+',$address);
-  $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
-  $output= json_decode($geocode);
-  $latitude = $output->results[0]->geometry->location->lat;
-  $longitude = $output->results[0]->geometry->location->lng;
-
-  echo $latitude;
-  /////////////////////////////////////////////////
   session_start();
   if(!$_SESSION['connected'])
     return $app->redirect($app['url_generator']->generate('home'));
