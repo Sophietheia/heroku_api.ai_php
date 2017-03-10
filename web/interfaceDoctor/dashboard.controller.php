@@ -84,6 +84,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
 });
 
 $app->get('/logout', function() use($app){
+  session_start();
   session_unset();
   return $app->redirect($app['url_generator']->generate('home'));
 })->bind("logout");
