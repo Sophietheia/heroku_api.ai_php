@@ -70,6 +70,11 @@ $app->post('/', function(request $request) use($app){
   }
 });
 
+$app->get('/zone', function() use($app){
+  //do something
+  return '';
+});
+
 $app->post('/register', function(request $request) use($app){
   $username = $request->get('username');
   $surname = $request->get('surname');
