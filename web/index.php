@@ -6,8 +6,6 @@ define("IDDOC", 20);
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-// use Silex\Provider\FormServiceProvider;
-// use Silex\Provider\CsrfServiceProvider;
 
 require('../vendor/autoload.php');
 
@@ -32,6 +30,8 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+
 require('functions.php');
 
 
@@ -40,7 +40,33 @@ require('functions.php');
 // Web handlers
 
 $app->get('/', function() use($app){
-  return $app['twig']->render('index.twig');
+  session_start();
+  if($_SESSION['connected']){
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
+  }
+  else{
+    $app['warning'] = "";
+    return $app['twig']->render('index2.twig');
+  }
+})->bind("home");
+
+$app->post('/', function(request $request) use($app){
+  $username = $request->get('username');
+  $password = sha1($request->get('password'));
+
+  $login = checkLogin($username,$password);
+
+  if($login){
+    session_start();
+    $_SESSION['connected'] = true;
+
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
+  }
+  else{
+    $app['warning'] = "username or password does not exist";
+
+    return $app['twig']->render('index2.twig');
+  }
 });
 
 $app->get('/talk', function() use($app){

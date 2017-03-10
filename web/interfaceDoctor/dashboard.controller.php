@@ -5,11 +5,15 @@ use Symfony\Component\HttpFoundation\Response;
 require('dashboard.model.php');
 
 $app->get('/dashboardDoctor', function() use($app){
+  session_start();
+  if(!$_SESSION['connected'])
+    return $app->redirect($app['url_generator']->generate('home'));
+
   $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
   $app['notif'] = '';
   return $app['twig']->render('dash.twig');
-});
+})->bind("dashboardDoctor");
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
 

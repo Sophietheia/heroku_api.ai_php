@@ -71,3 +71,20 @@ function addUser($newUser){
 
   pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true));
 }
+
+function checkLogin($username, $password){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "check_login", "SELECT * FROM users WHERE username=$1;");
+
+  $res = pg_execute($db, "check_login", array($username));
+
+  $arr = pg_fetch_array($res);
+
+  if($arr['password'] == $password){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
