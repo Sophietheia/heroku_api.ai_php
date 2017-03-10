@@ -79,6 +79,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   }
   else if($type == "logout"){
     session_unset();
+    return $app->redirect($app['url_generator']->generate('home'));
   }
 
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
