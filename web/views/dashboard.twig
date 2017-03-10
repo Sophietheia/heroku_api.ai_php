@@ -10,6 +10,7 @@
       <th>Email</th>
       <th>Address</th>
       <th>Status</th>
+      <th>Alert zone</th>
       <th>Actions</th>
     </tr>
     {% for user in app.users %}
@@ -19,6 +20,11 @@
       <td>{{user['email']}}</td>
       <td>{{user['address']}}</td>
       {% if user['status'] == 't' %}
+      <td style="color:green; font-weight:bold;">o</td>
+      {% else %}
+      <td style="color:red; font-weight:bold;">o</td>
+      {% endif %}
+      {% if user['alertzone'] == 't' %}
       <td style="color:green; font-weight:bold;">o</td>
       {% else %}
       <td style="color:red; font-weight:bold;">o</td>
