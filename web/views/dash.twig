@@ -38,7 +38,7 @@
       <td>{{user['phonenumber']}}</td>
       <td>{{user['stade']}}</td>
       <td>{{user['address']}}</td>
-      
+
       {% if user['status'] == 't' %}
       <td style="color:green; font-weight:bold;">o</td>
       {% else %}
@@ -59,6 +59,11 @@
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
           <button class="changeStatus" id="status{{user['id']}}">Change emergency status</button>
+        </form>
+        <form method="POST" style="display:inline-block;">
+          <input type="hidden" name="type" value="changeZoneStatus">
+          <input type="hidden" id="idPatientChangeZoneStatus" name="idPatientZoneStatus" value="{{user['id']}}">
+          <button class="changeZoneStatus" id="zonestatus{{user['id']}}">Change zone status</button>
         </form>
       </td>
 

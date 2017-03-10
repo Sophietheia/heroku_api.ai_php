@@ -71,6 +71,11 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     changeStatus($idUser);
     $app['notif'] = "Status changed.";
   }
+  else if($type == "changeZoneStatus"){
+    $idUser=$request->get('idPatientZoneStatus');
+    changeZoneStatus($idUser);
+    $app['notif'] = "Zone status changed.";
+  }
   else if($type == "stade"){
     $idUser=$request->get('idPatientStade');
     $newStade=$request->get('stage');
