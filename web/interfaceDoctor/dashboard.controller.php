@@ -77,12 +77,13 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     changeStade($idUser, $newStade);
     $app['notif'] = "State of disease changed.";
   }
-  else if($type == "logout"){
-    session_unset();
-    return $app->redirect($app['url_generator']->generate('home'));
-  }
 
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
 
   return $app['twig']->render('dash.twig');
 });
+
+$app->get('/logout', function() use($app){
+  session_unset();
+  return $app->redirect($app['url_generator']->generate('home'));
+})->bind("logout");
