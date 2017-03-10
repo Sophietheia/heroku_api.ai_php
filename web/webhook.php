@@ -136,6 +136,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	////if user says hello, response with name of user
 	else if($result['action'] == "hello"){
+
+		$sessionId = $request->request->get('sessionId');
+
 		$check=TRUE;
 
 		$result = findNameSurname($db, ID);
@@ -145,7 +148,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['name'];
 			if(!$name){
-				$speech ="Hello ! I have a question... What's the family name of ".$arr['surname']." ?";
+				$speech =$sessionId." Hello ! I have a question... What's the family name of ".$arr['surname']." ?";
 				$check=FALSE;
 			}
 		}
