@@ -41,31 +41,33 @@
 
 			   	</div>
 
-			    <div  style="display:block" id="login">   
+			    <div  style="display:block" id="login">
 			      <h1>Welcome Back!</h1>
-			      
+
 			      <form action="/" method="post">
-			      
+
 			        <div class="field-wrap">
 			        <input type="text" name="pseudo" id="pseudo" placeholder="Email Address*" size="30" maxlength="10" />
 			      </div>
-			      
+
 			      <div class="field-wrap">
 			       <input type="text" name="pseudo" id="pseudo" placeholder="Password*" size="30" maxlength="10" />
 			      </div>
-			      
+
 			      <p class="forgot"><a href="#">Forgot Password?</a></p>
-			      
+
 			      <button class="button button-block">Log In</button>
-			      
+
 			      </form>
+
+            <p id="warning">{{app.warning}}</p>
 
 			    </div>
 			</div>
 			<div class="col-md-2"></div>
 		</div>
 
-		<style> 
+		<style>
 			@-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Firefox */
 			@-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Webkit */
 			@-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* IE */
@@ -74,7 +76,7 @@
 			  width:100%;
 			  margin-top: 14%;
 		      display: block;
-		      display:none; 
+		      display:none;
 			  -moz-transition:all 1s ease-in-out;
 			  -webkit-transition:all 1s ease-in-out;
 			  -o-transition:all 1s ease-in-out;
@@ -86,6 +88,11 @@
 			  -ms-animation:blink normal 2s infinite ease-in-out; /* IE */
 			  animation:blink normal 2s infinite ease-in-out; /* Opera and prob css3 final iteration */
 			}
+
+      #warning{
+        color:green;
+        font-weight:bold;
+      }
 		</style>
 	</body>
 </html>

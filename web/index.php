@@ -39,8 +39,25 @@ require('functions.php');
 
 // Web handlers
 
-$app->get('/', function() use($app){
-  return $app['twig']->render('index2.twig');
+$app->get('/', function(request $request) use($app){
+
+  $username = $request->get('username');
+  $password = sha1($request->get('password'));
+
+  $login = checkLogin($username,$password);
+
+  if($login){
+    session_start();
+    $app['warning'] = "";
+    $_SESSION['connected'] = true;
+
+    return $app['twig']->render('dashboard.twig');
+  }
+  else{
+    $app['warning'] = "username or password does not exist";
+
+    return $app['twig']->render('index2.twig');
+  }
 });
 
 $app->get('/talk', function() use($app){
