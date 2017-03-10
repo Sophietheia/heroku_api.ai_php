@@ -42,7 +42,7 @@ require('functions.php');
 $app->get('/', function() use($app){
   session_start();
   if($_SESSION['connected']){
-    //rediriger vers dashboard
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
   else{
     $app['warning'] = "";
@@ -60,7 +60,7 @@ $app->post('/', function(request $request) use($app){
     session_start();
     $_SESSION['connected'] = true;
 
-    $app->redirect($app['url_generator']->generate('dashboardDoctor'));
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
   else{
     $app['warning'] = "username or password does not exist";
