@@ -9,7 +9,7 @@ $app->get('/dashboardDoctor', function() use($app){
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
   $app['notif'] = '';
   return $app['twig']->render('dash.twig');
-});
+})->bind("dashboardDoctor");
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
 
