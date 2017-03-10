@@ -9,6 +9,7 @@ $app->get('/dashboardDoctor', function() use($app){
   if(!$_SESSION['connected'])
     return $app->redirect($app['url_generator']->generate('home'));
 
+  $app['connected'] = true;
   $app['idDoc'] = $_SESSION['idDoc'];
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
   $app['notif'] = '';
@@ -17,6 +18,10 @@ $app->get('/dashboardDoctor', function() use($app){
 
 $app->post('/dashboardDoctor', function(Request $request) use($app){
   session_start();
+  if(!$_SESSION['connected'])
+    return $app->redirect($app['url_generator']->generate('home'));
+
+  $app['connected'] = true;
   $app['idDoc'] = $_SESSION['idDoc'];
 
   $type = $request->get('type');
