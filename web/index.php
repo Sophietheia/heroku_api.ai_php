@@ -71,7 +71,18 @@ $app->post('/', function(request $request) use($app){
 });
 
 $app->post('/register', function(request $request) use($app){
-  
+  $username = $request->get('username');
+  $surname = $request->get('surname');
+  $name = $request->get('name');
+  $email = $request->get('email');
+
+  if(check_doctor_exist($username,$email)){
+    return $app->redirect($app['url_generator']->generate('home'));
+  }
+  else{
+    add_doctor($username,$surname,$name,$email);
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
+  }
 });
 
 $app->get('/talk', function() use($app){

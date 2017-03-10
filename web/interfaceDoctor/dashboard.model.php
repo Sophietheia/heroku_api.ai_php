@@ -42,7 +42,7 @@ function checkUserExist($username,$phone){
 
   $arr = pg_fetch_array($res);
 
-  if(!empty($arr['username'])){
+  if(!empty($arr['username']) || !empty($arr['phonenumber'])){
     return true;
   }
   else {

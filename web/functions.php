@@ -173,4 +173,27 @@ function test_login($db, $uname, $pass){
     $query = pg_prepare($db, "update_status", "UPDATE users SET status=true WHERE idDoctor=$1 AND id=$2;");
   	pg_execute($db, "update_status", array($idDoc,$idPatient));
   }
+
+  function check_doctor_exist($username,$email){
+    $db = db_connect();
+
+    $query = pg_prepare($db, "check_doctor", "SELECT * FROM doctor WHERE username=$1 OR email=$2 LIMIT 1;");
+    $res = pg_execute($db, "check_doctor", array($username,$email));
+
+    $arr = pg_fetch_array($res);
+
+    if(!empty($arr['username']) || !empty($arr['email'])){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  function add_doctor($username,$surname,$name,$email){
+    $db = db_connect();
+
+    $query = pg_prepare($db, "add_doctor", "INSERT INTO doctors(username,surname,name,email) VALUES($1,$2,$3,$4)");
+    pg_execute($db, "add_doctor", array($username,$surname,$name,$email));
+  }
 ?>
