@@ -67,7 +67,7 @@ $app->post('/', function(request $request) use($app){
 
     return $app['twig']->render('index2.twig');
   }
-});
+})->bind("index");
 
 $app->get('/talk', function() use($app){
   return $app['twig']->render('talk.twig');

@@ -5,6 +5,10 @@ use Symfony\Component\HttpFoundation\Response;
 require('dashboard.model.php');
 
 $app->get('/dashboardDoctor', function() use($app){
+  session_start();
+  if(!$_SESSION['connected'])
+    return $app['twig']->render('index.twig');
+
   $app['idDoc'] = IDDOC; //$_COOKIE["idDoc"];
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
   $app['notif'] = '';
