@@ -39,8 +39,15 @@ require('functions.php');
 
 // Web handlers
 
-$app->get('/', function(request $request) use($app){
+$app->get('/', function() use($app){
+  if($_SESSION['connected']){
+    //rediriger vers dashboard
+  }
+  else
+    return $app['twig']->render('index2.twig');
+});
 
+$app->post('/', function(request $request) use($app){
   $username = $request->get('username');
   $password = sha1($request->get('password'));
 
