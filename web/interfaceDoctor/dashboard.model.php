@@ -28,7 +28,7 @@ function changeStatus($idUser){
 
     $db = db_connect();
 
-    $query = pg_prepare($db, "change_zone_status", "UPDATE users SET zonealert='true' WHERE id=$1");
+    $query = pg_prepare($db, "change_zone_status", "UPDATE users SET alertzone='true' WHERE id=$1");
 
     pg_execute($db, "change_zone_status", array($idUser));
   }
