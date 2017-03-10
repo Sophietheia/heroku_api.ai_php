@@ -46,7 +46,7 @@ $app->get('/', function() use($app){
   }
   else{
     $app['warning'] = "";
-    return $app['twig']->render('index2.twig');
+    return $app['twig']->render('index3.twig');
   }
 })->bind("home");
 
@@ -65,7 +65,7 @@ $app->post('/', function(request $request) use($app){
   else{
     $app['warning'] = "username or password does not exist";
 
-    return $app['twig']->render('index2.twig');
+    return $app['twig']->render('index3.twig');
   }
 });
 
