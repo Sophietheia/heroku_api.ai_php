@@ -43,8 +43,10 @@ $app->get('/', function() use($app){
   if($_SESSION['connected']){
     //rediriger vers dashboard
   }
-  else
+  else{
+    $app['warning'] = "";
     return $app['twig']->render('index2.twig');
+  }
 });
 
 $app->post('/', function(request $request) use($app){
@@ -55,7 +57,6 @@ $app->post('/', function(request $request) use($app){
 
   if($login){
     session_start();
-    $app['warning'] = "";
     $_SESSION['connected'] = true;
 
     return $app['twig']->render('dashboard.twig');
