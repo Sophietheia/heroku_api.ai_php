@@ -6,8 +6,6 @@ define("IDDOC", 20);
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-// use Silex\Provider\FormServiceProvider;
-// use Silex\Provider\CsrfServiceProvider;
 
 require('../vendor/autoload.php');
 
@@ -31,6 +29,8 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
+
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 require('functions.php');
 
