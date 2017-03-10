@@ -40,7 +40,7 @@ require('functions.php');
 // Web handlers
 
 $app->get('/', function() use($app){
-  return $app['twig']->render('index.twig');
+  return $app['twig']->render('index2.twig');
 });
 
 $app->get('/talk', function() use($app){

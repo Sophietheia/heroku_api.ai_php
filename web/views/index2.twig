@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- En-tête de la page -->
+        <meta charset="utf-8" />
+        <title>Titre</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+
+<body style="background-color:#DCDCDC;">
+	<div class="row">
+		<div class="col-md-2"></div>
+			<div class="col-md-8" style="text-align:center; margin-top:6%; width:60%">
+				<div class="row">
+				     <div class="col-md-6">
+				       <a href="#">Log In</a>
+				  	</div>
+				  	<div class="col-md-6">
+				       <a href="#">Sign up</a>
+				  	</div>
+			  	</div>
+			     <div style="display:none" class="tab-content" id="sign up" >
+
+			          <h1 style="margin:auto; color:white; text-align:center;">Sign Up </h1>
+
+			            <input  type="text" name="pseudo" id="pseudo" placeholder="First Name*" size="30" maxlength="10" style="width:60%; border-style: solid 1px;  border-radius: 3px;" />
+
+				      	<input  type="text" name="pseudo" id="pseudo" placeholder="Last Name*" size="30" maxlength="10" style="width:60%; border-style: solid 1px;  border-radius: 3px;"/>
+
+			            <input style="width:60%;border-style: solid 1px; border-radius: 3px;" type="text" name="pseudo" id="pseudo" placeholder="Email Address*" size="30" maxlength="10" />
+
+			            <input style="width:60%; border-style: solid 1px  ; border-radius: 3px;"  type="text"  name="pseudo" id="pseudo" placeholder="Set A Password*" size="30"/>
+
+			           <button   type="submit" style="width:60%; background-color:#73BBA2; border-radius: 3px; color:white;">Send</button>
+
+			   	</div>
+
+			    <div  style="display:block" id="login">   
+			      <h1>Welcome Back!</h1>
+			      
+			      <form action="/" method="post">
+			      
+			        <div class="field-wrap">
+			        <input type="text" name="pseudo" id="pseudo" placeholder="Email Address*" size="30" maxlength="10" />
+			      </div>
+			      
+			      <div class="field-wrap">
+			       <input type="text" name="pseudo" id="pseudo" placeholder="Password*" size="30" maxlength="10" />
+			      </div>
+			      
+			      <p class="forgot"><a href="#">Forgot Password?</a></p>
+			      
+			      <button class="button button-block">Log In</button>
+			      
+			      </form>
+
+			    </div>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		<style> 
+			@-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Firefox */
+			@-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Webkit */
+			@-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* IE */
+			@keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Opera and prob css3 final iteration */
+			#logo-index{
+			  width:100%;
+			  margin-top: 14%;
+		      display: block;
+		      display:none; 
+			  -moz-transition:all 1s ease-in-out;
+			  -webkit-transition:all 1s ease-in-out;
+			  -o-transition:all 1s ease-in-out;
+			  -ms-transition:all 1s ease-in-out;
+			  transition:all 1s ease-in-out;
+			  /* order: name, direction, duration, iteration-count, timing-function */
+			  -moz-animation:blink normal 2s infinite ease-in-out; /* Firefox */
+			  -webkit-animation:blink normal 2s infinite ease-in-out; /* Webkit */
+			  -ms-animation:blink normal 2s infinite ease-in-out; /* IE */
+			  animation:blink normal 2s infinite ease-in-out; /* Opera and prob css3 final iteration */
+			}
+		</style>
+	</body>
+</html>

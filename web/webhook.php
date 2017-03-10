@@ -301,7 +301,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		"speech"=> $speech,
 		"displayText"=> $speech,
 		"source"=> "apiai-test-php"
-    );
+  );
 
 	return $app->json($res);
 });
