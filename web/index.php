@@ -40,6 +40,7 @@ require('functions.php');
 // Web handlers
 
 $app->get('/', function() use($app){
+  session_start();
   if($_SESSION['connected']){
     //rediriger vers dashboard
   }
@@ -59,7 +60,7 @@ $app->post('/', function(request $request) use($app){
     session_start();
     $_SESSION['connected'] = true;
 
-    return $app['twig']->render('dashboard.twig');
+    $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
   else{
     $app['warning'] = "username or password does not exist";
