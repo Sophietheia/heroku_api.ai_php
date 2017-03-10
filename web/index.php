@@ -70,6 +70,10 @@ $app->post('/', function(request $request) use($app){
   }
 });
 
+$app->post('/register', function(request $request) use($app){
+  
+});
+
 $app->get('/talk', function() use($app){
   return $app['twig']->render('talk.twig');
 });
