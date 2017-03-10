@@ -4,7 +4,7 @@ DROP TABLE places;
 DROP TABLE relations;
 DROP TABLE doctors;
 DROP TABLE users;
- 
+
 CREATE TABLE doctors(
 	id 			serial primary key,
 	name   		VARCHAR(30),
@@ -43,22 +43,13 @@ CREATE TABLE meetings(
 	FOREIGN KEY(id_person) REFERENCES relations(id),
 	FOREIGN KEY(id_user) REFERENCES users(id)
 );
- 
+
 CREATE TABLE places(
 	id 		serial primary key,
 	name  VARCHAR(30),
 	country  VARCHAR(30),
 	id_user  INT,
 	link_photo  VARCHAR(30),
-	FOREIGN KEY(id_user) REFERENCES users(id)
-);
- 
-CREATE  TABLE tasks(
-	id 		serial primary key,
-	name    VARCHAR(30),
-	description  VARCHAR(30),
-	date_task    DATE,
-	id_user   INT,
 	FOREIGN KEY(id_user) REFERENCES users(id)
 );
 

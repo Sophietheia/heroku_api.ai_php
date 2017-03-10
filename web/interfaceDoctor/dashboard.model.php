@@ -67,7 +67,7 @@ function getUsersListByDoctor($iddoc){
 function addUser($newUser){
   $db = db_connect();
 
-  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status,alertzone) VALUES($1,$2,$3,$4,$5,$6,$7,$8);");
+  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status,alertzone) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9);");
 
   pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true,true));
 }
