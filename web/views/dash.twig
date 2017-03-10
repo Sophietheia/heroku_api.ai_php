@@ -52,18 +52,18 @@
       {% endif %}
 
       <td>
-        <button class="addRdv" id="rdv{{user['id']}}">Add rdv</button>
-        <button class="addRappel" id="rappel{{user['id']}}">Add reminder</button>
-        <button class="changeStade" id="stade{{user['id']}}">Change stage of disease </button>
+        <button class="addRdv" id="rdv{{user['id']}}"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button class="addRappel" id="rappel{{user['id']}}"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button class="changeStade" id="stade{{user['id']}}"><span class="glyphicon glyphicon-stats"></span></button>
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
           <input type="hidden" id="idPatientChangeStatus" name="idPatientStatus" value="{{user['id']}}">
-          <button class="changeStatus" id="status{{user['id']}}">Change emergency status</button>
+          <button class="changeStatus" id="status{{user['id']}}"><span class="glyphicon glyphicon-alert"></sapn></button>
         </form>
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeZoneStatus">
           <input type="hidden" id="idPatientChangeZoneStatus" name="idPatientZoneStatus" value="{{user['id']}}">
-          <button class="changeZoneStatus" id="zonestatus{{user['id']}}">Change zone status</button>
+          <button class="changeZoneStatus" id="zonestatus{{user['id']}}"><span class="glyphicon glyphicon-map-marker"></span></button>
         </form>
       </td>
 
