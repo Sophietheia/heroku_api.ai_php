@@ -52,8 +52,8 @@
       {% endif %}
 
       <td>
-        <button class="addRdv" id="rdv{{user['id']}}"><span class="glyphicon glyphicon-pencil"></span></button>
-        <button class="addRappel" id="rappel{{user['id']}}"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button alt="add meeting" class="addRdv" id="rdv{{user['id']}}"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button class="addRappel" id="rappel{{user['id']}}"><span class="glyphicon glyphicon-list-alt"></span></button>
         <button class="changeStade" id="stade{{user['id']}}"><span class="glyphicon glyphicon-stats"></span></button>
         <form method="POST" style="display:inline-block;">
           <input type="hidden" name="type" value="changeStatus">
