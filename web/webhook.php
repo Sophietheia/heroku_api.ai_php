@@ -10,10 +10,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	$result = $request->request->get('result');
 
-	$sessionId = $request->request->get('sessionId');
-
-
-
 
 /////if user wants to change name
 
