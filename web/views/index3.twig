@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- En-tête de la page -->
+        <meta charset="utf-8" />
+        <title>Welcome</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+
+<body style="background-image:url(photo3.jpg); background-size:cover;  width:90%;">
+	<div class="row">
+		<div class="col-md-3"></div>
+			<div class="col-md-8" style="text-align:center; margin-top:6%; width:60%;background-color:grey;opacity:0.8; margin-top:12%">
+				<div class="row">
+				     <div class="col-md-6">
+				       <a  style="font-size:23px;"  href="#" id="idlogin">Log In</a>
+				  	</div>
+				  	<div class="col-md-6">
+				       <a  style="font-size:23px;" href="#" id="idsignup">Sign up</a>
+				  	</div>
+			  	</div>
+			     <div style="display:none;" class="tab-content" id="signup" >
+
+			          <h1 style="margin:auto; color:#01796F; text-align:center;margin-bottom:5%; font-size:42px; font-family: Palatino Linotype;">Sign Up </h1>
+
+			              <form action="/register" method="POST">
+
+			            <input  type="text" name="surname" id="surname" placeholder="First Name" size="30"  style="width:60%; border-style: solid 1px;  border-radius: 5px; margin-bottom:3%; height:40px;" />
+
+				      	<input  type="text" name="name" id="name" placeholder="Last Name" size="30"  style="width:60%; border-style: solid 1px;  border-radius: 5px; margin-bottom:3%; height:40px;"/>
+
+				      	<input style="width:60%; border-style: solid 1px  ; border-radius: 5px; margin-bottom:3%; height:40px;"  type="text"  name="username" id="username" placeholder="Set your username" size="30"/>
+
+			            <input style="width:60%;border-style: solid 1px; border-radius: 5px; margin-bottom:3%; height:40px;" type="text" name="email" id="email" placeholder="Email Address" size="30"  />
+
+			            <input style="width:60%; border-style: solid 1px  ; border-radius: 5px; margin-bottom:3%; height:40px;"  type="password"  name="password" id="password" placeholder="Set A Password" size="30"/>
+
+			           <button type="submit" style="  font-size:25px;  width:60%; background-color:#73BBA2; border-radius: 5px; color:white; margin-bottom:3%;height:40px;">Send</button>
+			             </form>
+
+			   	</div>
+
+			    <div  style="display:block;" id="login">   
+			      <h1 style="color: #01796F; font-size:42px; font-family: Palatino Linotype; margin-bottom:5%;">Welcome Back</h1>
+			      
+			      <form action="/" method="post">
+			      
+			        <div class="field-wrap">
+			        <input style="width:60%;border-style: solid 1px; border-radius: 5px; margin-bottom:3%; height:40px;" type="text" name="username" id="username" placeholder="Username" size="30"/>
+			      </div>
+			      
+			      <div class="field-wrap">
+			       <input style="width:60%;border-style: solid 1px; border-radius: 5px; margin-bottom:3%; height:40px;" type="password" name="password" id="password" placeholder="Password" size="30"/>
+			      </div>
+			      
+			      <p class="forgot"><a style="font-size:20px;" href="#">Forgot Password?</a></p>
+			      
+			      <button style="background-color:#73BBA2;width:60%;border-style: solid 1px;  font-size:25px; border-radius: 5px; margin-bottom:3%; height:40px; color:white;" class="button button-block">Log In</button>
+			      
+			      </form>
+
+			    </div>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		<style> 
+			@-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Firefox */
+			@-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Webkit */
+			@-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* IE */
+			@keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Opera and prob css3 final iteration */
+			#logo-index{
+			  width:100%;
+			  margin-top: 14%;
+		      display: block;
+		      display:none; 
+			  -moz-transition:all 1s ease-in-out;
+			  -webkit-transition:all 1s ease-in-out;
+			  -o-transition:all 1s ease-in-out;
+			  -ms-transition:all 1s ease-in-out;
+			  transition:all 1s ease-in-out;
+			  /* order: name, direction, duration, iteration-count, timing-function */
+			  -moz-animation:blink normal 2s infinite ease-in-out; /* Firefox */
+			  -webkit-animation:blink normal 2s infinite ease-in-out; /* Webkit */
+			  -ms-animation:blink normal 2s infinite ease-in-out; /* IE */
+			  animation:blink normal 2s infinite ease-in-out; /* Opera and prob css3 final iteration */
+			}
+		</style>
+
+  <script>
+    $("#idlogin").click(function(){
+      $('#login').show();
+       $('#signup').hide()
+
+    
+    });
+
+    $("#idsignup").click(function(){
+      $('#login').hide();
+       $('#signup').show()
+
+    
+    });
+    
+  </script>
+	</body>
+</html>

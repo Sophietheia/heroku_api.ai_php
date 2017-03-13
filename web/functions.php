@@ -190,11 +190,11 @@ function test_login($db, $uname, $pass){
     }
   }
 
-  function add_doctor($username,$surname,$name,$email){
+  function add_doctor($username,$surname,$name,$email,$password){
     $db = db_connect();
 
-    $query = pg_prepare($db, "add_doctor", "INSERT INTO doctors(username,surname,name,email) VALUES($1,$2,$3,$4)");
-    pg_execute($db, "add_doctor", array($username,$surname,$name,$email));
+    $query = pg_prepare($db, "add_doctor", "INSERT INTO doctors(username,surname,name,email,password) VALUES($1,$2,$3,$4,$5)");
+    pg_execute($db, "add_doctor", array($username,$surname,$name,$email, $password));
 
     $query = pg_prepare($db, "id_doctor", "SELECT id FROM doctors WHERE username=$1;");
     $res = pg_execute($db, "id_doctor", array($username));

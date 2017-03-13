@@ -45,7 +45,7 @@ $app->get('/', function() use($app){
   }
   else{
     $app['warning'] = "";
-    return $app['twig']->render('index2.twig');
+    return $app['twig']->render('index3.twig');
   }
 })->bind("home");
 
@@ -65,7 +65,7 @@ $app->post('/', function(request $request) use($app){
   else{
     $app['warning'] = "username or password does not exist";
 
-    return $app['twig']->render('index2.twig');
+    return $app['twig']->render('index3.twig');
   }
 });
 
@@ -94,12 +94,13 @@ $app->post('/register', function(request $request) use($app){
   $surname = $request->get('surname');
   $name = $request->get('name');
   $email = $request->get('email');
+  $password = $request->get('password');
 
   if(check_doctor_exist($username,$email)){
     return $app->redirect($app['url_generator']->generate('home'));
   }
   else{
-    $id = add_doctor($username,$surname,$name,$email);
+    $id = add_doctor($username,$surname,$name,$email,sha1($password));
     session_start();
     $_SESSION['connected'] = true;
     $_SESSION['idDoc'] = $id;
