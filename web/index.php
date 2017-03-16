@@ -114,7 +114,7 @@ $app->get('/talk', function() use($app){
 
 $app->post('/exitZone', function(Request $request) use($app){
   ////////
-  $query = pg_prepare($db, "get_stade", "UPDATE users SET alertzone=false WHERE id=$1;");
+  $query = pg_prepare($db, "get_stade", "UPDATE users SET alertzone='false' WHERE id=$1;");
   $result= pg_execute($db, "get_stade", array(1));//$username));
     //////////
   return '';
