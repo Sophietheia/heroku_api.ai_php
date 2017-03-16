@@ -148,7 +148,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		while($check && $arr = pg_fetch_assoc($result)){
 			$name=$arr['name'];
 			if(!$name){
-				$speech =$sessionId." Hello ! I have a question... What's the family name of ".$arr['surname']." ?";
+				$speech ="Hello ! I have a question... What's the family name of ".$arr['surname']." ?";
 				$check=FALSE;
 			}
 		}
