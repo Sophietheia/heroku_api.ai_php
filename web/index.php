@@ -75,14 +75,14 @@ $app->post('/zone', function(request $request) use($app){
 
   $address = get_user_address($username);
 
-  $prepAddr = str_replace(' ','+',$address);
+  $prepAddr = str_replace(' ','+','37, rue du theatre 75015');//$address);
   $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
   $output= json_decode($geocode);
 
   $tab['latitude'] = $output->results[0]->geometry->location->lat;
   $tab['longitude'] = $output->results[0]->geometry->location->lng;
 
-  $tab['radius'] = get_user_radius($username);
+  $tab['radius'] = 500;//get_user_radius($username);
 
   file_put_contents("php://stderr", "lat: ".$tab['latitude']."long: ".$tab['longitude']."radius: ".$tab['radius']);
 
