@@ -288,7 +288,7 @@
     });
 
     $("#addpatientModal").submit(function(e) {
-      if($('#surname').val()==="" && $('#name').val()==="")
+      if(!$('#surname').val() && !$('#name').val())
         e.preventDefault();
     });
   </script>
