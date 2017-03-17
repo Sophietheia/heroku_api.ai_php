@@ -167,6 +167,13 @@ function test_login($db, $uname, $pass){
   	pg_execute($db, "update_status", array($username));
   }
 
+  function set_alertzone($username){
+    $db = db_connect();
+
+    $query = pg_prepare($db, "update_status_zone", "UPDATE users SET alertzone=false WHERE username=$1;");
+  	pg_execute($db, "update_status_zone", array($username));
+  }
+
   function remove_alert($idDoc,$idPatient){
     $db = db_connect();
 
