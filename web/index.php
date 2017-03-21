@@ -159,6 +159,8 @@ $app->post('/login', function(Request $request) use($app){
 
   $response['connection'] = test_login($db,$username,$password);
 
+  $app['post']=0;
+
   return json_encode($response);
 });
 
