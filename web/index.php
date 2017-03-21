@@ -40,6 +40,9 @@ require('functions.php');
 
 $app->get('/', function() use($app){
   session_start();
+
+  $app['post']=0;
+
   if($_SESSION['connected']){
     return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
@@ -158,8 +161,6 @@ $app->post('/login', function(Request $request) use($app){
   $response = array();
 
   $response['connection'] = test_login($db,$username,$password);
-
-  $app['post']=0;
 
   return json_encode($response);
 });
