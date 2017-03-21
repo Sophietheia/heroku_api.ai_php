@@ -13,7 +13,7 @@ $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = $_SESSION['idDoc'];
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
 
-  $app['notif'] = ''; //FIND SOLUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  $app['notif'] = '';
   return $app['twig']->render('dash.twig');
 })->bind("dashboardDoctor");
 
@@ -57,7 +57,9 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newUser['name'] = $request->get('name');
     $newUser['surname'] = $request->get('surname');
     $newUser['phonenumber'] = $request->get('phonenumber');
-    $newUser['address'] = $request->get('address');
+    $newUser['address'] = $request->get('st_number').' '.$request->get('st_name').', '.$request->get('code_postal').' '.$request->get('city').', '.$request->get('country');
+    $newUser['radius'] = $request->get('radius');
+    $newUser['stage'] = $request->get('stage');
 
     if(checkUserExist($newUser['login'],$newUser['phonenumber'])){
       $app['notif'] = "Patient already exists.";
