@@ -13,11 +13,7 @@ $app->get('/dashboardDoctor', function() use($app){
   $app['idDoc'] = $_SESSION['idDoc'];
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
 
-  if($app['post']==0)
-    $app['notif'] = '';
-
-  $app['post']=0;
-  
+  $app['notif'] = ''; //FIND SOLUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   return $app['twig']->render('dash.twig');
 })->bind("dashboardDoctor");
 
@@ -89,8 +85,6 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   }
 
   $app['users'] = json_decode(getUsersListByDoctor($app['idDoc']), true);
-
-  $app['post']=1;
 
   return $app['twig']->render('dash.twig');
 });

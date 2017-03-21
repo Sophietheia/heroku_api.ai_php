@@ -40,9 +40,6 @@ require('functions.php');
 
 $app->get('/', function() use($app){
   session_start();
-
-  $app['post']=0;
-
   if($_SESSION['connected']){
     return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
   }
