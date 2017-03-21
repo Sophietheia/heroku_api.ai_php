@@ -286,10 +286,5 @@
     $("#logoutBtn").click(function(){
       $('#logoutForm').submit();
     });
-
-    $("#addpatientModal").submit(function(e) {
-      if(!$('#surname').val() && !$('#name').val())
-        e.preventDefault();
-    });
   </script>
 {% endblock %}

@@ -116,7 +116,7 @@ $app->post('/exitZone', function(Request $request) use($app){
   $username = $request->get('username');
 
   set_alertzone($username);
-  
+
   return '';
 });
 
