@@ -141,6 +141,6 @@ $app->post('/reminders', function(Request $request) use($app){
   return json_encode($response);
 });
 
-require('webhook.php');
+require('webhook.controller.php');
 
 $app->run();
