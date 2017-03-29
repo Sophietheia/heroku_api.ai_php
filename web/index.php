@@ -33,41 +33,9 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 require('functions.php');
 
-
-//////function for adding a person in the database
-
 // Web handlers
 
-$app->get('/', function() use($app){
-  session_start();
-  if($_SESSION['connected']){
-    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
-  }
-  else{
-    $app['warning'] = "";
-    return $app['twig']->render('index3.twig');
-  }
-})->bind("home");
-
-$app->post('/', function(request $request) use($app){
-  $username = $request->get('username');
-  $password = sha1($request->get('password'));
-
-  $login = checkLoginDoctor($username,$password);
-
-  if($login){
-    session_start();
-    $_SESSION['connected'] = true;
-    $_SESSION['idDoc'] = getIdDoc($username);
-
-    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
-  }
-  else{
-    $app['warning'] = "username or password does not exist";
-
-    return $app['twig']->render('index3.twig');
-  }
-});
+require('interfaceDoctor/dashboard.controller.php');
 
 $app->post('/zone', function(request $request) use($app){
 
@@ -87,25 +55,6 @@ $app->post('/zone', function(request $request) use($app){
   file_put_contents("php://stderr", "lat: ".$tab['latitude']."long: ".$tab['longitude']."radius: ".$tab['radius']);
 
   return json_encode($tab);
-});
-
-$app->post('/register', function(request $request) use($app){
-  $username = $request->get('username');
-  $surname = $request->get('surname');
-  $name = $request->get('name');
-  $email = $request->get('email');
-  $password = $request->get('password');
-
-  if(check_doctor_exist($username,$email)){
-    return $app->redirect($app['url_generator']->generate('home'));
-  }
-  else{
-    $id = add_doctor($username,$surname,$name,$email,sha1($password));
-    session_start();
-    $_SESSION['connected'] = true;
-    $_SESSION['idDoc'] = $id;
-    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
-  }
 });
 
 $app->get('/talk', function() use($app){
@@ -140,12 +89,7 @@ $app->post('/alert', function(Request $request) use($app){
   return '';
 });
 
-$app->get('/register', function() use($app){
-  return 'register page';
-});
-
-require('interfaceDoctor/dashboard.controller.php');
-
+//login user patient
 $app->post('/login', function(Request $request) use($app){
   //Database connection
 	$db = db_connect();
@@ -193,22 +137,16 @@ $app->post('/reminders', function(Request $request) use($app){
 
   $response["json"] = array();
 
-while ($row = pg_fetch_array($result)) {
-  $remind = array();
-  $remind["name"] = $row["label"];
-  $remind["description"] = $row["label"];
-  $remind["date_task"] = $row["date_meeting"];
+  while ($row = pg_fetch_array($result)) {
+    $remind = array();
+    $remind["name"] = $row["label"];
+    $remind["description"] = $row["label"];
+    $remind["date_task"] = $row["date_meeting"];
 
-  array_push($response["json"], $remind);
-}
+    array_push($response["json"], $remind);
+  }
 
   return json_encode($response);
-});
-
-$app->get('/privacy', function() use($app) {
-	// $app['monolog']->addDebug('logging output.');
- //  	return $app['twig']->render('index.twig');
-	return 'Page under construction';
 });
 
 require('webhook.php');

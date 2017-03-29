@@ -75,9 +75,9 @@ function getUsersListByDoctor($iddoc){
 function addUser($newUser){
   $db = db_connect();
 
-  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status,alertzone,radius,stade) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);");
+  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status,alertzone,radius,stade,id_req) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);");
 
-  pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true,true,$newUser['radius'],$newUser['stage']));
+  pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true,true,$newUser['radius'],$newUser['stage'],$newUser['id_req']));
 }
 
 function checkLoginDoctor($username, $password){
@@ -95,6 +95,36 @@ function checkLoginDoctor($username, $password){
   else {
     return false;
   }
+}
+
+function check_doctor_exist($username,$email){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "check_doctor", "SELECT * FROM doctors WHERE username=$1 OR email=$2 LIMIT 1;");
+  $res = pg_execute($db, "check_doctor", array($username,$email));
+
+  $arr = pg_fetch_array($res);
+
+  if(!empty($arr['username']) || !empty($arr['email'])){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function add_doctor($username,$surname,$name,$email,$password){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "add_doctor", "INSERT INTO doctors(username,surname,name,email,password) VALUES($1,$2,$3,$4,$5)");
+  pg_execute($db, "add_doctor", array($username,$surname,$name,$email, $password));
+
+  $query = pg_prepare($db, "id_doctor", "SELECT id FROM doctors WHERE username=$1;");
+  $res = pg_execute($db, "id_doctor", array($username));
+
+  $arr = pg_fetch_array($res);
+
+  return $arr['id'];
 }
 
 function getIdDoc($username){

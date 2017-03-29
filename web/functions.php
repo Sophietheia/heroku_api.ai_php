@@ -12,6 +12,19 @@
         return $db;
   }
 
+  //algo to double-hash username into an id
+  function sha1random(){
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $limite = strlen($characters);
+    $len = 40;
+    for($i=0;$i<$len;$i++){
+      $rand = rand(0, $limite - 1);
+      $randString+=$characters[$rand];
+    }
+
+    return $randString;
+  }
+
   function addPerson($db, $id, $surname, $name=false, $relation=false){
   	if($name && $relation){
   		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
@@ -181,33 +194,4 @@ function test_login($db, $uname, $pass){
   	pg_execute($db, "update_status", array($idDoc,$idPatient));
   }
 
-  function check_doctor_exist($username,$email){
-    $db = db_connect();
-
-    $query = pg_prepare($db, "check_doctor", "SELECT * FROM doctors WHERE username=$1 OR email=$2 LIMIT 1;");
-    $res = pg_execute($db, "check_doctor", array($username,$email));
-
-    $arr = pg_fetch_array($res);
-
-    if(!empty($arr['username']) || !empty($arr['email'])){
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  function add_doctor($username,$surname,$name,$email,$password){
-    $db = db_connect();
-
-    $query = pg_prepare($db, "add_doctor", "INSERT INTO doctors(username,surname,name,email,password) VALUES($1,$2,$3,$4,$5)");
-    pg_execute($db, "add_doctor", array($username,$surname,$name,$email, $password));
-
-    $query = pg_prepare($db, "id_doctor", "SELECT id FROM doctors WHERE username=$1;");
-    $res = pg_execute($db, "id_doctor", array($username));
-
-    $arr = pg_fetch_array($res);
-
-    return $arr['id'];
-  }
 ?>

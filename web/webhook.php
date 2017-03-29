@@ -9,17 +9,17 @@ $app->post('/webhook', function(Request $request) use($app) {
 	//----------------------------------------------------------
 
 	$result = $request->request->get('result');
-
+	$id = sha1($request->request->get('sessionId'));
 
 /////if user wants to change name
 
-	if($result['action'] == "change.name"){ //to remove on the final version
+	if($result['action'] == "change.name"){
 		$parameters=$result['parameters'];
 		$nameToAdd=$parameters['last-name'];
 
 		$check=TRUE;
 
-		$result = findNameSurname($db, ID);
+		$result = findNameSurname($db, $id);
 
 		$speech = "Nothing to change !";
 
@@ -37,7 +37,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		if(!$check){
 			$query = pg_prepare($db, "new_name", "UPDATE relations SET name=$3 WHERE surname=$2 AND id_user=$1");
-			if(pg_execute($db, "new_name", array(ID, $arr['surname'], $nameToAdd))){
+			if(pg_execute($db, "new_name", array($id, $arr['surname'], $nameToAdd))){
 				$speech = $arr['surname']." changed !";
 			}
 			else{
@@ -48,7 +48,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 
   else if($result['action'] == "send.alert"){
-    alert_user(ID);
+    alert_user($id);
     $speech = "alert sent !";
   }
 
@@ -65,7 +65,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		//-----------------------DATABASE-----------------------
 		$query = pg_prepare($db, "surname_name", "SELECT name FROM relations WHERE surname = $1 AND id_user=$2");
 
-		$result = pg_execute($db, "surname_name", array($surname, ID));
+		$result = pg_execute($db, "surname_name", array($surname, $id));
 
 		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
 
@@ -89,14 +89,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$name=$parameters['last-name'];
 		//-----------------------DATABASE-----------------------
 		if(!empty($name)){
-			addPerson($db, ID, $surname, $name);
+			addPerson($db, $id, $surname, $name);
 
 			$speech=$surname." ".$name." added !";
 		}
 		else{
-			addPerson($db, ID, $surname);
+			addPerson($db, $id, $surname);
 
-			$result = findNameSurname($db, ID);
+			$result = findNameSurname($db, $id);
 
 			while($arr = pg_fetch_assoc($result)){
 				if($arr['name']==""){
@@ -117,16 +117,16 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$name = $parameters['last-name'];
 		$relation = $parameters['relation'];
 
-		$nb = checkNbOfSurnames($db, ID, $surname);
+		$nb = checkNbOfSurnames($db, $id, $surname);
 
 		if($nb>1 && !empty($name)){
-			$speech = addLink($db, ID, $surname, $name, $relation);
+			$speech = addLink($db, $id, $surname, $name, $relation);
 		}
 		else if($nb>1){
 			$speech="There is more than 1 person called ".$surname.". Which one are you talking about ?";
 		}
 		else if($nb<=1){
-			addPerson($db, ID, $surname, $name, $relation);
+			addPerson($db, $id, $surname, $name, $relation);
 			$speech="Your ".$relation." was added ! nb:";
 		}
 
@@ -141,7 +141,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$check=TRUE;
 
-		$result = findNameSurname($db, ID);
+		$result = findNameSurname($db, $id);
 
 		$speech = "Hello ! How are you ?";
 
@@ -176,14 +176,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$name=$parameters['last-name'];
 			$surname=$parameters['names'];
 
-			$id_perso=getIdByName($db, ID, $surname, $name);
+			$id_perso=getIdByName($db, $id, $surname, $name);
 
 
 			if(isset($parameters['lieux']))
 				$location=$parameters['lieux'];
 
 			if($id_perso){
-				$query = "INSERT INTO meetings(label, location, date_meeting, time_meeting, id_user, id_person) VALUES('$label', '$location', '$date_meeting', '$time', '".ID."', '$id_perso');";
+				$query = "INSERT INTO meetings(label, location, date_meeting, time_meeting, id_user, id_person) VALUES('$label', '$location', '$date_meeting', '$time', '".$id."', '$id_perso');";
 
 				pg_query($db, $query);
 
@@ -206,7 +206,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$today=date("Y-m-d");
 		$query = pg_prepare($db, "location_meeting", "SELECT label, location FROM meetings WHERE id_user=$1 AND date_meeting>=$2 GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
-		$result = pg_execute($db, "location_meeting", array(ID,$today));
+		$result = pg_execute($db, "location_meeting", array($id,$today));
 
 		$meeting = pg_fetch_row($result);
 
@@ -231,7 +231,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$query = pg_prepare($db, "next_meeting", "SELECT date_meeting, label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
-		$result = pg_execute($db, "next_meeting", array(ID));
+		$result = pg_execute($db, "next_meeting", array($id));
 
 		while($arr = pg_fetch_array($result)){
 			$date = $arr['date_meeting'];
@@ -256,7 +256,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$query = pg_prepare($db, "with_meeting", "SELECT meetings.label AS label, relations.name AS name, relations.surname AS surname FROM meetings, relations WHERE meetings.id_user=$1 AND meetings.date_meeting>='$today' AND meetings.id_person=relations.id GROUP BY meetings.label, meetings.id, relations.id HAVING meetings.date_meeting=MIN(meetings.date_meeting);
 ");
 
-		$result = pg_execute($db, "with_meeting", array(ID));
+		$result = pg_execute($db, "with_meeting", array($id));
 
 		while($arr = pg_fetch_array($result)){
 			$name = $arr['name'];
@@ -281,7 +281,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$query = pg_prepare($db, "label_meeting", "SELECT label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
-		$result = pg_execute($db, "label_meeting", array(ID));
+		$result = pg_execute($db, "label_meeting", array($id));
 
 		while($arr = pg_fetch_array($result)){
 

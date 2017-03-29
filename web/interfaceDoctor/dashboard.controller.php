@@ -4,6 +4,37 @@ use Symfony\Component\HttpFoundation\Response;
 
 require('dashboard.model.php');
 
+$app->get('/', function() use($app){
+  session_start();
+  if($_SESSION['connected']){
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
+  }
+  else{
+    $app['warning'] = "";
+    return $app['twig']->render('index3.twig');
+  }
+})->bind("home");
+
+$app->post('/', function(request $request) use($app){
+  $username = $request->get('username');
+  $password = sha1($request->get('password'));
+
+  $login = checkLoginDoctor($username,$password);
+
+  if($login){
+    session_start();
+    $_SESSION['connected'] = true;
+    $_SESSION['idDoc'] = getIdDoc($username);
+
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
+  }
+  else{
+    $app['warning'] = "username or password does not exist";
+
+    return $app['twig']->render('index3.twig');
+  }
+});
+
 $app->get('/dashboardDoctor', function() use($app){
   session_start();
   if(!$_SESSION['connected'])
@@ -60,6 +91,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newUser['address'] = $request->get('st_number').' '.$request->get('st_name').', '.$request->get('code_postal').' '.$request->get('city').', '.$request->get('country');
     $newUser['radius'] = $request->get('radius');
     $newUser['stage'] = $request->get('stage');
+    $newUser['id_req'] = sha1random();
 
     if(checkUserExist($newUser['login'],$newUser['phonenumber'])){
       $app['notif'] = "Patient already exists.";
@@ -96,3 +128,28 @@ $app->get('/logout', function() use($app){
   session_unset();
   return $app->redirect($app['url_generator']->generate('home'));
 })->bind("logout");
+
+$app->post('/register', function(request $request) use($app){
+  $username = $request->get('username');
+  $surname = $request->get('surname');
+  $name = $request->get('name');
+  $email = $request->get('email');
+  $password = $request->get('password');
+
+  if(check_doctor_exist($username,$email)){
+    return $app->redirect($app['url_generator']->generate('home'));
+  }
+  else{
+    $id = add_doctor($username,$surname,$name,$email,sha1($password));
+    session_start();
+    $_SESSION['connected'] = true;
+    $_SESSION['idDoc'] = $id;
+    return $app->redirect($app['url_generator']->generate('dashboardDoctor'));
+  }
+});
+
+$app->get('/privacy', function() use($app) {
+	// $app['monolog']->addDebug('logging output.');
+ //  	return $app['twig']->render('index.twig');
+	return 'Page under construction';
+});
