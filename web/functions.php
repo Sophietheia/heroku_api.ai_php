@@ -23,6 +23,8 @@
       $randString.=$characters[$rand];
     }
 
+    log("random string",$randString);
+
     return $randString;
   }
 
@@ -193,6 +195,10 @@ function test_login($db, $uname, $pass){
 
     $query = pg_prepare($db, "update_status", "UPDATE users SET status=true WHERE idDoctor=$1 AND id=$2;");
   	pg_execute($db, "update_status", array($idDoc,$idPatient));
+  }
+
+  function log($label,$value){
+    file_put_contents("php://stderr", $label.": ".$value."\n");
   }
 
 ?>
