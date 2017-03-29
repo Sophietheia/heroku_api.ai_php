@@ -19,7 +19,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$check=TRUE;
 
-		$result = findNameSurname($db, $id);
+		$result = findNameSurname($id);
 
 		$speech = "Nothing to change !";
 
@@ -89,14 +89,14 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$name=$parameters['last-name'];
 		//-----------------------DATABASE-----------------------
 		if(!empty($name)){
-			addPerson($db, $id, $surname, $name);
+			addPerson($id, $surname, $name);
 
 			$speech=$surname." ".$name." added !";
 		}
 		else{
-			addPerson($db, $id, $surname);
+			addPerson($id, $surname);
 
-			$result = findNameSurname($db, $id);
+			$result = findNameSurname($id);
 
 			while($arr = pg_fetch_assoc($result)){
 				if($arr['name']==""){
@@ -117,16 +117,16 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$name = $parameters['last-name'];
 		$relation = $parameters['relation'];
 
-		$nb = checkNbOfSurnames($db, $id, $surname);
+		$nb = checkNbOfSurnames($id, $surname);
 
 		if($nb>1 && !empty($name)){
-			$speech = addLink($db, $id, $surname, $name, $relation);
+			$speech = addLink($id, $surname, $name, $relation);
 		}
 		else if($nb>1){
 			$speech="There is more than 1 person called ".$surname.". Which one are you talking about ?";
 		}
 		else if($nb<=1){
-			addPerson($db, $id, $surname, $name, $relation);
+			addPerson($id, $surname, $name, $relation);
 			$speech="Your ".$relation." was added ! nb:";
 		}
 
@@ -141,7 +141,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 		$check=TRUE;
 
-		$result = findNameSurname($db, $id);
+		$result = findNameSurname($id);
 
 		$speech = "Hello ! How are you ?";
 
@@ -176,7 +176,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$name=$parameters['last-name'];
 			$surname=$parameters['names'];
 
-			$id_perso=getIdByName($db, $id, $surname, $name);
+			$id_perso=getIdByName($id, $surname, $name);
 
 
 			if(isset($parameters['lieux']))

@@ -75,9 +75,9 @@ function getUsersListByDoctor($iddoc){
 function addUser($newUser){
   $db = db_connect();
 
-  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status,alertzone,radius,stade,id_req) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);");
+  $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status,alertzone,radius,stade,req_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);");
 
-  pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true,true,$newUser['radius'],$newUser['stage'],$newUser['id_req']));
+  pg_execute($db, "insert_users", array($newUser['iddoctor'],$newUser['name'], $newUser['surname'], $newUser['login'], sha1($newUser['password']), $newUser['phonenumber'], $newUser['address'],true,true,$newUser['radius'],$newUser['stage'],$newUser['req_id']));
 }
 
 function checkLoginDoctor($username, $password){
@@ -137,24 +137,4 @@ function getIdDoc($username){
   $arr = pg_fetch_array($res);
 
   return $arr['id'];
-}
-
-function get_user_address($username){
-  $db = db_connect();
-
-  $query = pg_prepare($db, "get_address", "SELECT address FROM users WHERE username=$1;");
-  $res = pg_execute($db, "get_address", array($username));
-  $arr = pg_fetch_array($res);
-
-  return $arr['address'];
-}
-
-function get_user_radius($username){
-  $db = db_connect();
-
-  $query = pg_prepare($db, "get_radius", "SELECT radius FROM users WHERE username=$1;");
-  $res = pg_execute($db, "get_radius", array($username));
-  $arr = pg_fetch_array($res);
-
-  return $arr['radius'];
 }

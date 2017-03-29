@@ -91,7 +91,7 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newUser['address'] = $request->get('st_number').' '.$request->get('st_name').', '.$request->get('code_postal').' '.$request->get('city').', '.$request->get('country');
     $newUser['radius'] = $request->get('radius');
     $newUser['stage'] = $request->get('stage');
-    $newUser['id_req'] = sha1random();
+    $newUser['req_id'] = sha1random();
 
     if(checkUserExist($newUser['login'],$newUser['phonenumber'])){
       $app['notif'] = "Patient already exists.";

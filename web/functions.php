@@ -17,47 +17,49 @@
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $limite = strlen($characters);
     $randString="";
-    $len = 40;
+    $len = 50;
     for($i=0;$i<$len;$i++){
       $rand = rand(0, $limite - 1);
       $randString.=$characters[$rand];
     }
 
-    logPerso("random string",$randString);
-
     return $randString;
   }
 
-  function addPerson($db, $id, $surname, $name=false, $relation=false){
+  function addPerson($id, $surname, $name=false, $relation=false){
+    $db = db_connect();
+
   	if($name && $relation){
   		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
 
   		if(pg_execute($db, "add_person", array($id, $surname, $relation, $name)))
-  			return getLastIdOfPerson($db, ID);
+  			return getLastIdOfPerson(ID);
   	}
   	else if($relation){
   		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user) VALUES($2, $1, $3)");
 
   		if(pg_execute($db, "add_person", array($id, $surname, $relation)))
-  			return getLastIdOfPerson($db, ID);
+  			return getLastIdOfPerson(ID);
   	}
   	else if($name){
   		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, name) VALUES($2, $1, $3)");
 
   		if(pg_execute($db, "add_person", array($id, $surname, $name)))
-  			return getLastIdOfPerson($db, ID);
+  			return getLastIdOfPerson(ID);
   	}
   	else{
   		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user) VALUES($2, $1)");
 
   		if(pg_execute($db, "add_person", array($id, $surname)))
-  			return getLastIdOfPerson($db, ID);
+  			return getLastIdOfPerson(ID);
   	}
 
   	return NULL;
   }
 
-  function addLink($db, $id, $surname, $name, $relation){
+  function addLink($id, $surname, $name, $relation){
+    $db = db_connect();
+
   	$query = pg_prepare($db, "update_link", "UPDATE relations SET link_user = $4 WHERE id=$1 AND surname=$2 AND name=$3;");
 
   		if(pg_execute($db, "update_link", array($id, $surname, $name, $relation)))
@@ -68,22 +70,26 @@
 
 
 //////// function to get all the reminders of a person
-function get_reminders($db, $username){
-  $query = pg_prepare($db, "reminders", "SELECT * FROM meetings M,users U WHERE M.id_user=U.id AND U.username=$1");
+function get_reminders($user_id){
+  $db = db_connect();
 
-  return pg_execute($db, "reminders", array($username));
+  $query = pg_prepare($db, "reminders", "SELECT * FROM meetings M,users U WHERE M.id_user=U.id AND U.req_id=$1");
+
+  return pg_execute($db, "reminders", array($user_id));
 }
 
 
 ////// function to test the logging
-function test_login($db, $uname, $pass){
-  $query = pg_prepare($db, "logging", "SELECT password FROM users WHERE username=$1");
+function test_login($uname, $pass){
+  $db = db_connect();
+
+  $query = pg_prepare($db, "logging", "SELECT password, req_id FROM users WHERE username=$1");
   $result = pg_execute($db, "logging", array($uname));
 
   $arr = pg_fetch_assoc($result);
 
   if(sha1($pass) == $arr['password']){
-    $login = true;
+    $login = $arr['req_id'];
   }
   else {
     $login = false;
@@ -94,7 +100,9 @@ function test_login($db, $uname, $pass){
 
   //////function for finding a name of a person in db
 
-  function findNameSurname($db, $id){
+  function findNameSurname($id){
+    $db = db_connect();
+
   	$query = pg_prepare($db, "surname_name", "SELECT name, surname FROM relations WHERE id_user=$1");
 
   	return pg_execute($db, "surname_name", array($id));
@@ -103,7 +111,9 @@ function test_login($db, $uname, $pass){
 
   ////// function to get the last Id
 
-  function getLastIdOfPerson($db, $id){
+  function getLastIdOfPerson($id){
+    $db = db_connect();
+
   	$query = pg_prepare($db, "id", "SELECT id FROM relations WHERE id_user=$1 ORDER BY id DESC LIMIT 1;");
 
   	if($result = pg_execute($db, "id", array(ID))){
@@ -118,7 +128,9 @@ function test_login($db, $uname, $pass){
 
 
   //////function to check nb of surnames
-  function checkNbOfSurnames($db, $id, $surname){
+  function checkNbOfSurnames($id, $surname){
+    $db = db_connect();
+
     $query = pg_prepare($db, "surname_name", "SELECT name, surname FROM relations WHERE surname=$2 AND id_user=$1");
 
   	$res = pg_execute($db, "surname_name", array($id,$surname));
@@ -131,7 +143,9 @@ function test_login($db, $uname, $pass){
 
   ////function to get id thanks to surname
 
-  function getIdByName($db, $id, $surname, $name=false){
+  function getIdByName($id, $surname, $name=false){
+    $db = db_connect();
+
   	$nb=10;
   	$nb=0;//checkNbOfSurnames($db, ID, $surname);
 
@@ -158,7 +172,7 @@ function test_login($db, $uname, $pass){
   			return $id_perso;
   	}
   	else{
-  		return addPerson($db, ID, $surname, $name);
+  		return addPerson(ID, $surname, $name);
   	}
 
   	return false;
@@ -176,18 +190,18 @@ function test_login($db, $uname, $pass){
     return json_encode($arr);
   }
 
-  function set_alert($username){
+  function set_alert($user_id){
     $db = db_connect();
 
-    $query = pg_prepare($db, "update_status", "UPDATE users SET status=false WHERE username=$1;");
-  	pg_execute($db, "update_status", array($username));
+    $query = pg_prepare($db, "update_status", "UPDATE users SET status=false WHERE req_id=$1;");
+  	pg_execute($db, "update_status", array($user_id));
   }
 
-  function set_alertzone($username){
+  function set_alertzone($user_id){
     $db = db_connect();
 
-    $query = pg_prepare($db, "update_status_zone", "UPDATE users SET alertzone=false WHERE username=$1;");
-  	pg_execute($db, "update_status_zone", array($username));
+    $query = pg_prepare($db, "update_status_zone", "UPDATE users SET alertzone=false WHERE req_id=$1;");
+  	pg_execute($db, "update_status_zone", array($user_id));
   }
 
   function remove_alert($idDoc,$idPatient){
@@ -195,6 +209,35 @@ function test_login($db, $uname, $pass){
 
     $query = pg_prepare($db, "update_status", "UPDATE users SET status=true WHERE idDoctor=$1 AND id=$2;");
   	pg_execute($db, "update_status", array($idDoc,$idPatient));
+  }
+
+  function get_stade($user_id){
+    $db = db_connect();
+
+    $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE req_id=$1;");
+    $result= pg_execute($db, "get_stade", array($user_id));
+
+    return pg_fetch_array($result);
+  }
+
+  function get_user_address($user_id){
+    $db = db_connect();
+
+    $query = pg_prepare($db, "get_address", "SELECT address FROM users WHERE req_id=$1;");
+    $res = pg_execute($db, "get_address", array($user_id));
+    $arr = pg_fetch_array($res);
+
+    return $arr['address'];
+  }
+
+  function get_user_radius($user_id){
+    $db = db_connect();
+
+    $query = pg_prepare($db, "get_radius", "SELECT radius FROM users WHERE req_id=$1;");
+    $res = pg_execute($db, "get_radius", array($user_id));
+    $arr = pg_fetch_array($res);
+
+    return $arr['radius'];
   }
 
   function logPerso($label,$value){

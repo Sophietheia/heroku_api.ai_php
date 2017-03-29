@@ -32,27 +32,24 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 require('functions.php');
+require('interfaceDoctor/dashboard.controller.php');
 
 // Web handlers
 
-require('interfaceDoctor/dashboard.controller.php');
-
 $app->post('/zone', function(request $request) use($app){
 
-  $username = $request->get('username');
+  $user_id = $request->get('user_id');
 
-  $address = get_user_address($username);
+  $address = get_user_address($user_id);
 
-  $prepAddr = str_replace(' ','+','37, rue du theatre 75015');//$address);
+  $prepAddr = str_replace(' ','+',$address);
   $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
   $output= json_decode($geocode);
 
   $tab['latitude'] = $output->results[0]->geometry->location->lat;
   $tab['longitude'] = $output->results[0]->geometry->location->lng;
 
-  $tab['radius'] = 500;//get_user_radius($username);
-
-  file_put_contents("php://stderr", "lat: ".$tab['latitude']."long: ".$tab['longitude']."radius: ".$tab['radius']);
+  $tab['radius'] = get_user_radius($user_id);
 
   return json_encode($tab);
 });
@@ -62,27 +59,27 @@ $app->get('/talk', function() use($app){
 });
 
 $app->post('/exitZone', function(Request $request) use($app){
-  $username = $request->get('username');
+  $user_id = $request->get('user_id');
 
-  set_alertzone($username);
+  set_alertzone($user_id);
 
   return '';
 });
 
 $app->post('/alert', function(Request $request) use($app){
 
-  $username = $request->get('username');
+  $user_id = $request->get('user_id');
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
 
   file_put_contents("php://stderr", "username: ".$request->get('username')."\n");
 
 
-  if(!empty($username)){
-    set_alert($username);
+  if(!empty($user_id)){
+    set_alert($user_id);
     return '';
   }else if(!empty($idDoc) && !empty($idPatient)){
-    remove_alert($idDoc,$idPatient);
+    remove_alert($idDoc,$idPatient);               ///////////////////// NOTCHANGED.......
     return $app['twig']->render('dashboard.twig');
   }
 
@@ -101,7 +98,7 @@ $app->post('/login', function(Request $request) use($app){
 
   $response = array();
 
-  $response['connection'] = test_login($db,$username,$password);
+  $response['user_id'] = test_login($username,$password);
 
   return json_encode($response);
 });
@@ -109,16 +106,11 @@ $app->post('/login', function(Request $request) use($app){
 
 $app->post('/memory', function(Request $request) use($app){
 
-  $username = $request->get('username');
-  //Database connection
-	$db = db_connect();
-  //**************************
+  $user_id = $request->get('user_id');
 
   $response = array();
-    //$response['stade'] = 1;
-  $query = pg_prepare($db, "get_stade", "SELECT stade FROM users WHERE id=$1;");
-    $result= pg_execute($db, "get_stade", array($username));
-    $response=pg_fetch_array($result);
+
+  $response = get_stade($user_id);
 
     if($response['stade']==1)
     	$response['stade']=true;
@@ -131,9 +123,9 @@ $app->post('/memory', function(Request $request) use($app){
 $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
-  $username = $request->get('username');
+  $user_id = $request->get('user_id');
 
-  $result = get_reminders($db,$username);
+  $result = get_reminders($user_id);
 
   $response["json"] = array();
 
