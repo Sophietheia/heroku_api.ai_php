@@ -38,7 +38,7 @@ require('interfaceDoctor/dashboard.controller.php');
 
 $app->post('/zone', function(request $request) use($app){
 
-  $user_id = $request->get('user_id');
+  $user_id = $request->get('sessionId');
 
   $address = get_user_address($user_id);
 
@@ -59,7 +59,7 @@ $app->get('/talk', function() use($app){
 });
 
 $app->post('/exitZone', function(Request $request) use($app){
-  $user_id = $request->get('user_id');
+  $user_id = $request->get('sessionId');
 
   set_alertzone($user_id);
 
@@ -68,7 +68,7 @@ $app->post('/exitZone', function(Request $request) use($app){
 
 $app->post('/alert', function(Request $request) use($app){
 
-  $user_id = $request->get('user_id');
+  $user_id = $request->get('sessionId');
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
 
@@ -106,7 +106,7 @@ $app->post('/login', function(Request $request) use($app){
 
 $app->post('/memory', function(Request $request) use($app){
 
-  $user_id = $request->get('user_id');
+  $user_id = $request->get('sessionId');
 
   $response = array();
 
@@ -123,7 +123,7 @@ $app->post('/memory', function(Request $request) use($app){
 $app->post('/reminders', function(Request $request) use($app){
   $db = db_connect();
 
-  $user_id = $request->get('user_id');
+  $user_id = $request->get('sessionId');
 
   $result = get_reminders($user_id);
 

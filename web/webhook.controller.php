@@ -4,12 +4,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 $app->post('/webhook', function(Request $request) use($app) {
 
-	//-----------------------DATABASE---------------------------
-	$db = db_connect();
-	//----------------------------------------------------------
-
 	$result = $request->request->get('result');
-	$id = sha1($request->request->get('sessionId'));
+	$user_id = $request->request->get('sessionId');
 
 /////if user wants to change name
 
