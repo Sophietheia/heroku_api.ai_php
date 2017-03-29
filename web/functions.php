@@ -23,7 +23,7 @@
       $randString.=$characters[$rand];
     }
 
-    log("random string",$randString);
+    logPerso("random string",$randString);
 
     return $randString;
   }
@@ -197,7 +197,7 @@ function test_login($db, $uname, $pass){
   	pg_execute($db, "update_status", array($idDoc,$idPatient));
   }
 
-  function log($label,$value){
+  function logPerso($label,$value){
     file_put_contents("php://stderr", $label.": ".$value."\n");
   }
 
