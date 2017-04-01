@@ -57,4 +57,15 @@
     return $meeting;
   }
 
+  function label_meeting($id){
+    $today=date("Y-m-d");
+    $query = pg_prepare($db, "what_meeting", "SELECT label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
+
+		$result = pg_execute($db, "what_meeting", array($id));
+
+		$meeting = pg_fetch_row($result);
+
+    return $meeting;
+  }
+
 ?>
