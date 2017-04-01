@@ -2,6 +2,8 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+require('webhook.model.php');
+
 $app->post('/webhook', function(Request $request) use($app) {
 
 	$result = $request->request->get('result');
@@ -54,19 +56,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
 
-		//---------------Erreur_1ere_lettre_MAJ-----------------
 		$surname=ucfirst($surname);
-		//------------------------------------------------------
 
-		//-----------------------DATABASE-----------------------
-		$query = pg_prepare($db, "surname_name", "SELECT name FROM relations WHERE surname = $1 AND id_user=$2");
-
-		$result = pg_execute($db, "surname_name", array($surname, $id));
-
-		$arr = pg_fetch_array ($result, 0, PGSQL_NUM);
-
-		$name = $arr[0];
-		//------------------------------------------------------
+		$id = get_id_person($user_id);
+		$name = get_name_from_relation($surname,$id);
 
 		if($name)
 			$speech="The name of ".$surname." is ".$name.".";
@@ -85,6 +78,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$name=$parameters['last-name'];
 		//-----------------------DATABASE-----------------------
 		if(!empty($name)){
+			$id = get_id_person($user_id);
 			addPerson($id, $surname, $name);
 
 			$speech=$surname." ".$name." added !";
@@ -179,9 +173,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 				$location=$parameters['lieux'];
 
 			if($id_perso){
-				$query = "INSERT INTO meetings(label, location, date_meeting, time_meeting, id_user, id_person) VALUES('$label', '$location', '$date_meeting', '$time', '".$id."', '$id_perso');";
-
-				pg_query($db, $query);
+				add_rdv($label, $location, $date_meeting, $time, $id, $id_perso);
 
 				$speech="rdv added !";
 			}
@@ -199,12 +191,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 	////if user wants to know location of meeting
 	else if($result['action'] == "location.meeting"){
 
-		$today=date("Y-m-d");
-		$query = pg_prepare($db, "location_meeting", "SELECT label, location FROM meetings WHERE id_user=$1 AND date_meeting>=$2 GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
-
-		$result = pg_execute($db, "location_meeting", array($id,$today));
-
-		$meeting = pg_fetch_row($result);
+		$id = get_id_person($user_id);
+		$meeting = location_meeting($id);
 
     $label = $meeting[0];
 		$location = $meeting[1];
@@ -223,16 +211,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	///if user wants to know the date of meeting
 	else if($result['action'] == "date.meeting"){
-		$today=date("Y-m-d");
+		$id = get_id_person($user_id);
+		$meeting = date_meeting($id);
 
-		$query = pg_prepare($db, "next_meeting", "SELECT date_meeting, label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
-
-		$result = pg_execute($db, "next_meeting", array($id));
-
-		while($arr = pg_fetch_array($result)){
-			$date = $arr['date_meeting'];
-			$label = $arr['label'];
-		}
+    $label = $meeting[0];
+		$date = $meeting[1];
 
 		if($date){
 			$speech="Your next meeting is ".$label." on ".$date;
@@ -247,45 +230,15 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	//// if user asks about the person he has a meeting with
 	else if($result['action'] == "avec.qui.meeting"){
-		$today=date("Y-m-d");
+		$id = get_id_person($user_id);
+		$meeting = with_who_meeting($id);
 
-		$query = pg_prepare($db, "with_meeting", "SELECT meetings.label AS label, relations.name AS name, relations.surname AS surname FROM meetings, relations WHERE meetings.id_user=$1 AND meetings.date_meeting>='$today' AND meetings.id_person=relations.id GROUP BY meetings.label, meetings.id, relations.id HAVING meetings.date_meeting=MIN(meetings.date_meeting);
-");
-
-		$result = pg_execute($db, "with_meeting", array($id));
-
-		while($arr = pg_fetch_array($result)){
-			$name = $arr['name'];
-			$surname = $arr['surname'];
-			$label = $arr['label'];
-		}
+    $label = $meeting[0];
+		$name = $meeting[1];
+		$surname = $meeting[2];
 
 		if($label){
 			$speech="Your next meeting is ".$label." with ".$surname." ".$name;
-		}
-		else{
-			$speech="You have no next meeting";
-		}
-	}
-
-
-
-
-	//// if user wants to add a label to a meeting
-	else if($result['action'] == "label.meeting"){
-		$today=date("Y-m-d");
-
-		$query = pg_prepare($db, "label_meeting", "SELECT label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
-
-		$result = pg_execute($db, "label_meeting", array($id));
-
-		while($arr = pg_fetch_array($result)){
-
-			$label = $arr['label'];
-		}
-
-		if($label){
-			$speech="Your next meeting is ".$label;
 		}
 		else{
 			$speech="You have no next meeting";
