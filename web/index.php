@@ -72,7 +72,7 @@ $app->post('/alert', function(Request $request) use($app){
   $idDoc = $request->request->get('idDoc');
   $idPatient = $request->request->get('idPatient');
 
-  file_put_contents("php://stderr", "username: ".$request->get('username')."\n");
+  file_put_contents("php://stderr", "sessionId: ".$request->get('sessionId')."\n");
 
 
   if(!empty($user_id)){
@@ -111,11 +111,6 @@ $app->post('/memory', function(Request $request) use($app){
   $response = array();
 
   $response = get_stade($user_id);
-
-    if($response['stade']==1)
-    	$response['stade']=true;
- 	  if($response['stade']==2)
-    	$response['stade']=false;
 
   return json_encode($response);
 });
