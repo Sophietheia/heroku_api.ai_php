@@ -252,8 +252,12 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 	//// if user wants to know their next meeting
 	else if($result['action'] == "label.meeting"){
+		logPerso("userIdLabelMeeting:",$user_id);
+
 		$id = get_id_person($user_id);
+
 		logPerso("idLabelMeeting:",$id);
+
 		$meeting = label_meeting($id);
 
     $label = $meeting[0];
