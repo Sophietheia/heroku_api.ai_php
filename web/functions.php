@@ -50,15 +50,13 @@
     return getLastIdOfPerson($id);
   }
 
-  function addLink($id, $surname, $name, $relation){
+  function addLink($id, $surname, $relation){
     $db = db_connect();
 
-  	$query = pg_prepare($db, "update_link", "UPDATE relations SET link_user = $4 WHERE id=$1 AND surname=$2 AND name=$3;");
+  	$query = pg_prepare($db, "update_link", "UPDATE relations SET link_user = $4 WHERE id=$1 AND surname=$2;");
+    pg_execute($db, "update_link", array($id, $surname, $relation));
 
-  		if(pg_execute($db, "update_link", array($id, $surname, $name, $relation)))
-  			return "Your ".$relation." was added !";
-  		else
-  			return "pb to add link";
+    return "Your ".$relation." was added !";
   }
 
 

@@ -106,22 +106,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$nb = 0;
 		$parameters = $result['parameters'];
 		$surname = ucfirst($parameters['surname']);
-		$name = $parameters['last-name'];
 		$relation = $parameters['relation'];
 
-		$nb = checkNbOfSurnames($id, $surname);
-
-		if($nb>1 && !empty($name)){
-			$speech = addLink($id, $surname, $name, $relation);
-		}
-		else if($nb>1){
-			$speech="There is more than 1 person called ".$surname.". Which one are you talking about ?";
-		}
-		else if($nb<=1){
-			addPerson($id, $surname, $name, $relation);
-			$speech="Your ".$relation." was added ! nb:";
-		}
-
+		$speech = addLink($id, $surname, $relation);
 	}
 
 
