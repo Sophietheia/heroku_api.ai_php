@@ -1,4 +1,16 @@
 <?php
+function db_connect(){
+  $conn_string = "host=ec2-54-163-254-48.compute-1.amazonaws.com
+      port=5432
+      dbname=d9dbi6cl08c0i
+      user=ztlvocffwufbva
+      password=CjNAryYzgpTUxM2ZsCu7wmdXmj";
+
+      $db = pg_connect($conn_string);
+
+      return $db;
+}
+
   $db = db_connect();
 
   function get_name_from_relation($surname, $id){
