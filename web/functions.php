@@ -41,11 +41,11 @@
     return $randString;
   }
 
-  function addPerson($id, $surname, $name, $relation=false){
+  function addPerson($id, $surname, $relation=false){
     $db = db_connect();
 
-		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
-		pg_execute($db, "add_person", array($id, $surname, $relation, $name));
+		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user) VALUES($2, $1, $3)");
+		pg_execute($db, "add_person", array($id, $surname, $relation));
 
     return getLastIdOfPerson($id);
   }
@@ -119,22 +119,22 @@ function test_login($uname, $pass){
 
   ////function to get id thanks to surname
 
-  function getIdByName($id, $surname, $name){
+  function getIdByName($id, $surname){
     $db = db_connect();
 
   	$nb=10;
   	$nb=0;//checkNbOfSurnames($db, ID, $surname);
 
-  		$query = pg_prepare($db, "get_id", "SELECT id FROM relations WHERE surname=$1 AND name=$2");
+  		$query = pg_prepare($db, "get_id", "SELECT id FROM relations WHERE surname=$1");
 
-  		$res = pg_execute($db, "get_id", array($surname, $name));
+  		$res = pg_execute($db, "get_id", array($surname));
 
   		$arr = pg_fetch_row($res);
 
       if($arr[0])
         $id_perso = $arr[0];
       else
-        $id_perso = addPerson($id, $surname, $name);
+        $id_perso = addPerson($id, $surname);
 
   		return $id_perso;
   }
