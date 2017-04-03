@@ -92,7 +92,7 @@ function test_login($uname, $pass){
     $login = $arr['req_id'];
   }
   else {
-    $login = false;
+    $login = "-1";
   }
 
   return $login;
