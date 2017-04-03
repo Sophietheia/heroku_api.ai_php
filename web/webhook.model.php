@@ -1,6 +1,4 @@
 <?php
-  $db = db_connect();
-
   function get_name_from_relation($surname, $id){
     $query = pg_prepare($db, "surname_name", "SELECT name FROM relations WHERE surname=$1 AND id_user=$2");
 		$result = pg_execute($db, "surname_name", array($surname, $id));
@@ -11,6 +9,8 @@
   }
 
   function get_id_person($user_id){
+    $db = db_connect();
+
     logPerso("getID user_id:",$user_id);
 
     $query = pg_prepare($db, "id", "SELECT id FROM users WHERE req_id=$1");
@@ -64,6 +64,8 @@
   }
 
   function label_meeting($id){
+    $db = db_connect();
+    
     $today=date("Y-m-d");
     $query = pg_prepare($db, "what_meeting", "SELECT label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
