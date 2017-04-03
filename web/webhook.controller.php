@@ -129,8 +129,6 @@ $app->post('/webhook', function(Request $request) use($app) {
 	////if user says hello, response with name of user
 	else if($result['action'] == "hello"){
 
-		$sessionId = $request->request->get('sessionId');
-
 		$check=TRUE;
 
 		$result = findNameSurname($id);
@@ -153,6 +151,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$label=$parameters['rdv'];
 
+		$id = get_id_person($user_id);
+
 		if(isset($parameters['date']))
 			$date_meeting=$parameters['date'];
 
@@ -170,7 +170,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 
 
 
-			$id_perso=getIdByName($id, $surname, $name);
+			$id_perso = getIdByName($id, $surname, $name);
 
 			if(isset($parameters['lieux']))
 				$location=$parameters['lieux'];
