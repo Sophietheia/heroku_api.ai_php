@@ -32,7 +32,7 @@
 		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
 		pg_execute($db, "add_person", array($id, $surname, $relation, $name))
 
-    return getLastIdOfPerson(ID);
+    return getLastIdOfPerson($id);
   }
 
   function addLink($id, $surname, $name, $relation){
@@ -94,7 +94,7 @@ function test_login($uname, $pass){
 
   	$query = pg_prepare($db, "id", "SELECT id FROM relations WHERE id_user=$1 ORDER BY id DESC LIMIT 1;");
 
-  	if($result = pg_execute($db, "id", array(ID))){
+  	if($result = pg_execute($db, "id", array($id))){
   		while($arr = pg_fetch_assoc($result)){
   			return $arr['id'];
   		}
@@ -136,7 +136,7 @@ function test_login($uname, $pass){
       if($arr[0])
         $id_perso = $arr[0];
       else
-        $id_perso = addPerson(ID, $surname, $name);
+        $id_perso = addPerson($id, $surname, $name);
 
   		return $id_perso;
   }
