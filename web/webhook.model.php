@@ -16,11 +16,11 @@
     $query = pg_prepare($db, "id", "SELECT id FROM users WHERE req_id=$1");
 		$result = pg_execute($db, "id", array($user_id));
 
-    $id = pg_fetch_result($result);
+    $id = pg_fetch_row($result);
 
-    logPerso("getID id:",$id);
+    logPerso("getID id:",$id[0]);
 
-    return $id;
+    return $id[0];
   }
 
   function add_rdv($label, $location, $date_meeting, $time, $id, $id_perso){
@@ -65,7 +65,7 @@
 
   function label_meeting($id){
     $db = db_connect();
-    
+
     $today=date("Y-m-d");
     $query = pg_prepare($db, "what_meeting", "SELECT label FROM meetings WHERE id_user=$1 AND date_meeting>='$today' GROUP BY label, id HAVING date_meeting=MIN(date_meeting);");
 
