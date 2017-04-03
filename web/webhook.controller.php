@@ -151,6 +151,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$parameters=$result['parameters'];
 		$label=$parameters['rdv'];
 
+		logPerso("label rdv: ",$label);
+
 		$id = get_id_person($user_id);
 
 		if(isset($parameters['date']))
