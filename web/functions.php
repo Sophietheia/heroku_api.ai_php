@@ -17,7 +17,7 @@
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $limite = strlen($characters);
     $randString="";
-    $len = 50;
+    $len = 28;
     for($i=0;$i<$len;$i++){
       $rand = rand(0, $limite - 1);
       $randString.=$characters[$rand];
