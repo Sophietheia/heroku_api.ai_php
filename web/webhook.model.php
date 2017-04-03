@@ -14,7 +14,11 @@
     $query = pg_prepare($db, "id", "SELECT id FROM users WHERE req_id=$1");
 		$result = pg_execute($db, "id", array($user_id));
 
-    return pg_fetch_result($result);
+    $id = pg_fetch_result($result);
+
+    logPerso("getID id:",$id);
+    
+    return $id;
   }
 
   function add_rdv($label, $location, $date_meeting, $time, $id, $id_perso){
