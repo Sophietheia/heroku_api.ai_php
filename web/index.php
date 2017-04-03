@@ -125,6 +125,8 @@ $app->post('/reminders', function(Request $request) use($app){
 
   $user_id = $request->get('sessionId');
 
+  logPerso("sessionID: ", $user_id);
+
   $result = get_reminders($user_id);
 
   $response["json"] = array();
@@ -132,7 +134,6 @@ $app->post('/reminders', function(Request $request) use($app){
   while ($row = pg_fetch_array($result)) {
     $remind = array();
     $remind["name"] = $row["label"];
-    $remind["description"] = $row["label"];
     $remind["date_task"] = $row["date_meeting"];
 
     array_push($response["json"], $remind);
