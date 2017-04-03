@@ -77,6 +77,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "add.person"){
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
+
+		$id = get_id_person($user_id);
+		
 		//-----------------------DATABASE-----------------------
 		// if(!empty($name)){
 		// 	$id = get_id_person($user_id);
@@ -110,7 +113,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$relation = $parameters['relation'];
 
 		$id = get_id_person($user_id);
-		
+
 		$speech = addLink($id, $surname, $relation);
 	}
 
