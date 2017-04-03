@@ -26,35 +26,13 @@
     return $randString;
   }
 
-  function addPerson($id, $surname, $name=false, $relation=false){
+  function addPerson($id, $surname, $name, $relation=false){
     $db = db_connect();
 
-  	if($name && $relation){
-  		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
+		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
+		pg_execute($db, "add_person", array($id, $surname, $relation, $name))
 
-  		if(pg_execute($db, "add_person", array($id, $surname, $relation, $name)))
-  			return getLastIdOfPerson(ID);
-  	}
-  	else if($relation){
-  		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user) VALUES($2, $1, $3)");
-
-  		if(pg_execute($db, "add_person", array($id, $surname, $relation)))
-  			return getLastIdOfPerson(ID);
-  	}
-  	else if($name){
-  		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, name) VALUES($2, $1, $3)");
-
-  		if(pg_execute($db, "add_person", array($id, $surname, $name)))
-  			return getLastIdOfPerson(ID);
-  	}
-  	else{
-  		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user) VALUES($2, $1)");
-
-  		if(pg_execute($db, "add_person", array($id, $surname)))
-  			return getLastIdOfPerson(ID);
-  	}
-
-  	return NULL;
+    return getLastIdOfPerson(ID);
   }
 
   function addLink($id, $surname, $name, $relation){
@@ -143,39 +121,24 @@ function test_login($uname, $pass){
 
   ////function to get id thanks to surname
 
-  function getIdByName($id, $surname, $name=false){
+  function getIdByName($id, $surname, $name){
     $db = db_connect();
 
   	$nb=10;
   	$nb=0;//checkNbOfSurnames($db, ID, $surname);
 
-  	if($name){
   		$query = pg_prepare($db, "get_id", "SELECT id FROM relations WHERE surname=$1 AND name=$2");
 
   		$res = pg_execute($db, "get_id", array($surname, $name));
 
-  		while($arr = pg_fetch_assoc($res))
-  			$id_perso = $arr['id'];
+  		$arr = pg_fetch_row($res))
+
+      if($arr[0])
+        $id_perso = $arr[0];
+      else
+        $id_perso = addPerson(ID, $surname, $name);
 
   		return $id_perso;
-  	}
-  	//if user has only one surname
-  	else if($nb<=1){
-  		$query = pg_prepare($db, "get_id", "SELECT id FROM relations WHERE surname=$1;");
-
-  		$res = pg_execute($db, "get_id", array($surname));
-
-  		while($arr = pg_fetch_assoc($res))
-  			$id_perso = $arr['id'];
-
-  		if(!empty($id_perso))
-  			return $id_perso;
-  	}
-  	else{
-  		return addPerson(ID, $surname, $name);
-  	}
-
-  	return false;
   }
 
   function getUsersList(){
