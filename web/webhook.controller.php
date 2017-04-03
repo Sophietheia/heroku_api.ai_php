@@ -168,8 +168,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$name=$parameters['last-name'];
 			$surname=$parameters['names'];
 
-			$id_perso=getIdByName($id, $surname, $name);
 
+
+			$id_perso=getIdByName($id, $surname, $name);
 
 			if(isset($parameters['lieux']))
 				$location=$parameters['lieux'];
