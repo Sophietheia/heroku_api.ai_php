@@ -129,7 +129,7 @@ function test_login($uname, $pass){
 
   		$res = pg_execute($db, "get_id", array($surname, $name));
 
-  		$arr = pg_fetch_row($res))
+  		$arr = pg_fetch_row($res);
 
       if($arr[0])
         $id_perso = $arr[0];
