@@ -12,6 +12,21 @@
         return $db;
   }
 
+  ////// function to get the last Id
+
+  function getLastIdOfPerson($id){
+    $db = db_connect();
+
+  	$query = pg_prepare($db, "id", "SELECT id FROM relations WHERE id_user=$1 ORDER BY id DESC LIMIT 1;");
+  	$result = pg_execute($db, "id", array($id));
+
+  	$arr = pg_fetch_row($result);
+
+    logPerso("idiiii:",$arr[0]);
+    
+  	return $arr[0];
+  }
+
   //algo to double-hash username into an id
   function sha1random(){
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -84,20 +99,6 @@ function test_login($uname, $pass){
   	$query = pg_prepare($db, "surname_name", "SELECT name, surname FROM relations WHERE id_user=$1");
 
   	return pg_execute($db, "surname_name", array($id));
-  }
-
-
-  ////// function to get the last Id
-
-  function getLastIdOfPerson($id){
-    $db = db_connect();
-
-  	$query = pg_prepare($db, "id", "SELECT id FROM relations WHERE id_user=$1 ORDER BY id DESC LIMIT 1;");
-  	$result = pg_execute($db, "id", array($id));
-    
-  	$arr = pg_fetch_row($result);
-
-  	return $arr[0];
   }
 
 
