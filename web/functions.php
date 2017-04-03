@@ -53,7 +53,7 @@
   function addLink($id, $surname, $relation){
     $db = db_connect();
 
-  	$query = pg_prepare($db, "update_link", "UPDATE relations SET link_user = $4 WHERE id=$1 AND surname=$2;");
+  	$query = pg_prepare($db, "update_link", "UPDATE relations SET link_user = $3 WHERE id_user=$1 AND surname=$2;");
     pg_execute($db, "update_link", array($id, $surname, $relation));
 
     return "Your ".$relation." was added !";

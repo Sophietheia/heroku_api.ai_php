@@ -88,7 +88,7 @@ $app->post('/webhook', function(Request $request) use($app) {
 			addPerson($id, $surname);
 
 			$speech = $surname." was added !";
-			
+
 			// $result = findNameSurname($id);
 
 			// while($arr = pg_fetch_assoc($result)){
@@ -109,6 +109,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$surname = ucfirst($parameters['surname']);
 		$relation = $parameters['relation'];
 
+		$id = get_id_person($user_id);
+		
 		$speech = addLink($id, $surname, $relation);
 	}
 
