@@ -59,8 +59,7 @@
     $db = db_connect();
 
     $today=date("Y-m-d");
-    $query = pg_prepare($db, "with_meeting", "SELECT meetings.label AS label, relations.name AS name, relations.surname AS surname FROM meetings, relations WHERE meetings.id_user=$1 AND meetings.date_meeting>='$today' AND meetings.id_person=relations.id GROUP BY meetings.label, meetings.id, relations.id HAVING meetings.date_meeting=MIN(meetings.date_meeting);
-");
+    $query = pg_prepare($db, "with_meeting", "SELECT meetings.label AS label, doctors.name AS name, doctors.surname AS surname FROM meetings, doctors WHERE meetings.id_user=$1 AND meetings.date_meeting>='$today' AND meetings.id_person=doctors.id GROUP BY meetings.label, meetings.id, doctors.id HAVING meetings.date_meeting=MIN(meetings.date_meeting);");
 
 		$result = pg_execute($db, "with_meeting", array($id));
 
