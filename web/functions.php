@@ -23,7 +23,7 @@
   	$arr = pg_fetch_row($result);
 
     logPerso("idiiii:",$arr[0]);
-    
+
   	return $arr[0];
   }
 
@@ -45,7 +45,7 @@
     $db = db_connect();
 
 		$query = pg_prepare($db, "add_person", "INSERT INTO relations(surname, id_user, link_user, name) VALUES($2, $1, $3, $4)");
-		pg_execute($db, "add_person", array($id, $surname, $relation, $name))
+		pg_execute($db, "add_person", array($id, $surname, $relation, $name));
 
     return getLastIdOfPerson($id);
   }
