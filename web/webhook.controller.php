@@ -9,6 +9,8 @@ $app->post('/webhook', function(Request $request) use($app) {
 	$result = $request->request->get('result');
 	$user_id = $request->request->get('sessionId');
 
+	logPerso("sessionID: ",$user_id);
+
 /////if user wants to change name
 
 	if($result['action'] == "change.name"){
