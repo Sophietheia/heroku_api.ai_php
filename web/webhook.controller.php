@@ -159,9 +159,11 @@ $app->post('/webhook', function(Request $request) use($app) {
 			$date_meeting=$parameters['date'];
 
 		// if(isset($parameters['time']))
-		// 	$time=$parameters['time'];
+			$time=$parameters['time'];
+
+			logPerso("time rdv: ",$time);
 		// else
-			$time='00:00:00';
+			// $time='00:00:00';
 
 		$id_perso=false;
 
