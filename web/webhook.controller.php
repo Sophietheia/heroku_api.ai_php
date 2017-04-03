@@ -2,6 +2,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+require('functions.php');
 require('webhook.model.php');
 
 $app->post('/webhook', function(Request $request) use($app) {
