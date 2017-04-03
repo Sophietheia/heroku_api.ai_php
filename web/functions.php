@@ -17,8 +17,8 @@
   function getLastIdOfPerson($id){
     $db = db_connect();
 
-  	$query = pg_prepare($db, "id", "SELECT id FROM relations WHERE id_user=$1 ORDER BY id DESC LIMIT 1;");
-  	$result = pg_execute($db, "id", array($id));
+  	$query = pg_prepare($db, "last_id", "SELECT id FROM relations WHERE id_user=$1 ORDER BY id DESC LIMIT 1;");
+  	$result = pg_execute($db, "last_id", array($id));
 
   	$arr = pg_fetch_row($result);
 
