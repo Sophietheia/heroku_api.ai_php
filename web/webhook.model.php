@@ -11,13 +11,15 @@
   }
 
   function get_id_person($user_id){
+    logPerso("getID user_id:",$user_id);
+
     $query = pg_prepare($db, "id", "SELECT id FROM users WHERE req_id=$1");
 		$result = pg_execute($db, "id", array($user_id));
 
     $id = pg_fetch_result($result);
 
     logPerso("getID id:",$id);
-    
+
     return $id;
   }
 
