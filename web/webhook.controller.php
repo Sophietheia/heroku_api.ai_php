@@ -77,25 +77,26 @@ $app->post('/webhook', function(Request $request) use($app) {
 	else if($result['action'] == "add.person"){
 		$parameters=$result['parameters'];
 		$surname=$parameters['names'];
-		$name=$parameters['last-name'];
 		//-----------------------DATABASE-----------------------
-		if(!empty($name)){
-			$id = get_id_person($user_id);
-			addPerson($id, $surname, $name);
-
-			$speech=$surname." ".$name." added !";
-		}
-		else{
+		// if(!empty($name)){
+		// 	$id = get_id_person($user_id);
+		// 	addPerson($id, $surname, $name);
+		//
+		// 	$speech=$surname." ".$name." added !";
+		// }
+		// else{
 			addPerson($id, $surname);
 
-			$result = findNameSurname($id);
+			$speech = $surname." was added !";
+			
+			// $result = findNameSurname($id);
 
-			while($arr = pg_fetch_assoc($result)){
-				if($arr['name']==""){
-					$speech="What's the name of ".$arr['surname']." ?";
-				}
-			}
-		}
+			// while($arr = pg_fetch_assoc($result)){
+			// 	if($arr['name']==""){
+			// 		$speech="What's the name of ".$arr['surname']." ?";
+			// 	}
+			// }
+		//}
 		//------------------------------------------------------
 	}
 
