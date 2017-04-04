@@ -77,6 +77,9 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newRappel['date'] = $request->get('date-rappel2');
     $newRappel['time'] = $request->get('time-rappel2');
 
+    logPerso("label2: ",$newRappel['label']);
+    logPerso("date2: ",$newRappel['date']);
+
     addNewRappel($newRappel);
 
     $app['notif'] = "Your reminder was just added.";
