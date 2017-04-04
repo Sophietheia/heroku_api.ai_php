@@ -129,22 +129,7 @@ $app->post('/reminders', function(Request $request) use($app){
 
   $id = get_id_person($user_id);
 
-  $result = get_reminders($id);
-
-  $response["json"] = array();
-
-  while ($row = pg_fetch_array($result)) {
-    $remind = array();
-    $remind["label"] = $row["label"];
-    $remind["date_task"] = $row["date_meeting"];
-    $remind["time_task"] = $row["time_meeting"];
-    if($row["surname"]=="")
-      $remind["surname"] = "doctor";
-    else
-      $remind["surname"] = $row["surname"];
-
-    array_push($response["json"], $remind);
-  }
+  $response = get_reminders($id);
 
   return json_encode($response);
 });

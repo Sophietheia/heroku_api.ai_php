@@ -66,9 +66,35 @@ function get_reminders($id){
 
   $today = date("Y-m-d");
 
-  $query = pg_prepare($db, "reminders", "SELECT M.label, M.date_meeting, M.time_meeting, U.surname FROM meetings M, relations U WHERE M.id_person=U.id AND M.date_meeting>=$1 AND M.id_user=$2 ORDER BY M.date_meeting, M.time_meeting;");
+  $query = pg_prepare($db, "reminders", "SELECT M.label, M.date_meeting, M.time_meeting, M.id_person FROM meetings M WHERE M.date_meeting>=$1 AND M.id_user=$2 ORDER BY M.date_meeting, M.time_meeting;");
 
-  return pg_execute($db, "reminders", array($today, $id));
+  $result = pg_execute($db, "reminders", array($today, $id));
+
+  $response["json"] = array();
+
+  while ($row = pg_fetch_array($result)) {
+    $remind = array();
+    $remind["label"] = $row["label"];
+    $remind["date_task"] = $row["date_meeting"];
+    $remind["time_task"] = $row["time_meeting"];
+    $remind["id_person"] = $row["id_person"];
+
+    array_push($response["json"], $remind);
+  }
+
+  $query = pg_prepare($db, "reminders2", "SELECT surname FROM relations WHERE id=$1;");
+
+  for($reminder in $response["json"]){
+    if($reminder['id_person']=="")
+      $reminder['id_person']="docteur";
+    else{
+      $result = pg_execute($db, "reminders2", array($today, $id));
+      $arr = pg_fetch_row($result);
+      $reminder['id_person'] = $arr[0];
+    }
+  }
+
+  return $response;
 }
 
 
