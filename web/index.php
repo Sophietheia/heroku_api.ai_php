@@ -130,7 +130,7 @@ $app->post('/reminders', function(Request $request) use($app){
 
   while ($row = pg_fetch_array($result)) {
     $remind = array();
-    $remind["name"] = $row["label"];
+    $remind["label"] = $row["label"];
     $remind["date_task"] = $row["date_meeting"];
     $remind["time_task"] = $row["time_meeting"];
     $remind["surname"] = $row["surname"];
