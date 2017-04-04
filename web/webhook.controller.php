@@ -79,28 +79,10 @@ $app->post('/webhook', function(Request $request) use($app) {
 		$surname=$parameters['names'];
 
 		$id = get_id_person($user_id);
-		
-		//-----------------------DATABASE-----------------------
-		// if(!empty($name)){
-		// 	$id = get_id_person($user_id);
-		// 	addPerson($id, $surname, $name);
-		//
-		// 	$speech=$surname." ".$name." added !";
-		// }
-		// else{
-			addPerson($id, $surname);
+
+		addPerson($id, $surname);
 
 			$speech = $surname." was added !";
-
-			// $result = findNameSurname($id);
-
-			// while($arr = pg_fetch_assoc($result)){
-			// 	if($arr['name']==""){
-			// 		$speech="What's the name of ".$arr['surname']." ?";
-			// 	}
-			// }
-		//}
-		//------------------------------------------------------
 	}
 
 
@@ -151,12 +133,9 @@ $app->post('/webhook', function(Request $request) use($app) {
 		if(isset($parameters['date']))
 			$date_meeting=$parameters['date'];
 
-		// if(isset($parameters['time']))
 			$time=$parameters['time'];
 
 			logPerso("time rdv: ",$time);
-		// else
-			// $time='00:00:00';
 
 		$id_perso=false;
 

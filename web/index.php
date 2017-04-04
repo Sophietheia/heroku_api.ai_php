@@ -122,7 +122,9 @@ $app->post('/reminders', function(Request $request) use($app){
 
   logPerso("sessionID: ", $user_id);
 
-  $result = get_reminders($user_id);
+  $id = get_id_person($user_id);
+
+  $result = get_reminders($id);
 
   $response["json"] = array();
 
@@ -130,6 +132,8 @@ $app->post('/reminders', function(Request $request) use($app){
     $remind = array();
     $remind["name"] = $row["label"];
     $remind["date_task"] = $row["date_meeting"];
+    $remind["time_task"] = $row["time_meeting"];
+    $remind["surname"] = $row["surname"];
 
     array_push($response["json"], $remind);
   }

@@ -61,12 +61,14 @@
 
 
 //////// function to get all the reminders of a person
-function get_reminders($user_id){
+function get_reminders($id){
   $db = db_connect();
 
-  $query = pg_prepare($db, "reminders", "SELECT * FROM meetings M,users U WHERE M.id_user=U.id AND U.req_id=$1");
+  $today = date("Y-m-d");
 
-  return pg_execute($db, "reminders", array($user_id));
+  $query = pg_prepare($db, "reminders", "SELECT M.label, M.date_meeting, M.time_meeting, U.surname FROM meetings M, users U WHERE M.id_perso=U.id AND M.date>=$1 AND M.id_user=$2 ORDER BY M.date, M.time;");
+
+  return pg_execute($db, "reminders", array($today, $id));
 }
 
 
