@@ -138,7 +138,10 @@ $app->post('/reminders', function(Request $request) use($app){
     $remind["label"] = $row["label"];
     $remind["date_task"] = $row["date_meeting"];
     $remind["time_task"] = $row["time_meeting"];
-    $remind["surname"] = $row["surname"];
+    if($row["surname"]=="")
+      $remind["surname"] = "docteur";
+    else
+      $remind["surname"] = $row["surname"];
 
     array_push($response["json"], $remind);
   }

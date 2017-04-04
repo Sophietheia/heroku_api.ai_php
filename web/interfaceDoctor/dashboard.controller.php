@@ -59,8 +59,6 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
   $type = $request->get('type');
 
   if($type == "rdv"){
-
-    $newRdv['idDoc'] = $request->get('idDocRdv');
     $newRdv['idPatient'] = $request->get('idPatientRdv');
     $newRdv['label'] = $request->get('label');
     $newRdv['date'] = $request->get('date-rdv');
