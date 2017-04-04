@@ -97,8 +97,6 @@ function get_reminders($id){
     }
   }
 
-  logPerso("test label: ", $response['json'][0]["label"]);
-
   return $response;
 }
 
