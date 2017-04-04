@@ -85,17 +85,28 @@ function get_reminders($id){
 
   $query = pg_prepare($db, "reminders2", "SELECT surname FROM relations WHERE id=$1;");
 
-  foreach($response["json"] as $reminder){
-    logPerso("log idPerso: ",$reminder['id_person']);
-    if(empty($reminder['id_person'])){
-      $reminder['surname']="docteur";
+  for($i=0;$i<count($response["json"]);$i++){
+    if(empty($response["json"][$i]["id_person"])){
+      $response["json"][$i]["surname"]="docteur";
     }
     else{
-      $result = pg_execute($db, "reminders2", array($id));
+      $result = pg_execute($db, "reminders2", array($response["json"][$i]['id_person']));
       $arr = pg_fetch_row($result);
-      $reminder['surname'] = $arr[0];
+      $response["json"][$i]['surname'] = $arr[0];
     }
   }
+
+  // foreach($response["json"] as $reminder){
+  //   logPerso("log idPerso: ",$reminder['id_person']);
+  //   if(empty($reminder["id_person"])){
+  //     $reminder["surname"]="docteur";
+  //   }
+  //   else{
+  //     $result = pg_execute($db, "reminders2", array($reminder['id_person']));
+  //     $arr = pg_fetch_row($result);
+  //     $reminder['surname'] = $arr[0];
+  //   }
+  // }
 
   return $response["json"];
 }
