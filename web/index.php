@@ -49,7 +49,12 @@ $app->post('/zone', function(request $request) use($app){
   $tab['latitude'] = $output->results[0]->geometry->location->lat;
   $tab['longitude'] = $output->results[0]->geometry->location->lng;
 
+  logPerso(longitude, $tab['longitude']  );
+  logPerso(latitude, $tab['latitude'] );
+
   $tab['radius'] = get_user_radius($user_id);
+
+    logPerso(radius, $tab['radius'] );
 
   return json_encode($tab);
 });
