@@ -86,14 +86,14 @@ function get_reminders($id){
 
   foreach($response["json"] as $reminder){
     if($reminder['id_person']==""){
-      $reminder['id_person']="docteur";
+      $reminder['surname']="docteur";
       logPerso("test 1",$reminder["label"]);
     }
     else{
       logPerso("test 2",$reminder["label"]);
       $result = pg_execute($db, "reminders2", array($id));
       $arr = pg_fetch_row($result);
-      $reminder['id_person'] = $arr[0];
+      $reminder['surname'] = $arr[0];
     }
   }
 
