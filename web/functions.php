@@ -84,7 +84,7 @@ function get_reminders($id){
 
   $query = pg_prepare($db, "reminders2", "SELECT surname FROM relations WHERE id=$1;");
 
-  for($reminder in $response["json"]){
+  foreach($reminder => $response["json"]){
     if($reminder['id_person']=="")
       $reminder['id_person']="docteur";
     else{
