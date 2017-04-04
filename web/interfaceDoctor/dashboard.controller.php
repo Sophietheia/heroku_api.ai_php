@@ -93,6 +93,10 @@ $app->post('/dashboardDoctor', function(Request $request) use($app){
     $newUser['stage'] = $request->get('stage');
     $newUser['req_id'] = sha1random();
 
+    logPerso("login Patient: ",$newUser['login']);
+    logPerso("address Patient: ",$newUser['address']);
+    logPerso("radius Patient: ",$newUser['radius']);
+
     if(checkUserExist($newUser['login'],$newUser['phonenumber'])){
       $app['notif'] = "Patient already exists.";
     }

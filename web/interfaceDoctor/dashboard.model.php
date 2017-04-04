@@ -73,6 +73,8 @@ function getUsersListByDoctor($iddoc){
 
 
 function addUser($newUser){
+  logPerso("addUser: ","test");
+  
   $db = db_connect();
 
   $query = pg_prepare($db, "insert_users", "INSERT INTO users(iddoctor,name,surname,username,password,phonenumber,address,status,alertzone,radius,stade,req_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12);");
