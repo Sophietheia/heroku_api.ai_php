@@ -88,7 +88,7 @@ function get_reminders($id){
     if($reminder['id_person']=="")
       $reminder['id_person']="docteur";
     else{
-      $result = pg_execute($db, "reminders2", array($today, $id));
+      $result = pg_execute($db, "reminders2", array($id));
       $arr = pg_fetch_row($result);
       $reminder['id_person'] = $arr[0];
     }
