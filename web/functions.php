@@ -78,7 +78,8 @@ function get_reminders($id){
     $remind["date_task"] = $row["date_meeting"];
     $remind["time_task"] = $row["time_meeting"];
     $remind["id_person"] = $row["id_person"];
-
+    $remind["surname"] = "";
+    
     array_push($response["json"], $remind);
   }
 
