@@ -97,7 +97,7 @@ function get_reminders($id){
     }
   }
 
-  return $response;
+  return $response["json"];
 }
 
 

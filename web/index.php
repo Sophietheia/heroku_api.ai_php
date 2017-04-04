@@ -129,7 +129,9 @@ $app->post('/reminders', function(Request $request) use($app){
 
   $id = get_id_person($user_id);
 
-  $response = get_reminders($id);
+  $response["json"] = array();
+
+  $response["json"] = get_reminders($id);
 
   logPerso("test label: ", $response['json'][0]["label"]);
 
