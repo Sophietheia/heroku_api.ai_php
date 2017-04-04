@@ -87,9 +87,11 @@ function get_reminders($id){
 
   for($i=0;$i<count($response["json"]);$i++){
     if(empty($response["json"][$i]["id_person"])){
+      logPerso("logsssss"," gggg");
       $response["json"][$i]["surname"]="docteur";
     }
     else{
+      logPerso("logsssss"," hhhh");
       $result = pg_execute($db, "reminders2", array($response["json"][$i]['id_person']));
       $arr = pg_fetch_row($result);
       $response["json"][$i]['surname'] = $arr[0];
