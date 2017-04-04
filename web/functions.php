@@ -66,7 +66,7 @@ function get_reminders($id){
 
   $today = date("Y-m-d");
 
-  $query = pg_prepare($db, "reminders", "SELECT M.label, M.date_meeting, M.time_meeting, U.surname FROM meetings M, users U WHERE (M.id_person=U.id OR 1=1) AND M.date_meeting>=$1 AND M.id_user=$2 ORDER BY M.date_meeting, M.time_meeting;");
+  $query = pg_prepare($db, "reminders", "SELECT M.label, M.date_meeting, M.time_meeting, U.surname FROM meetings M, relations U WHERE (M.id_person=U.id OR 1=1) AND M.date_meeting>=$1 AND M.id_user=$2 ORDER BY M.date_meeting, M.time_meeting;");
 
   return pg_execute($db, "reminders", array($today, $id));
 }
